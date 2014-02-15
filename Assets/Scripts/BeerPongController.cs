@@ -12,6 +12,7 @@ public class BeerPongController : MonoBehaviour
 	
 	public GameObject slider;
 	public GameObject slideBar;
+	float slideBarActualLength;
 	string sliderDirection;
 	Vector2 rightSlide;
 	Vector2 leftSlide;
@@ -22,6 +23,7 @@ public class BeerPongController : MonoBehaviour
 		isShooting = true;
 		initialBallSize = ball.transform.localScale;
 
+		slideBarActualLength = slideBar.renderer.bounds.size.x * .9f;
 		sliderDirection = "right";
 		rightSlide = new Vector2( .1f, 0.0f );
 		leftSlide = new Vector2( -.1f, 0.0f );
@@ -34,18 +36,20 @@ public class BeerPongController : MonoBehaviour
 		{
 			if( "right" == sliderDirection )
 			{
+				ball.transform.Translate( rightSlide );
 				slider.transform.Translate( rightSlide );
 
-				if( slider.transform.position.x >= (slideBar.transform.position.x + slideBar.renderer.bounds.size.x/2) )
+				if( slider.transform.position.x >= (slideBar.transform.position.x + slideBarActualLength/2) )
 				{
 					sliderDirection = "left";
 				}
 			}
 			else // if "left" == sliderDirection
 			{
+				ball.transform.Translate( leftSlide );
 				slider.transform.Translate( leftSlide );
 				
-				if( slider.transform.position.x <= (slideBar.transform.position.x - slideBar.renderer.bounds.size.x/2) )
+				if( slider.transform.position.x <= (slideBar.transform.position.x - slideBarActualLength/2) )
 				{
 					sliderDirection = "right";
 				}
@@ -60,7 +64,7 @@ public class BeerPongController : MonoBehaviour
 				isShooting = false;
 			}
 		}
-		else  // If not shooting 
+		else  // If ball is in air 
 		{
 			if( ball.transform.localScale.x > initialBallSize.x/2 )
 			{
