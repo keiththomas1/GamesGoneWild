@@ -20,6 +20,14 @@ public class DrunkKeyCharacter : MonoBehaviour
 		if( walking )
 		{
 			transform.Translate( speedVector );
+
+			if( transform.position.y < -9.0f )
+			{
+				Vector3 tempPosition = transform.position;
+				tempPosition.y = 7.0f;
+				transform.position = tempPosition;
+				walking = false;
+			}
 		}
 	}
 
