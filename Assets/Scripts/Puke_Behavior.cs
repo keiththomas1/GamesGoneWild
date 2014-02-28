@@ -16,7 +16,6 @@ public class Puke_Behavior : MonoBehaviour {
 			Puke = GameObject.FindGameObjectWithTag ("Puke");
 			Debug.Log("Puke object found\n");
 		}
-	
 	}
 	
 	// Update is called once per frame
