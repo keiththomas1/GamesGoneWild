@@ -8,11 +8,11 @@ public class Bucket_Controller : MonoBehaviour {
 	
 	// Garbage bucket that will catch the puke stream
 	GameObject Bucket;
-	
-	// Ideally, garbage bucket speed
+
+	// Bucket speed
 	public float speed = 0.1f;
-	
-	// For keyboard
+
+	// Used for keyboard / desktop mode
 	Vector3 screenPoint;
 	
 	// Use this for initialization
@@ -34,21 +34,35 @@ public class Bucket_Controller : MonoBehaviour {
 	
 	void OnMouseOver()
 	{
+		//Ray ray = new Ray ();
+		//RaycastHit hit = new RaycastHit ();
 		
 		// This was for testing purposes
-		if (Input.GetMouseButtonDown (0)) {
+		//if (Input.GetMouseButtonDown (0)) {
+				
+			//ray = Camera.main.ScreenPointToRay( (Input.mousePosition));
+			
+			//if( Physics.Raycast( ray, out hit)){
+				// Determines position in mobile platform mode
+				//Debug.Log (hit.collider.name);
+				//Debug.Log ("Physics.Raycast");
+				
+				//Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
+				//transform.Translate (-touchDeltaPosition.x * speed, 0, 0);
+			//}
 			
 			Debug.Log ("Mouse-Clicked\n");
 			//renderer.material.color -= new Color(0.1F, 0, 0) * Time.deltaTime;
 			screenPoint = Camera.main.WorldToScreenPoint(Bucket.transform.position);
-			OnMouseDrag ();
-		}
+			//OnMouseDrag ();
+		//}
 	}
 	
 	void OnMouseDrag()
 	{
 		
 		// Determines screen point position in desktop mode
+		// We only want to move horizaontally as well
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, screenPoint.y, screenPoint.z);
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint);
 		transform.position = currentPosition;
@@ -61,12 +75,19 @@ public class Bucket_Controller : MonoBehaviour {
 	
 	void touchPosition()
 	{
+		//Ray ray = new Ray ();
+		//RaycastHit hit = new RaycastHit();
 		
 		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
-			
-			// Determines position in mobile platform mode
-			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
-			transform.Translate (-touchDeltaPosition.x * speed, 0, 0);
+
+			//ray = Camera.main.ScreenPointToRay( Input.GetTouch(0));
+
+			//if( Physics2D.Raycast( hit, out ray, Mathf)){
+				// Determines position in mobile platform mode
+				//print(hit.collider.name);
+				Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
+				transform.Translate (-touchDeltaPosition.x * speed, 0, 0);
+			//}
 		}
 	}
 }
