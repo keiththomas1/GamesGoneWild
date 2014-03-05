@@ -5,23 +5,33 @@ public class GlobalController : MonoBehaviour
 {
 	string gameMode;
 	public string[] minigameNames;
+	string previousMode;
 
 	public GameObject menuMusic;
 	public GameObject playGameMusic;
 
-	public bool[] CupsPlaced;
+	// Variables kept for progress in mini-games
+	int gamesWon;
+	public bool[] CupsPlaced;	// For beer pong.
+	public int armEnemyLevel;	// For arm wrestle.
 
 	// Use this for initialization
 	void Start () 
 	{
 		// Essential for making this "global" and persistent.
 		Object.DontDestroyOnLoad( this );
-		
+
+		previousMode = "";
+
+		gamesWon = 0;
+
 		CupsPlaced = new bool[10];
 		for(int i=0; i<10; i++)
 		{
 			CupsPlaced[i] = true;
 		}
+
+		armEnemyLevel = 1;
 
 		StartMenuMusic();
 	}
@@ -44,27 +54,30 @@ public class GlobalController : MonoBehaviour
 		}
 	}
 
-	void NextMinigame()
+	public void NextMinigame()
 	{
-		int random = Random.Range( 0, minigameNames.Length-1 );
-
+		int random = Random.Range( 0, minigameNames.Length);
+		if( minigameNames[random] == previousMode )
+		{
+			NextMinigame();
+			return;
+		}
+		previousMode = minigameNames[random];
 		Application.LoadLevel( minigameNames[random] );
 	}
 
 	public void BeatMinigame()
 	{
-		// Score++
-		// Show celebration transition screen
+		gamesWon++;
+		Debug.Log ("Games won: " + gamesWon );
 
-		NextMinigame();
+		Application.LoadLevel( "MinigameWin");
 	}
 
 	public void LostMinigame()
 	{
-		// Show beer drinking "loser" transition screen
-		// Drunk++
-
-		NextMinigame();
+		
+		Application.LoadLevel( "MinigameFail");
 	}
 
 	void StartModeMusic()
