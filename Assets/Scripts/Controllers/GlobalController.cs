@@ -10,8 +10,12 @@ public class GlobalController : MonoBehaviour
 	public GameObject menuMusic;
 	public GameObject playGameMusic;
 
+	// Variables kept for overall progress
+	public int gamesWon;
+	public int beersDrank;
+	public int beerLives;
+
 	// Variables kept for progress in mini-games
-	int gamesWon;
 	public bool[] CupsPlaced;	// For beer pong.
 	public int armEnemyLevel;	// For arm wrestle.
 
@@ -24,6 +28,8 @@ public class GlobalController : MonoBehaviour
 		previousMode = "";
 
 		gamesWon = 0;
+		beersDrank = 0;
+		beerLives = 4;
 
 		CupsPlaced = new bool[10];
 		for(int i=0; i<10; i++)
@@ -56,14 +62,21 @@ public class GlobalController : MonoBehaviour
 
 	public void NextMinigame()
 	{
-		int random = Random.Range( 0, minigameNames.Length);
-		if( minigameNames[random] == previousMode )
+		if( beersDrank < beerLives )
 		{
-			NextMinigame();
-			return;
+			int random = Random.Range( 0, minigameNames.Length);
+			if( minigameNames[random] == previousMode )
+			{
+				NextMinigame();
+				return;
+			}
+			previousMode = minigameNames[random];
+			Application.LoadLevel( minigameNames[random] );
 		}
-		previousMode = minigameNames[random];
-		Application.LoadLevel( minigameNames[random] );
+		else
+		{
+			LostGame();
+		}
 	}
 
 	public void BeatMinigame()
@@ -76,8 +89,16 @@ public class GlobalController : MonoBehaviour
 
 	public void LostMinigame()
 	{
-		
+		beersDrank++;
+
 		Application.LoadLevel( "MinigameFail");
+	}
+
+	void LostGame()
+	{
+		// HACK: This will eventually route to a "losing" screen where the player is passed out
+		// or something. Then a high score type thing and THEN back to the menu screen.
+		Application.LoadLevel( "MenuScene" );
 	}
 
 	void StartModeMusic()
