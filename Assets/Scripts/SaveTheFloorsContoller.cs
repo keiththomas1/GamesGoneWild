@@ -62,7 +62,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		Debug.Log ("In DestroyPuke() from controller");
 		// Destroy puke gameobject at curreent element in list
-		Destroy (pukePrefabArray [pukePrefabIndex]);
+		DestroyObject (pukePrefabArray [pukePrefabIndex]);
 		pukePrefabIndex++;
 		StartPuking = true;
 	}
