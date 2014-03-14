@@ -18,6 +18,7 @@ public class GlobalController : MonoBehaviour
 	// Variables kept for progress in mini-games
 	public bool[] CupsPlaced;	// For beer pong.
 	public int armEnemyLevel;	// For arm wrestle.
+	public int dartLevel;
 
 	// Use this for initialization
 	void Start () 
@@ -36,8 +37,8 @@ public class GlobalController : MonoBehaviour
 		{
 			CupsPlaced[i] = true;
 		}
-
 		armEnemyLevel = 1;
+		dartLevel = 1;
 
 		StartMenuMusic();
 	}
