@@ -6,10 +6,10 @@ public class Puke_Behavior : MonoBehaviour {
 	// Identifier for our gameobject
 	public GameObject pukePrefab;
 
-	//
+	// Identifier for SaveTheFloorsController
 	public GameObject controller;
 
-	// For storing position of PukePrefab object
+	// For storing position of pukePrefab gameobject
 	Vector3 pukePrefabPos;
 
 	// Use this for initialization
@@ -18,7 +18,7 @@ public class Puke_Behavior : MonoBehaviour {
 		// Finding our gameobject with the puke tag
 		pukePrefab = GameObject.FindGameObjectWithTag ("Puke");
 
-		// Storing PukePrefab gameobject (float) position
+		// Storing pukePrefab gameobject (float) position
 		pukePrefabPos = transform.position;
 
 		// Debugging purposes
@@ -44,7 +44,8 @@ public class Puke_Behavior : MonoBehaviour {
 	// Obviously destroying our puke gameobject once it collides with the bucket 
 	void OnTriggerEnter2D( Collider2D coll){
 
-		// Lets destroy the puke gameobject in the Controller file
-		controller.GetComponent<SaveTheFloorsContoller> ().DestroyPuke ();
+		if( coll.name == "Bucket")
+			// Lets destroy the puke gameobject in the Controller file
+			controller.GetComponent<SaveTheFloorsContoller> ().DestroyPuke ();
 	}
 }
