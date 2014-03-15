@@ -6,7 +6,7 @@ using System.Collections;
  */
 public class Bucket_Controller : MonoBehaviour {
 
-	//
+	// Identifier to locate our bucket gameobject
 	GameObject Bucket;
 
 	// Bucket speed
@@ -29,12 +29,11 @@ public class Bucket_Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update (){
 
-		//
+		// Movement in desktop mode
 		OnMouseOver ();
 
-		//
+		// Movement in mobile platform mode
 		touchBucketNavigation ();
-
 	}
 
 	/// <summary>
@@ -54,7 +53,7 @@ public class Bucket_Controller : MonoBehaviour {
 		// Determines screen point position in desktop mode
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, DesktopScreenPoint.y, DesktopScreenPoint.z);
 
-		//
+		// 
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint);
 
 		//
@@ -66,8 +65,8 @@ public class Bucket_Controller : MonoBehaviour {
 	/// </summary>
 	void touchBucketNavigation(){
 
+		// If player is touching screen, lets move the object
 		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
-
 			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
 			transform.Translate ( touchDeltaPosition.x * speed, 0, 0);
 		}

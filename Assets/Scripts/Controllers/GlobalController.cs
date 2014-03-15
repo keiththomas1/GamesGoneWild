@@ -19,6 +19,7 @@ public class GlobalController : MonoBehaviour
 	public bool[] CupsPlaced;	// For beer pong.
 	public int armEnemyLevel;	// For arm wrestle.
 	public int dartLevel;
+	public int pukeLevel;
 
 	// Use this for initialization
 	void Start () 
@@ -39,6 +40,7 @@ public class GlobalController : MonoBehaviour
 		}
 		armEnemyLevel = 1;
 		dartLevel = 1;
+		pukeLevel = 4;
 
 		StartMenuMusic();
 	}
