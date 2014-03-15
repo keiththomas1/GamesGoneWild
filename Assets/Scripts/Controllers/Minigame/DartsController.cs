@@ -24,8 +24,11 @@ public class DartsController : MonoBehaviour
 		dartMoving = false;
 
 		pillarTimer = 2.0f;
-		pillarCount = 4; // HACK - put this variable in the global controller
 		currentPillar = 0;
+		if( globalController )
+			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 3;
+		else
+			pillarCount = 5;
 	}
 	
 	// Update is called once per frame
@@ -70,6 +73,6 @@ public class DartsController : MonoBehaviour
 	public void StartMovingDart()
 	{
 		dartMoving = true;
-		dart.GetComponent<DartBehavior>().dartMoving = true;
+		dart.GetComponent<DartBehavior>().horizontalMoving = true;
 	}
 }

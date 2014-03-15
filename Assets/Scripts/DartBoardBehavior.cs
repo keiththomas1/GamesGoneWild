@@ -26,6 +26,10 @@ public class DartBoardBehavior : MonoBehaviour
 			controller.GetComponent<DartsController>().StartMovingDart();
 
 			isMoving = false;
+
+			Vector3 tempPos = transform.position;
+			tempPos.x = 7.6f;
+			transform.position = tempPos;
 		}
 	}
 	
