@@ -22,13 +22,16 @@ public class MenuController : MonoBehaviour
 		if( Input.GetMouseButtonDown( 0 ) )
 		{
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
 			if( Physics.Raycast(ray,out hit) )
 			{
+				Debug.Log( hit.collider.name );
 				switch( hit.collider.name )
 				{
-					case "PlayText":
+				case "PlayText":
 					globalController.GetComponent<GlobalController>().StartMode("Normal Mode");
+					break;
+				case "SelectionText":
+					Application.LoadLevel( "SelectionScene" );
 					break;
 				}
 			}

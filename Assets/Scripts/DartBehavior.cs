@@ -13,6 +13,10 @@ public class DartBehavior : MonoBehaviour
 	public bool horizontalMoving;
 	Vector2 speedVector;
 
+	Vector3 startPosition;
+	bool gameStarted;
+	public Sprite brokenDart;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -23,33 +27,53 @@ public class DartBehavior : MonoBehaviour
 		canControl = true;
 		horizontalMoving = false;
 		speedVector = new Vector2( .06f, 0.0f );
+
+		startPosition = transform.position;
+		gameStarted = false;
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
-		if( canControl )
+		if( !gameStarted )
 		{
-			if( Input.GetMouseButtonDown( 0 ) )
+			rigidbody2D.gravityScale = 0.0f;
+			transform.position = startPosition;
+		}
+		else
+		{
+			if( canControl )
 			{
-				dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
-				rigidbody2D.AddForce( dartJumpHeight );
+				if( Input.GetMouseButtonDown( 0 ) )
+				{
+					dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
+					rigidbody2D.AddForce( dartJumpHeight );
+				}
+			}
+			
+			if( horizontalMoving )
+			{
+				Debug.Log("Moving " + Time.frameCount);
+				transform.Translate( speedVector );
+			}
+			
+			if( transform.position.y < -6.0f )
+			{
+				globalController.GetComponent<GlobalController>().LostMinigame();
+			}
+			
+			//Debug.Log( transform.rotation.z
+			if( rigidbody2D.velocity.y > 0.0f && 
+			   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
+			{
+				transform.Rotate( new Vector3( 0.0f, 0.0f, 2.0f ) );
+			}
+			if( rigidbody2D.velocity.y < 1.0f && 
+			   (transform.rotation.eulerAngles.z > 340 || transform.rotation.eulerAngles.z < 330) )
+			{	
+				transform.Rotate( new Vector3( 0.0f, 0.0f, -1.0f ) );
 			}
 		}
-
-		if( horizontalMoving )
-		{
-			Debug.Log("Moving " + Time.frameCount);
-			transform.Translate( speedVector );
-		}
-
-		if( transform.position.y < -6.0f )
-		{
-			globalController.GetComponent<GlobalController>().LostMinigame();
-		}
-
-		transform.Rotate( new Vector3( 0.0f, 0.0f, 
-		                              transform.rotation.z + (rigidbody2D.velocity.y) ) );
 	}
 
 	void OnTriggerEnter2D( Collider2D coll )
@@ -75,7 +99,15 @@ public class DartBehavior : MonoBehaviour
 				canControl = false;
 				
 				rigidbody2D.AddForce( new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant ) );
+
+				this.GetComponent<SpriteRenderer>().sprite = brokenDart;
 			}
 		}
+	}
+
+	public void StartGame()
+	{
+		gameStarted = true;
+		rigidbody2D.gravityScale = 0.6f;
 	}
 }
