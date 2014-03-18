@@ -31,7 +31,8 @@ public class SelectionController : MonoBehaviour
 					Application.LoadLevel( "MenuScene" );
 					break;
 				case "BPText":
-					Application.LoadLevel( "MenuScene" );
+					globalController.GetComponent<GlobalController>().currentSelectionLevel = "Beer Pong";
+					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
 					break;
 				case "FlippyText":
 					Application.LoadLevel( "MenuScene" );

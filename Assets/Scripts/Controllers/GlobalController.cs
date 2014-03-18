@@ -21,6 +21,8 @@ public class GlobalController : MonoBehaviour
 	public int dartLevel;
 	public int pukeLevel;
 
+	public string currentSelectionLevel;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -60,11 +62,14 @@ public class GlobalController : MonoBehaviour
 		case "Normal Mode":
 			NextMinigame();
 			break;
+		case "Selection":
+			break;
 		}
 	}
 
 	public void NextMinigame()
 	{
+		if( gameMode == "Normal Mode" )
 		if( beersDrank < beerLives )
 		{
 			int random = Random.Range( 0, minigameNames.Length);

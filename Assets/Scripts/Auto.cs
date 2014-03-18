@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class Auto : MonoBehaviour {
+	public GameObject globalController;
+
 	float autoacc;
 	float speed;
 	float angle;
@@ -12,6 +14,8 @@ public class Auto : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		globalController = GameObject.Find( "Global Controller" );
+
 		// random start can f
 		if (Random.value > .5) 
 		{
@@ -72,6 +76,7 @@ public class Auto : MonoBehaviour {
 			}
 			else
 			{
+				globalController.GetComponent<GlobalController>().LostMinigame();
 				GuiTextDebug.debug ("you lost");
 			}
 		}

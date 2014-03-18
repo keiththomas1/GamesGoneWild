@@ -86,11 +86,4 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			globalController.GetComponent<GlobalController>().BeatMinigame();
 		}
 	}
-
-	void OnGUI(){
-
-		GUILayout.BeginArea ( new Rect (90, 10, 100, 100));
-		GUILayout.Label ("Tap to start\n\nCatch the falling puke by moving the bucket");
-		GUILayout.EndArea ();
-	}
 }

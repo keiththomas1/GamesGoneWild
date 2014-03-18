@@ -3,6 +3,8 @@ using System.Collections;
 //public Transform pivot;
 
 public class AutoRotate : MonoBehaviour {
+	public GameObject globalController;
+
 	public float accspeed = 100.0f;
 	float accx;
 	float acc_x;
@@ -16,6 +18,7 @@ public class AutoRotate : MonoBehaviour {
 
 	void Start () 
 	{
+		globalController = GameObject.Find( "Global Controller" );
 				//HingeJoint2D  hinge = GetComponent<HingeJoint2D>();
 				//JointMotor2D motor = hinge.motor;
 				//The character falls randomly left or right
@@ -33,6 +36,7 @@ public class AutoRotate : MonoBehaviour {
 		{
 			if((transform.localEulerAngles.z <= 85 && transform.localEulerAngles.z >= 0) || (transform.localEulerAngles.z <= 360 && transform.localEulerAngles.z >= 280))
 			{
+				globalController.GetComponent<GlobalController>().BeatMinigame();
 				GuiTextDebug.debug ("you won");
 			}
 		}
