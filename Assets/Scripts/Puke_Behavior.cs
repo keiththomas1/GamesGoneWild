@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Puke_Behavior : MonoBehaviour {
 
-	// Identifier for our gameobject
+	// Identifier for our puke gameobject
 	public GameObject pukePrefab;
 
 	// Identifier for SaveTheFloorsController

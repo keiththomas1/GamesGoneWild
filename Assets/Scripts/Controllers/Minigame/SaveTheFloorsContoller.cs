@@ -3,10 +3,14 @@ using System.Collections;
 
 public class SaveTheFloorsContoller : MonoBehaviour {
 
+	// Controller script in order to move from game to game and save any data necessary
 	public GameObject globalController;
 
 	// Creating our gameobject for controlling the scene
 	public GameObject [] pukePrefabArray;
+
+	// Identifier for our head gameobject
+	public GameObject head;
 
 	// Index for array of pukePrefab gameobject
 	int pukePrefabIndex;
@@ -17,10 +21,17 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	// Storing y - location of current puke gameobject
 	Vector3 currentPos;
 
+	// Rotation speed each second
+	float rotateSpeed = 10.0f;
+
 	// Use this for initialization
 	void Start () {
 
+		// Finding our controller gameobject
 		globalController = GameObject.Find("Global Controller");
+
+		// Finding our head gameobject
+		head = GameObject.Find ("Head");
 
 		// Set our current index of gameobject array
 		pukePrefabIndex = 0;
@@ -35,9 +46,15 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		// Click on screen in order to start the game
 		StartPuking = StartGame ();
 
+		// Rotating head gameobject 20 degrees each way
+		Debug.Log ("head.transform.rotation.z: " + head.transform.rotation.z);
+		//if (head.transform.rotation.z < 0.4)
+		head.transform.Rotate ( 0, 0, rotateSpeed * Time.deltaTime, Space.World);
+
 		// Debugging purposes
 		Debug.Log ("StartPuking is " + StartPuking + " before if condition");
 
+		// Condition whether to send a puke gameobject or not
 		if (StartPuking == true && pukePrefabIndex < 5) {
 
 			// Debugging purposes
