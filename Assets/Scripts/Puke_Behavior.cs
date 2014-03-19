@@ -33,12 +33,13 @@ public class Puke_Behavior : MonoBehaviour {
 	/// <summary>
 	/// Gravity this instance. Giving the puke gameobject some gravity so it call fall
 	/// </summary>
-	public void Gravity(){
+	public void Shoot( float angle ){
 		
 		// We need to give our gameobject some gravity inorder for it to fall.
 		// Currently, gravity is set to 0 on all pukePrefab gameobjects.
 		Debug.Log ("In Puke_Behavior.cs gravity()");
-		this.rigidbody2D.gravityScale = 1;
+		this.rigidbody2D.gravityScale = 1.5f;
+		rigidbody2D.AddForce( new Vector2( angle*5.0f, 0.0f ) );
 	}
 
 	// Obviously destroying our puke gameobject once it collides with the bucket 

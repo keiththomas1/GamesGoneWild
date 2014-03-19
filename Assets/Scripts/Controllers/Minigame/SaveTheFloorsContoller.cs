@@ -12,8 +12,18 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	// Identifier for our head gameobject
 	public GameObject head;
 
+	// Handle for the countdown text object
+	public GameObject countdown;
+	// Timer for when to start the game and destroy countdown
+	float countdownTimer;
+	// True if the countdown is still going
+	bool countdownPhase;
+
 	// Index for array of pukePrefab gameobject
 	int pukePrefabIndex;
+
+	// How many pukes you need to win
+	int pukesToWin;
 
 	// This will initiate gravity when needed
 	bool StartPuking;
@@ -22,7 +32,13 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	Vector3 currentPos;
 
 	// Rotation speed each second
-	float rotateSpeed = 10.0f;
+	float rotateSpeed;
+	// Direction to rotate in
+	string rotateDirection;
+	// Timer for when to rotate
+	float rotateTimer;
+	// Whether we're actually rotating right now
+	bool rotating;
 
 	// Use this for initialization
 	void Start () {
@@ -36,23 +52,28 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		// Set our current index of gameobject array
 		pukePrefabIndex = 0;
 
+		// Set the number of pukes needed to win minigame
+		if( globalController )
+			pukesToWin = globalController.GetComponent<GlobalController>().pukeLevel;
+		else  // For testing purposes, when ran not from splash screen
+			pukesToWin = 5;
+
 		// Initializing identifier so no gravity is given to puke gameobject
 		StartPuking = false;
+
+		// Set the countdown timer to 3.5 seconds
+		countdownTimer = 3.5f;
+		countdownPhase = true;
+
+		// Set up all the variables for rotation
+		rotateSpeed = 20.0f;
+		rotateDirection = "Right";
+		rotateTimer = 2.0f;
+		rotating = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		// Click on screen in order to start the game
-		StartPuking = StartGame ();
-
-		// Rotating head gameobject 20 degrees each way
-		Debug.Log ("head.transform.rotation.z: " + head.transform.rotation.z);
-		//if (head.transform.rotation.z < 0.4)
-		head.transform.Rotate ( 0, 0, rotateSpeed * Time.deltaTime, Space.World);
-
-		// Debugging purposes
-		Debug.Log ("StartPuking is " + StartPuking + " before if condition");
 
 		// Condition whether to send a puke gameobject or not
 		if (StartPuking == true && pukePrefabIndex < 5) {
@@ -61,8 +82,13 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
 			Debug.Log ("pukePrefabIndex is " + pukePrefabIndex);
 
+			float pukeAngle;
+			if( head.transform.rotation.eulerAngles.z > 180.0f )
+				pukeAngle = -1.0f * (360.0f - head.transform.rotation.eulerAngles.z);
+			else
+				pukeAngle = head.transform.rotation.eulerAngles.z;
 			// Giving the current element in pukePrefabArray gravity
-			pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Gravity ();
+			pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle );
 			StartPuking = false;
 		}
 
@@ -71,17 +97,62 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		// If puke gameobject falls below this range, player loses game and exits game
 		if ( currentPos.y < -7)
-			globalController.GetComponent<GlobalController>().LostMinigame();
-	}
-	
-	// Starts the game by touching the screen or clicking on mouse
-	bool StartGame(){
+		{
+			if( globalController )
+				globalController.GetComponent<GlobalController>().LostMinigame();
+			else
+				Debug.Log( "Lost game, but no global controller!" );
+		}
 
-		// Send the first puke gameobject with a touch of the screen or click of a mouse button
-		if( Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began ||
-		   Input.GetMouseButtonDown(0))
-			StartPuking = true;
-		return StartPuking;
+		// If we're still counting down
+		if( countdownPhase )
+		{
+			// If the timer is still going, decrement it
+			if( countdownTimer > 0.0f )
+			{
+				countdownTimer -= Time.deltaTime;
+			}
+			else
+			{
+				// Start the pukes coming and nullify the countdown stuff
+				StartPuking = true;
+				countdownPhase = false;
+				Destroy( countdown );
+			}
+		}
+		else
+		{
+			rotating = true;
+		}
+
+		if( rotating )
+		{
+			rotateTimer -= Time.deltaTime;
+
+			if( rotateTimer <= 0.0f )
+			{
+				Debug.Log( "Angle: " + head.transform.rotation.eulerAngles.z );
+				if( head.transform.rotation.eulerAngles.z > 180.0f )
+				{
+					rotateDirection = "Right";
+				}
+				else
+				{
+					rotateDirection = "Left";
+				}
+
+				rotateTimer = Random.value * 4.0f;
+			}
+
+			if( rotateDirection == "Left" )
+			{
+				head.transform.Rotate ( 0, 0, -rotateSpeed * Time.deltaTime, Space.World);
+			}
+			else // if "Right"
+			{
+				head.transform.Rotate ( 0, 0, rotateSpeed * Time.deltaTime, Space.World);
+			}
+		}
 	}
 
 	// Destroy this instance puke gameobject.
@@ -97,10 +168,17 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		// Give the next pukePrefab element some gravity
 		StartPuking = true;
 
-		if( globalController && pukePrefabIndex == globalController.GetComponent<GlobalController>().pukeLevel )
+		if( pukePrefabIndex == pukesToWin )
 		{
-			globalController.GetComponent<GlobalController>().pukeLevel++;
-			globalController.GetComponent<GlobalController>().BeatMinigame();
+			if( globalController )
+			{
+				globalController.GetComponent<GlobalController>().pukeLevel++;
+				globalController.GetComponent<GlobalController>().BeatMinigame();
+			}
+			else
+			{
+				Debug.Log( "Won game, but no global controller!" );
+			}
 		}
 	}
 }

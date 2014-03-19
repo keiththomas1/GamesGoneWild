@@ -7,10 +7,11 @@ public class GlobalController : MonoBehaviour
 	public string[] minigameNames;
 	string previousMode;
 
+	// All of the music to play
 	public GameObject menuMusic;
 	public GameObject playGameMusic;
 
-	// Variables kept for overall progress
+	// Variables kept for overall progress between mini-games
 	public int gamesWon;
 	public int beersDrank;
 	public int beerLives;
@@ -21,6 +22,7 @@ public class GlobalController : MonoBehaviour
 	public int dartLevel;
 	public int pukeLevel;
 
+	// If in selection mode, this is filled with the current game being played
 	public string currentSelectionLevel;
 
 	// Use this for initialization
@@ -29,6 +31,7 @@ public class GlobalController : MonoBehaviour
 		// Essential for making this "global" and persistent.
 		Object.DontDestroyOnLoad( this );
 
+		// No mode to start
 		previousMode = "";
 
 		gamesWon = 0;
@@ -56,38 +59,41 @@ public class GlobalController : MonoBehaviour
 	{
 		gameMode = mode;
 		StartModeMusic();
-
-		switch( gameMode )
-		{
-		case "Normal Mode":
-			NextMinigame();
-			break;
-		case "Selection":
-			break;
-		}
+		
+		NextMinigame();
 	}
 
 	public void NextMinigame()
 	{
-		if( gameMode == "Normal Mode" )
-		if( beersDrank < beerLives )
+		if( beersDrank < beerLives )	// If we haven't lost yet
 		{
-			int random = Random.Range( 0, minigameNames.Length);
-			if( minigameNames[random] == previousMode )
+			if( gameMode == "Normal Mode" )
 			{
-				NextMinigame();
-				return;
+				// Choose a random minigame
+				// HACK - Consider a more intelligent ordering before finished
+				int random = Random.Range( 0, minigameNames.Length);
+				if( minigameNames[random] == previousMode )
+				{
+					NextMinigame();
+					return;
+				}
+				previousMode = minigameNames[random];
+				Application.LoadLevel( minigameNames[random] );
 			}
-			previousMode = minigameNames[random];
-			Application.LoadLevel( minigameNames[random] );
+			else
+			{
+				Application.LoadLevel( currentSelectionLevel );
+			}
 		}
-		else
+		else 	// If we've lost..
 		{
 			LostGame();
 		}
 	}
 
-	public void BeatMinigame()
+	// Call this if the player won a minigame and make sure to increment
+	// any global variables located in this associated with that minigame.
+	public void BeatMinigame()	
 	{
 		gamesWon++;
 		Debug.Log ("Games won: " + gamesWon );
@@ -95,6 +101,7 @@ public class GlobalController : MonoBehaviour
 		Application.LoadLevel( "MinigameWin");
 	}
 
+	// Call this if the player lost the minigame
 	public void LostMinigame()
 	{
 		beersDrank++;
@@ -102,6 +109,7 @@ public class GlobalController : MonoBehaviour
 		Application.LoadLevel( "MinigameFail");
 	}
 
+	// When you drink all of your beers
 	void LostGame()
 	{
 		// HACK: This will eventually route to a "losing" screen where the player is passed out
@@ -109,6 +117,7 @@ public class GlobalController : MonoBehaviour
 		Application.LoadLevel( "MenuScene" );
 	}
 
+	// This is called when the game is started
 	void StartModeMusic()
 	{
 		if( menuMusic.GetComponent<AudioSource>().isPlaying )
@@ -122,7 +131,7 @@ public class GlobalController : MonoBehaviour
 		playGameMusic.GetComponent<AudioSource>().Play();
 	}
 
-	
+	// This is called when the menu is started
 	void StartMenuMusic()
 	{
 		if( menuMusic.GetComponent<AudioSource>().isPlaying )

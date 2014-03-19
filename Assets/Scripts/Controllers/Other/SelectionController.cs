@@ -31,14 +31,16 @@ public class SelectionController : MonoBehaviour
 					Application.LoadLevel( "MenuScene" );
 					break;
 				case "BPText":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "Beer Pong";
+					globalController.GetComponent<GlobalController>().currentSelectionLevel = "BeerPong";
 					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
 					break;
 				case "FlippyText":
-					Application.LoadLevel( "MenuScene" );
+					globalController.GetComponent<GlobalController>().currentSelectionLevel = "FlippyCup";
+					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
 					break;
 				case "DartsText":
-					Application.LoadLevel( "MenuScene" );
+					globalController.GetComponent<GlobalController>().currentSelectionLevel = "Darts";
+					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
 					break;
 				}
 			}
