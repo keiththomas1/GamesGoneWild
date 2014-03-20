@@ -8,7 +8,7 @@ public class Auto : MonoBehaviour {
 	float speed;
 	float angle;
 	string strSpeed;
-	string stroutput1;
+	//string stroutput1;
 
 
 	// Use this for initialization
@@ -32,7 +32,7 @@ public class Auto : MonoBehaviour {
 	void Update () 
 	{
 
-		stroutput1 = (transform.localEulerAngles.z).ToString ();
+		//stroutput1 = (transform.localEulerAngles.z).ToString ();
 		//GuiTextDebug.debug (stroutput1);
 		// at different angles the speed increases so its not static
 		if (speed > 0.0f)  // postive speed
@@ -74,7 +74,7 @@ public class Auto : MonoBehaviour {
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("6");
 			}
-			else
+			else if(transform.localEulerAngles.z > 80 && transform.localEulerAngles.z < 280 )
 			{
 				globalController.GetComponent<GlobalController>().LostMinigame();
 				GuiTextDebug.debug ("you lost");
@@ -120,8 +120,9 @@ public class Auto : MonoBehaviour {
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("16");
 			}
-			else
+			else if(transform.localEulerAngles.z > 80 && transform.localEulerAngles.z < 280)
 			{
+				globalController.GetComponent<GlobalController>().LostMinigame();
 				GuiTextDebug.debug ("you lost");
 			}
 		}

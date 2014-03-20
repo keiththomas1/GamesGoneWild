@@ -11,7 +11,7 @@ public class AutoRotate : MonoBehaviour {
 	float speed_program;
 	int speed = -25; // regular speed
 	string output;
-	string output1;
+	//string output1;
 	string straccx;
 	float time = 6.0f;
 	// Use this for initialization
@@ -74,11 +74,9 @@ public class AutoRotate : MonoBehaviour {
 			}
 		}
 
-
-
 		straccx = accx.ToString ();
 		output = "x:" + straccx;
-		output1 = (transform.localEulerAngles.z).ToString ();
+		//output1 = (transform.localEulerAngles.z).ToString ();
 		//GuiTextDebug.debug (output);
 		//GuiTextDebug.debug (output1);
 	}
