@@ -14,8 +14,10 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 	// Handle for the countdown text object
 	public GameObject countdown;
+
 	// Timer for when to start the game and destroy countdown
 	float countdownTimer;
+
 	// True if the countdown is still going
 	bool countdownPhase;
 
@@ -33,10 +35,13 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 	// Rotation speed each second
 	float rotateSpeed;
+
 	// Direction to rotate in
 	string rotateDirection;
+
 	// Timer for when to rotate
 	float rotateTimer;
+
 	// Whether we're actually rotating right now
 	bool rotating;
 
@@ -76,27 +81,31 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	void Update () {
 
 		// Condition whether to send a puke gameobject or not
-		if (StartPuking == true && pukePrefabIndex < 5) {
+		if (StartPuking == true && pukePrefabIndex < 14) {
 
 			// Debugging purposes
 			//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
 			Debug.Log ("pukePrefabIndex is " + pukePrefabIndex);
 
+			// 
 			float pukeAngle;
 			if( head.transform.rotation.eulerAngles.z > 180.0f )
 				pukeAngle = -1.0f * (360.0f - head.transform.rotation.eulerAngles.z);
 			else
 				pukeAngle = head.transform.rotation.eulerAngles.z;
+
 			// Giving the current element in pukePrefabArray gravity
 			pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle );
 			StartPuking = false;
 		}
 
+		// To Do: when pukePrefabIndex == 14, take minigame out of rotation
+
 		// Detecting current location of the puke gameobject
 		currentPos = pukePrefabArray [pukePrefabIndex].transform.position;
 
 		// If puke gameobject falls below this range, player loses game and exits game
-		if ( currentPos.y < -7)
+		if ( currentPos.y < -9)
 		{
 			if( globalController )
 				globalController.GetComponent<GlobalController>().LostMinigame();
@@ -163,11 +172,14 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		// Destroy puke gameobject at curreent element in list
 		DestroyObject (pukePrefabArray[pukePrefabIndex]);
+
 		// Go the next element of pukePrefabArray
 		pukePrefabIndex++;
+
 		// Give the next pukePrefab element some gravity
 		StartPuking = true;
 
+		//
 		if( pukePrefabIndex == pukesToWin )
 		{
 			if( globalController )
