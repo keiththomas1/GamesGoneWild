@@ -46,13 +46,13 @@ public class Auto : MonoBehaviour {
 			}
 			else if(transform.localEulerAngles.z <= 60 && transform.localEulerAngles.z >= 30)
 			{
-				float curSpeed = Time.deltaTime *1.5f*speed;
+				float curSpeed = Time.deltaTime *2.0f*speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("2");
 			}
 			else if (transform.localEulerAngles.z <= 80 && transform.localEulerAngles.z >= 60) 
 			{
-				float curSpeed = Time.deltaTime *2* speed;
+				float curSpeed = Time.deltaTime *3.0f* speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("3");
 			} 
@@ -64,13 +64,13 @@ public class Auto : MonoBehaviour {
 			}
 			else if(transform.localEulerAngles.z >= 300 && transform.localEulerAngles.z <= 330)
 			{
-				float curSpeed = Time.deltaTime *-1.5f* speed;
+				float curSpeed = Time.deltaTime *-2.0f* speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("5");
 			}
 			else if(transform.localEulerAngles.z <= 300 && transform.localEulerAngles.z >= 280) 
 			{
-				float curSpeed = Time.deltaTime *-2* speed;
+				float curSpeed = Time.deltaTime *-3.0f* speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("6");
 			}
@@ -92,13 +92,13 @@ public class Auto : MonoBehaviour {
 			}
 			else if(transform.localEulerAngles.z <= 60 && transform.localEulerAngles.z >= 30)
 			{
-				float curSpeed = Time.deltaTime *-1.5f*speed;
+				float curSpeed = Time.deltaTime *-2.0f*speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("12");
 			}
 			else if (transform.localEulerAngles.z <= 80 && transform.localEulerAngles.z >= 60) 
 			{
-				float curSpeed = Time.deltaTime *-2* speed;
+				float curSpeed = Time.deltaTime *-3.0f* speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("13");
 			} 
@@ -110,13 +110,13 @@ public class Auto : MonoBehaviour {
 			}
 			else if(transform.localEulerAngles.z >= 300 && transform.localEulerAngles.z <= 330)
 			{
-				float curSpeed = Time.deltaTime *1.5f* speed;
+				float curSpeed = Time.deltaTime *2.0f* speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("15");
 			}
 			else if( transform.localEulerAngles.z <= 300 && transform.localEulerAngles.z >= 280 ) 
 			{
-				float curSpeed = Time.deltaTime *2* speed;
+				float curSpeed = Time.deltaTime *3.0f* speed;
 				transform.Rotate (0, 0, curSpeed);
 				GuiTextDebug.debug ("16");
 			}
