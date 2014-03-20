@@ -106,4 +106,14 @@ public class DartsController : MonoBehaviour
 		dartMoving = true;
 		dart.GetComponent<DartBehavior>().horizontalMoving = true;
 	}
+
+	public void SlowDown()
+	{
+		for( int i=0; i<pillars.Length; i++ )
+		{
+			pillars[i].GetComponent<PillarBehavior>().SlowDown();
+		}
+		board.GetComponent<DartBoardBehavior>().SlowDown();
+		floorSpeed = new Vector2( -.03f, 0.0f );
+	}
 }

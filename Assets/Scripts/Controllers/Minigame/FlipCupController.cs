@@ -12,6 +12,11 @@ public class FlipCupController : MonoBehaviour {
 	Vector3 FlickAmmount = new Vector3(0,-70,0);
 	Vector3 startPosition = new Vector3(0,1,-2);
 
+	public GameObject countdown;
+	// How long until countdown is done
+	float countdownTimer = 3.5f;
+	// Whether the countdown has finished
+	bool canStart;
 
 	int totalCount = 0;
 	int count = 0;
@@ -24,12 +29,13 @@ public class FlipCupController : MonoBehaviour {
 	    float mass = (float).2;
 		rigidbody.centerOfMass = new Vector3 (0,mass, 0);
 	
+		canStart = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//mouse down
-		if (!isFlicked){
+		if (!isFlicked && canStart){
 		if (Input.GetMouseButtonDown (0)) {
 			initPos = Input.mousePosition*10;
 		}
@@ -37,6 +43,15 @@ public class FlipCupController : MonoBehaviour {
 		if (Input.GetMouseButtonUp (0)) {
 			finalPos = Input.mousePosition*10;
 			Pos = finalPos - initPos;
+
+			// Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
+			if( Pos.y > 1200.0f )
+				Pos.y = 1200.0f;
+			if( Pos.x > 450.0f )
+				Pos.x = 450.0f;
+			if( Pos.x < -450.0f )
+					Pos.x = -450.0f;
+			Debug.Log( "Flick vector: " + Pos );
 
 			Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
 			Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
@@ -62,8 +77,8 @@ public class FlipCupController : MonoBehaviour {
 			Debug.Log (transform.position);
 			//**********Once ball is instantiated.. it won't let me flick it again.
 		}
-		Debug.Log(totalCount);
-		if (totalCount >= 400)
+		//Debug.Log(totalCount);
+		if (totalCount >= 350)
 		{
 			globalController.GetComponent<GlobalController>().LostMinigame();
 			Debug.Log("Failed");
@@ -72,6 +87,16 @@ public class FlipCupController : MonoBehaviour {
 			globalController.GetComponent<GlobalController>().LostMinigame();
 			DestroyObject(Cup_placeholder);
 			//Instantiate(Cup_placeholder,startPosition,transform.rotation);
+		}
+
+		if( countdown )
+		{
+			countdownTimer -= Time.deltaTime;
+			if( countdownTimer <= 0.0f )
+			{
+				Destroy( countdown );
+				canStart = true;
+			}
 		}
 	}
 }	

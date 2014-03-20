@@ -114,6 +114,7 @@ public class GlobalController : MonoBehaviour
 	{
 		// HACK: This will eventually route to a "losing" screen where the player is passed out
 		// or something. Then a high score type thing and THEN back to the menu screen.
+		beersDrank = 0;
 		Application.LoadLevel( "MenuScene" );
 	}
 

@@ -10,7 +10,7 @@ public class PillarBehavior : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		transform.Translate( new Vector2( 0.0f, (Random.value*4)-2 ) );
+		transform.Translate( new Vector2( 0.0f, (Random.value*6)-3 ) );
 
 		speedVector = new Vector2( -.06f, 0.0f );
 	}
@@ -27,5 +27,10 @@ public class PillarBehavior : MonoBehaviour
 	public void StartMoving()
 	{
 		isMoving = true;
+	}
+
+	public void SlowDown()
+	{
+		speedVector = new Vector2( -.03f, 0.0f );
 	}
 }

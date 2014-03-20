@@ -37,4 +37,9 @@ public class DartBoardBehavior : MonoBehaviour
 	{
 		isMoving = true;
 	}
+	
+	public void SlowDown()
+	{
+		speedVector = new Vector2( -.03f, 0.0f );
+	}
 }

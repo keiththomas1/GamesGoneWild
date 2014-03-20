@@ -57,7 +57,7 @@ public class DartBehavior : MonoBehaviour
 				transform.Translate( speedVector );
 			}
 			
-			if( transform.position.y < -6.0f )
+			if( transform.position.y < -6.0f || transform.position.x > 13.0f )
 			{
 				globalController.GetComponent<GlobalController>().LostMinigame();
 			}
@@ -78,7 +78,7 @@ public class DartBehavior : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D coll )
 	{
-		if( "DartBoard" == coll.name )
+		if( "DartBoard" == coll.name && transform.position.x < 7.7f )
 		{
 			horizontalMoving = false;
 			canControl = false;
@@ -93,12 +93,13 @@ public class DartBehavior : MonoBehaviour
 		}
 		else
 		{
-			if( canControl )
+			// Position check is in case it hits the backed up pillars at end of map
+			if( canControl && transform.position.x < 5.0f )
 			{
 				horizontalMoving = false;
 				canControl = false;
-				
-				rigidbody2D.AddForce( new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant ) );
+
+				dartController.GetComponent<DartsController>().SlowDown();
 
 				this.GetComponent<SpriteRenderer>().sprite = brokenDart;
 			}
