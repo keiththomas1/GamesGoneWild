@@ -67,9 +67,9 @@ public class SelectionController : MonoBehaviour
 					globalController.GetComponent<GlobalController>().currentSelectionLevel = "Darts";
 					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
 					break;
-				case "BagsText":
-				case "BagsPic":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "Bags";
+				case "ArmWrestlingText":
+				case "ArmWrestlingPic":
+					globalController.GetComponent<GlobalController>().currentSelectionLevel = "ArmWrestle";
 					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
 					break;
 				case "ThrowUpText":
