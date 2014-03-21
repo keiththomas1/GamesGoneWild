@@ -3,13 +3,13 @@ using System.Collections;
 
 public class Puke_Behavior : MonoBehaviour {
 
-	// Identifier for our gameobject
+	// Identifier for our puke gameobject
 	public GameObject pukePrefab;
 
-	//
+	// Identifier for SaveTheFloorsController
 	public GameObject controller;
 
-	// For storing position of PukePrefab object
+	// For storing position of pukePrefab gameobject
 	Vector3 pukePrefabPos;
 
 	// Use this for initialization
@@ -18,7 +18,7 @@ public class Puke_Behavior : MonoBehaviour {
 		// Finding our gameobject with the puke tag
 		pukePrefab = GameObject.FindGameObjectWithTag ("Puke");
 
-		// Storing PukePrefab gameobject (float) position
+		// Storing pukePrefab gameobject (float) position
 		pukePrefabPos = transform.position;
 
 		// Debugging purposes
@@ -33,18 +33,20 @@ public class Puke_Behavior : MonoBehaviour {
 	/// <summary>
 	/// Gravity this instance. Giving the puke gameobject some gravity so it call fall
 	/// </summary>
-	public void Gravity(){
+	public void Shoot( float angle ){
 		
 		// We need to give our gameobject some gravity inorder for it to fall.
 		// Currently, gravity is set to 0 on all pukePrefab gameobjects.
 		Debug.Log ("In Puke_Behavior.cs gravity()");
-		this.rigidbody2D.gravityScale = 1;
+		this.rigidbody2D.gravityScale = 1.5f;
+		rigidbody2D.AddForce( new Vector2( angle*5.0f, 0.0f ) );
 	}
 
 	// Obviously destroying our puke gameobject once it collides with the bucket 
 	void OnTriggerEnter2D( Collider2D coll){
 
-		// Lets destroy the puke gameobject in the Controller file
-		controller.GetComponent<SaveTheFloorsContoller> ().DestroyPuke ();
+		if( coll.name == "Bucket")
+			// Lets destroy the puke gameobject in the Controller file
+			controller.GetComponent<SaveTheFloorsContoller> ().DestroyPuke ();
 	}
 }

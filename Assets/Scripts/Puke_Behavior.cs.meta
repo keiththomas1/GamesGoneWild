@@ -2,7 +2,9 @@ fileFormatVersion: 2
 guid: 358a7a2e2d0404a429170e49acc445e4
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pukePrefab: {fileID: 100000, guid: 7f101e7e00c45443c80c151dcd09cc63, type: 2}
+  - controller: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
