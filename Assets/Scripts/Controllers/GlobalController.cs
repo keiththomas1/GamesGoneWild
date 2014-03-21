@@ -25,6 +25,11 @@ public class GlobalController : MonoBehaviour
 	// If in selection mode, this is filled with the current game being played
 	public string currentSelectionLevel;
 
+	// Variables to keep track of party points
+	public GameObject pointsBox;
+	public GameObject pointsText;
+	int totalPartyPoints;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -34,18 +39,12 @@ public class GlobalController : MonoBehaviour
 		// No mode to start
 		previousMode = "";
 
-		gamesWon = 0;
-		beersDrank = 0;
-		beerLives = 4;
+		// Make sure points box isn't visible.
+		pointsBox.renderer.enabled = false;
+		pointsText.renderer.enabled = false;
 
-		CupsPlaced = new bool[10];
-		for(int i=0; i<10; i++)
-		{
-			CupsPlaced[i] = true;
-		}
-		armEnemyLevel = 1;
-		dartLevel = 1;
-		pukeLevel = 4;
+		// Technically setting for the first time, but hey, modularization..
+		ResetVariables();
 
 		StartMenuMusic();
 	}
@@ -114,8 +113,31 @@ public class GlobalController : MonoBehaviour
 	{
 		// HACK: This will eventually route to a "losing" screen where the player is passed out
 		// or something. Then a high score type thing and THEN back to the menu screen.
-		beersDrank = 0;
+
+		// Reset all variables.
+		ResetVariables();
 		Application.LoadLevel( "MenuScene" );
+	}
+
+	void ResetVariables()
+	{
+		gamesWon = 0;	
+		beersDrank = 0;	// Lives lost
+		beerLives = 4;	// Total lives
+		totalPartyPoints = 0;
+
+		// Beer Pong
+		CupsPlaced = new bool[10];
+		for(int i=0; i<10; i++)
+		{
+			CupsPlaced[i] = true;
+		}
+		// Arm Wrestling
+		armEnemyLevel = 1;
+		// Darts
+		dartLevel = 1;
+		// Save the Floors
+		pukeLevel = 4;
 	}
 
 	// This is called when the game is started

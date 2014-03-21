@@ -145,11 +145,15 @@ public class SelectionController : MonoBehaviour
 	{
 		direction = "Left";
 		transitioning = true;
+		rightArrow.renderer.enabled = false;
+		leftArrow.renderer.enabled = false;
 	}
 	
 	void GoRight()
 	{
 		direction = "Right";
 		transitioning = true;
+		rightArrow.renderer.enabled = false;
+		leftArrow.renderer.enabled = false;
 	}
 }

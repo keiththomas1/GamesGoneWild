@@ -17,7 +17,7 @@ public class SplashScreenController : MonoBehaviour
 	{
 		logo = GameObject.Find( "Logo" );
 
-		timer = 2.5f; // set duration time in seconds in the Inspector
+		timer = 3.0f; // set duration time in seconds in the Inspector
 
 		colorStart = logo.renderer.material.color;
 		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );

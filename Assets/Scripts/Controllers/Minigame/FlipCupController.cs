@@ -35,29 +35,38 @@ public class FlipCupController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//mouse down
-		if (!isFlicked && canStart){
-		if (Input.GetMouseButtonDown (0)) {
-			initPos = Input.mousePosition*10;
-		}
-		//swipes to mouse up and find the distance moved and apply force
-		if (Input.GetMouseButtonUp (0)) {
-			finalPos = Input.mousePosition*10;
-			Pos = finalPos - initPos;
+		if (!isFlicked && canStart)
+		{
+			if (Input.GetMouseButtonDown (0)) 
+			{
+				//initPos = Input.mousePosition*10;
+				initPos = Input.mousePosition;
+				initPos.y *= 10;
+				initPos.x *= 3;
+			}
+			//swipes to mouse up and find the distance moved and apply force
+			if (Input.GetMouseButtonUp (0)) 
+				{
+					//finalPos = Input.mousePosition*10;
+				finalPos = Input.mousePosition;
+				finalPos.y *= 10;
+				finalPos.x *= 3;
+				Pos = finalPos - initPos;
 
-			// Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
-			if( Pos.y > 1200.0f )
-				Pos.y = 1200.0f;
-			if( Pos.x > 450.0f )
-				Pos.x = 450.0f;
-			if( Pos.x < -450.0f )
-					Pos.x = -450.0f;
-			Debug.Log( "Flick vector: " + Pos );
+				// Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
+				if( Pos.y > 1200.0f )
+					Pos.y = 1200.0f;
+				if( Pos.x > 450.0f )
+					Pos.x = 450.0f;
+				if( Pos.x < -450.0f )
+						Pos.x = -450.0f;
+				Debug.Log( "Flick vector: " + Pos );
 
-			Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
-			Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
-			Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmmount,FlickPos);// simulates the rotation of the cup
-			isFlicked = true; //the cup has been flicked
-		}
+				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
+				Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
+				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmmount,FlickPos);// simulates the rotation of the cup
+				isFlicked = true; //the cup has been flicked
+			}
 		}
 		//if the balls y pos is in the landed area and is not changing, then success!
 		if(isFlicked){

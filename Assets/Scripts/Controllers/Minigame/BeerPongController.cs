@@ -32,6 +32,9 @@ public class BeerPongController : MonoBehaviour
 	float cupAnimTimer;
 	int cupIndex;
 	public GameObject goodJobText;
+
+	// Sound Effects
+	public GameObject inCupSFX;
 	
 	// Use this for initialization
 	void Start () 
@@ -174,42 +177,41 @@ public class BeerPongController : MonoBehaviour
 					goodJobText.renderer.enabled = true;
 				}
 			}
-			}
-			}
+		}
+	}
 			
-			bool CheckBallInCup()
+	bool CheckBallInCup()
+	{
+		if( globalController )
+		{
+			for( int i=0; i<10; i++ )
 			{
-				// if( globalController.cups[0] = true )
-				
-				if( globalController )
+				if( globalController.GetComponent<GlobalController>().CupsPlaced[i] )
 				{
-					for( int i=0; i<10; i++ )
-					{
-						if( globalController.GetComponent<GlobalController>().CupsPlaced[i] )
-						{
-							if( ballParent.transform.position.x >= (cups[i].transform.position.x - cups[i].renderer.bounds.size.x/2)
-							   && ballParent.transform.position.x <= (cups[i].transform.position.x + cups[i].renderer.bounds.size.x/2)
-							   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/6)
-							   && ballParent.transform.position.y <= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/2) )
-							{	
-								globalController.GetComponent<GlobalController>().CupsPlaced[i] = false;
-								cups[i].animation.Play();
-								cupAnimTimerStart = true;
-								cupIndex = i;
-								Destroy( ball );
-								return true;
-							}
-						}
+					if( ballParent.transform.position.x >= (cups[i].transform.position.x - cups[i].renderer.bounds.size.x/2)
+					   && ballParent.transform.position.x <= (cups[i].transform.position.x + cups[i].renderer.bounds.size.x/2)
+					   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/6)
+					   && ballParent.transform.position.y <= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/2) )
+					{	
+						inCupSFX.GetComponent<AudioSource>().Play();
+						globalController.GetComponent<GlobalController>().CupsPlaced[i] = false;
+						cups[i].animation.Play();
+						cupAnimTimerStart = true;
+						cupIndex = i;
+						Destroy( ball );
+						return true;
 					}
-					globalController.GetComponent<GlobalController>().LostMinigame();
 				}
-				else
-				{
-					Debug.Log( "No global controller" );
-				}
-				
-				return false;
 			}
+			globalController.GetComponent<GlobalController>().LostMinigame();
+		}
+		else
+		{
+			Debug.Log( "No global controller" );
+		}
+		
+		return false;
+	}
 			
 			void TickTimers()
 			{
