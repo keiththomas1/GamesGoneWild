@@ -14,6 +14,7 @@ public class AutoRotate : MonoBehaviour {
 	//string output1;
 	string straccx;
 	float time = 6.0f;
+	
 	// Use this for initialization
 
 	void Start () 
