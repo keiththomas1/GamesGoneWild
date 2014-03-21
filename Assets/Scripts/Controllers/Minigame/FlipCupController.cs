@@ -42,7 +42,7 @@ public class FlipCupController : MonoBehaviour {
 				//initPos = Input.mousePosition*10;
 				initPos = Input.mousePosition;
 				initPos.y *= 10;
-				initPos.x *= 3;
+				//initPos.x *= 2;
 			}
 			//swipes to mouse up and find the distance moved and apply force
 			if (Input.GetMouseButtonUp (0)) 
@@ -50,10 +50,12 @@ public class FlipCupController : MonoBehaviour {
 					//finalPos = Input.mousePosition*10;
 				finalPos = Input.mousePosition;
 				finalPos.y *= 10;
-				finalPos.x *= 3;
+				finalPos.x *= 1.3f;
 				Pos = finalPos - initPos;
 
-				// Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
+				Debug.Log("True Pos: " + Pos);
+
+				//Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
 				if( Pos.y > 1200.0f )
 					Pos.y = 1200.0f;
 				if( Pos.x > 450.0f )
