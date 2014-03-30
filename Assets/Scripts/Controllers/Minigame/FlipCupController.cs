@@ -91,11 +91,13 @@ public class FlipCupController : MonoBehaviour {
 		//Debug.Log(totalCount);
 		if (totalCount >= 350)
 		{
-			globalController.GetComponent<GlobalController>().LostMinigame();
+			if( globalController )
+				globalController.GetComponent<GlobalController>().LostMinigame();
 			Debug.Log("Failed");
 		}
 		if (transform.position.y <0){
-			globalController.GetComponent<GlobalController>().LostMinigame();
+			if( globalController )
+				globalController.GetComponent<GlobalController>().LostMinigame();
 			DestroyObject(Cup_placeholder);
 			//Instantiate(Cup_placeholder,startPosition,transform.rotation);
 		}

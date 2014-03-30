@@ -143,6 +143,7 @@ public class GlobalController : MonoBehaviour
 	// This is called when the game is started
 	void StartModeMusic()
 	{
+		Debug.Log("Play");
 		if( menuMusic.GetComponent<AudioSource>().isPlaying )
 		{
 			menuMusic.GetComponent<AudioSource>().Stop();
