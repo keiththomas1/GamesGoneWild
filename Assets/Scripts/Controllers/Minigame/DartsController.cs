@@ -80,7 +80,6 @@ public class DartsController : MonoBehaviour
 			else if( currentPillar == (pillarCount-1) )	// Move the dartboard
 			{
 				board.GetComponent<DartBoardBehavior>().StartMoving();
-				dartFlying = false;
 			}
 
 			if( currentPillar == (pillarCount-2) )

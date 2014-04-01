@@ -14,8 +14,11 @@ public class AutoRotate : MonoBehaviour {
 	//string output1;
 	string straccx;
 	float time = 6.0f;
+
+	float randomSpeed = 13.0f;
 	
-	// Use this for initialization
+	float countdownTimer;
+	bool gameStarted;
 
 	void Start () 
 	{
@@ -25,61 +28,50 @@ public class AutoRotate : MonoBehaviour {
 				//The character falls randomly left or right
 				//hinge.motor = motor;	
 		acc_x = Input.acceleration.x; // saving for reference start
+		
+		countdownTimer = 3.5f;
+		gameStarted = false;
 	}	
 	
 	
 	// Update is calle		d once per frame
 	void Update () 
 	{
-
-		time -= Time.deltaTime;
-		if (time < 0)
+		if( gameStarted )
 		{
-			if((transform.localEulerAngles.z <= 85 && transform.localEulerAngles.z >= 0) || (transform.localEulerAngles.z <= 360 && transform.localEulerAngles.z >= 280))
+			time -= Time.deltaTime;
+			if (time < 0)
 			{
-				globalController.GetComponent<GlobalController>().BeatMinigame();
-				GuiTextDebug.debug ("you won");
-			}
-		}
-		else
-		{
-			float curSpeed = Time.deltaTime * speed;
-			//float curspeed_program = Time.deltaTime * speed_program;
-			if((transform.localEulerAngles.z <= 85 && transform.localEulerAngles.z >= 0) || (transform.localEulerAngles.z <= 360 && transform.localEulerAngles.z >= 280))
-			{
-				if ((Input.acceleration.x - acc_x) == 0) 
-				{
-					
-				} 
-				else 
-				{
-					if(transform.localEulerAngles.z >= 290 && transform.localEulerAngles.z <= 359)
-					{
-						accx = (Input.acceleration.x * 10) * curSpeed;
-						transform.Rotate (0, 0, accx);
-					}
-					else if(transform.localEulerAngles.z <= 70 && transform.localEulerAngles.z >= 1)
-					{
-						accx = (Input.acceleration.x * 10) * curSpeed;
-						transform.Rotate (0, 0, accx);
-					}
-					else
-					{
-						
-					}
-				}
+				if( globalController )
+					globalController.GetComponent<GlobalController>().BeatMinigame();
+				else
+					GuiTextDebug.debug ("you won");
 			}
 			else
 			{
-				
+				float curSpeed = Time.deltaTime * speed;
+				if ((Input.acceleration.x - acc_x) != 0) 
+				{
+					accx = (Input.acceleration.x * randomSpeed) * curSpeed;
+					transform.Rotate (0, 0, accx);
+				}
+			}
+			
+			// This is a random modifer added to the user control so that it's slightly unpredicable.
+			randomSpeed += (Random.value * 4) - 2;
+			if( randomSpeed < 10.0f )
+				randomSpeed = 10.0f;
+			if( randomSpeed > 15.0f )
+				randomSpeed = 15.0f;
+		}
+		else
+		{
+			countdownTimer -= Time.deltaTime;
+			if( countdownTimer <= 0.0f )
+			{
+				gameStarted = true;
 			}
 		}
-
-		straccx = accx.ToString ();
-		output = "x:" + straccx;
-		//output1 = (transform.localEulerAngles.z).ToString ();
-		//GuiTextDebug.debug (output);
-		//GuiTextDebug.debug (output1);
 	}
 
 	void OnGUI()

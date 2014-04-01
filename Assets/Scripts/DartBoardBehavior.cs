@@ -11,7 +11,7 @@ public class DartBoardBehavior : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		speedVector = new Vector2( -.06f, 0.0f );
+		speedVector = new Vector2( -.07f, 0.0f );
 	}
 	
 	// Update is called once per frame
@@ -26,6 +26,8 @@ public class DartBoardBehavior : MonoBehaviour
 			controller.GetComponent<DartsController>().StartMovingDart();
 
 			isMoving = false;
+			
+			controller.GetComponent<DartsController>().dartFlying = false;
 
 			Vector3 tempPos = transform.position;
 			tempPos.x = 7.6f;

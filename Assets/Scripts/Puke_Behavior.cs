@@ -38,6 +38,11 @@ public class Puke_Behavior : MonoBehaviour {
 		// We need to give our gameobject some gravity inorder for it to fall.
 		// Currently, gravity is set to 0 on all pukePrefab gameobjects.
 		Debug.Log ("In Puke_Behavior.cs gravity()");
+		
+		Vector3 tempRotation = this.transform.rotation.eulerAngles;
+		tempRotation.z = angle;
+		this.transform.Rotate( tempRotation );
+
 		this.rigidbody2D.gravityScale = 1.5f;
 		rigidbody2D.AddForce( new Vector2( angle*5.0f, 0.0f ) );
 	}
