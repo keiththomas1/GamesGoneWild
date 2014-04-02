@@ -12,7 +12,7 @@ public class GlobalController : MonoBehaviour
 	public GameObject playGameMusic;
 
 	// Variables kept for overall progress between mini-games
-	public int gamesWon;
+	public int partyPoints;
 	public int beersDrank;
 	public int beerLives;
 
@@ -27,7 +27,7 @@ public class GlobalController : MonoBehaviour
 
 	// Variables to keep track of party points
 	public GameObject pointsBox;
-	public GameObject pointsText;
+	public GameObject scoreText;
 	int totalPartyPoints;
 
 	// Use this for initialization
@@ -39,9 +39,13 @@ public class GlobalController : MonoBehaviour
 		// No mode to start
 		previousMode = "";
 
-		// Make sure points box isn't visible.
-		pointsBox.renderer.enabled = false;
-		pointsText.renderer.enabled = false;
+		// Set all the children of the global controller to invisible for now.
+		Component[] children = GetComponentsInChildren(typeof(Renderer));
+		foreach( Component c in children )
+		{
+			Renderer r = (Renderer)c;
+			r.enabled = false;
+		}
 
 		// Technically setting for the first time, but hey, modularization..
 		ResetVariables();
@@ -94,8 +98,7 @@ public class GlobalController : MonoBehaviour
 	// any global variables located in this associated with that minigame.
 	public void BeatMinigame()	
 	{
-		gamesWon++;
-		Debug.Log ("Games won: " + gamesWon );
+		partyPoints+=100;
 
 		Application.LoadLevel( "MinigameWin");
 	}
@@ -121,7 +124,7 @@ public class GlobalController : MonoBehaviour
 
 	void ResetVariables()
 	{
-		gamesWon = 0;	
+		partyPoints = 0;	
 		beersDrank = 0;	// Lives lost
 		beerLives = 4;	// Total lives
 		totalPartyPoints = 0;

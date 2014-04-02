@@ -8,7 +8,7 @@ public class HighScoreController : MonoBehaviour {
 
 	private const int LeaderBoardLength = 10;
 
-	public int gamesWon;
+	public int points;
 
 	void Start () {
 		Debug.Log ("Entered HighScore");
@@ -18,11 +18,11 @@ public class HighScoreController : MonoBehaviour {
 		if(!globalController)
 			Debug.Log ("fucking why is it false");
 
-		gamesWon = globalController.GetComponent<GlobalController> ().gamesWon;
+		points = globalController.GetComponent<GlobalController> ().partyPoints;
 
 
 
-		SaveHighScore ("You", gamesWon);
+		SaveHighScore ("You", points);
 		Debug.Log (GetHighScore());
 	}
 

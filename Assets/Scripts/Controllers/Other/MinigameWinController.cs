@@ -16,9 +16,7 @@ public class MinigameWinController : MonoBehaviour
 	void Start () 
 	{
 		globalController = GameObject.Find( "Global Controller" );
-		
-		gamesWonText.GetComponent<TextMesh>().text = 
-			globalController.GetComponent<GlobalController>().gamesWon.ToString();
+
 		
 		beersDrank = globalController.GetComponent<GlobalController>().beersDrank;
 		
