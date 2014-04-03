@@ -13,15 +13,16 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	public GameObject head;
 	public Sprite faceTwo;
 	public Sprite faceThree;
+	public Sprite faceFour;
 
 	// Handle for the countdown text object
 	public GameObject countdown;
 
-	// Timer for when to start the game and destroy countdown
-	float countdownTimer;
-
 	// True if the countdown is still going
 	bool countdownPhase;
+	
+	// Timer for when to start the game and destroy countdown
+	float countdownTimer;
 
 	// Index for array of pukePrefab gameobject
 	int pukePrefabIndex;
@@ -37,15 +38,16 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 	// Rotation speed each second
 	float rotateSpeed;
-
 	// Direction to rotate in
 	string rotateDirection;
-
 	// Timer for when to rotate
 	float rotateTimer;
-
 	// Whether we're actually rotating right now
 	bool rotating;
+	
+	// Timer for how long to keep throw up face on person
+	float throwupTimer;
+	bool throwupAnimationOn;
 
 	// Use this for initialization
 	void Start () 
@@ -77,6 +79,9 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		rotateDirection = "Right";
 		rotateTimer = 2.0f;
 		rotating = false;
+
+		// Whether the face is throwing up at the moment
+		throwupAnimationOn = false;
 	}
 	
 	// Update is called once per frame
@@ -100,6 +105,10 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			// Giving the current element in pukePrefabArray gravity
 			pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle );
 			StartPuking = false;
+
+			throwupAnimationOn = true;
+			throwupTimer = .3f;
+			head.GetComponent<SpriteRenderer>().sprite = faceFour;
 		}
 
 		// To Do: when pukePrefabIndex == 14, take minigame out of rotation
@@ -119,7 +128,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		// If we're still counting down
 		if( countdownPhase )
 		{
-			if( countdownTimer <= 1.5f )	// A bit hacky, should have a boolean to control which state.
+			if( countdownTimer <= 2.5f )	// A bit hacky, should have a boolean to control which state.
 			{
 				head.GetComponent<SpriteRenderer>().sprite = faceTwo;
 			}
@@ -169,6 +178,17 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			else // if "Right"
 			{
 				head.transform.Rotate ( 0, 0, rotateSpeed * Time.deltaTime, Space.World);
+			}
+		}
+
+		if( throwupAnimationOn )
+		{
+			throwupTimer -= Time.deltaTime;
+
+			if( throwupTimer <= 0.0f )
+			{
+				throwupAnimationOn = false;
+				head.GetComponent<SpriteRenderer>().sprite = faceThree;
 			}
 		}
 	}

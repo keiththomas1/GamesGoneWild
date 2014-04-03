@@ -100,7 +100,7 @@ public class GlobalController : MonoBehaviour
 	{
 		partyPoints+=100;
 
-		Application.LoadLevel( "MinigameWin");
+		Application.LoadLevelAdditive( "MinigameWin");
 	}
 
 	// Call this if the player lost the minigame

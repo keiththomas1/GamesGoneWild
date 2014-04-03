@@ -44,7 +44,7 @@ public class Puke_Behavior : MonoBehaviour {
 		this.transform.Rotate( tempRotation );
 
 		this.rigidbody2D.gravityScale = 1.5f;
-		rigidbody2D.AddForce( new Vector2( angle*9.0f, 0.0f ) );
+		rigidbody2D.AddForce( new Vector2( angle*13.0f, -50.0f ) );
 	}
 
 	// Obviously destroying our puke gameobject once it collides with the bucket 

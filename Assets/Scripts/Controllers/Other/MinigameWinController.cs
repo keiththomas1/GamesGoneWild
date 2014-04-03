@@ -4,11 +4,9 @@ using System.Collections;
 public class MinigameWinController : MonoBehaviour 
 {
 	GameObject globalController;
-	public GameObject gamesWonText;
-	
-	public GameObject[] beerCans;
-	int beersDrank;
-	public Sprite drankCan;
+	public GameObject pointsText;
+
+	int points;
 
 	float timer;
 	
@@ -17,13 +15,9 @@ public class MinigameWinController : MonoBehaviour
 	{
 		globalController = GameObject.Find( "Global Controller" );
 
-		
-		beersDrank = globalController.GetComponent<GlobalController>().beersDrank;
-		
-		for( int i=0; i < beersDrank; i++ )
-		{
-			beerCans[i].GetComponent<SpriteRenderer>().sprite = drankCan;
-		}
+		points = globalController.GetComponent<GlobalController>().partyPoints;
+
+		pointsText.GetComponent<TextMesh>().text = points.ToString();
 
 		timer = 2.0f;
 	}

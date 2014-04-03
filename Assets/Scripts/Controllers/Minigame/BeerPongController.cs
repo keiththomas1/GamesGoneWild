@@ -4,6 +4,7 @@ using System.Collections;
 public class BeerPongController : MonoBehaviour 
 {
 	public GameObject globalController;
+	bool gameOver;
 	
 	bool isShootingHorizontal;
 	bool isShootingVertical;
@@ -69,6 +70,8 @@ public class BeerPongController : MonoBehaviour
 		}
 		cupAnimTimerStart = false;
 		cupAnimTimer = 1.0f;
+
+		gameOver = false;
 		
 		RandomizeSliderStartPosition();
 	}
@@ -90,66 +93,69 @@ public class BeerPongController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if( isShootingHorizontal )
+		if( !gameOver )
 		{
-			if( "right" == sliderDirection )
+			if( isShootingHorizontal )
 			{
-				ballParent.transform.Translate( rightSlide );
-				sliderHorizontal.transform.Translate( rightSlide );
-				
-				if( sliderHorizontal.transform.position.x >= (slideBarHorizontal.transform.position.x + slideBarHorizontalActualLength/2) )
+				if( "right" == sliderDirection )
 				{
-					sliderDirection = "left";
+					ballParent.transform.Translate( rightSlide );
+					sliderHorizontal.transform.Translate( rightSlide );
+					
+					if( sliderHorizontal.transform.position.x >= (slideBarHorizontal.transform.position.x + slideBarHorizontalActualLength/2) )
+					{
+						sliderDirection = "left";
+					}
 				}
-			}
-			else // if "left" == sliderDirection
-			{
-				ballParent.transform.Translate( leftSlide );
-				sliderHorizontal.transform.Translate( leftSlide );
-				
-				if( sliderHorizontal.transform.position.x <= (slideBarHorizontal.transform.position.x - slideBarHorizontalActualLength/2) )
+				else // if "left" == sliderDirection
 				{
-					sliderDirection = "right";
+					ballParent.transform.Translate( leftSlide );
+					sliderHorizontal.transform.Translate( leftSlide );
+					
+					if( sliderHorizontal.transform.position.x <= (slideBarHorizontal.transform.position.x - slideBarHorizontalActualLength/2) )
+					{
+						sliderDirection = "right";
+					}
 				}
-			}
-			
-			if( Input.GetMouseButtonDown( 0 ) )
-			{
-				isShootingHorizontal = false;
-				isShootingVertical = true;
-				sliderDirection = "up";
-				//ball.GetComponent<Animator>().enabled = true;
-			}
-		}
-		else if( isShootingVertical )
-		{
-			if( "up" == sliderDirection )
-			{
-				sliderVertical.transform.Translate( rightSlide );
 				
-				if( sliderVertical.transform.position.y >= (slideBarVertical.transform.position.y + slideBarVerticalActualLength/2) )
+				if( Input.GetMouseButtonDown( 0 ) )
 				{
-					sliderDirection = "down";
-				}
-			}
-			else // if "down" == sliderDirection
-			{
-				sliderVertical.transform.Translate( leftSlide );
-				
-				if( sliderVertical.transform.position.y <= (slideBarVertical.transform.position.y - slideBarVerticalActualLength/2) )
-				{
+					isShootingHorizontal = false;
+					isShootingVertical = true;
 					sliderDirection = "up";
+					//ball.GetComponent<Animator>().enabled = true;
+				}
+			}
+			else if( isShootingVertical )
+			{
+				if( "up" == sliderDirection )
+				{
+					sliderVertical.transform.Translate( rightSlide );
+					
+					if( sliderVertical.transform.position.y >= (slideBarVertical.transform.position.y + slideBarVerticalActualLength/2) )
+					{
+						sliderDirection = "down";
+					}
+				}
+				else // if "down" == sliderDirection
+				{
+					sliderVertical.transform.Translate( leftSlide );
+					
+					if( sliderVertical.transform.position.y <= (slideBarVertical.transform.position.y - slideBarVerticalActualLength/2) )
+					{
+						sliderDirection = "up";
+					}
+				}
+				
+				if( Input.GetMouseButtonDown( 0 ) )
+				{
+					isShootingVertical = false;
 				}
 			}
 			
-			if( Input.GetMouseButtonDown( 0 ) )
-			{
-				isShootingVertical = false;
-			}
+			BallMovement();
+			TickTimers();
 		}
-		
-		BallMovement();
-		TickTimers();
 	}
 	
 	void BallMovement()
@@ -213,18 +219,19 @@ public class BeerPongController : MonoBehaviour
 		return false;
 	}
 			
-			void TickTimers()
+	void TickTimers()
+	{
+		if( cupAnimTimerStart )
+		{
+			cupAnimTimer -= Time.deltaTime;
+			
+			if( cupAnimTimer <= 0.0f )
 			{
-				if( cupAnimTimerStart )
-				{
-					cupAnimTimer -= Time.deltaTime;
-					
-					if( cupAnimTimer <= 0.0f )
-					{
-						// Try to fade it out eventually
-						Destroy( cups[cupIndex] );
-						globalController.GetComponent<GlobalController>().BeatMinigame();
-					}
-				}
+				// Try to fade it out eventually
+				Destroy( cups[cupIndex] );
+				globalController.GetComponent<GlobalController>().BeatMinigame();
+				gameOver = true;
 			}
-			}
+		}
+	}
+}
