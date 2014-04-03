@@ -66,12 +66,12 @@ public class DartBehavior : MonoBehaviour
 			if( rigidbody2D.velocity.y > 0.0f && 
 			   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
 			{
-				transform.Rotate( new Vector3( 0.0f, 0.0f, 2.0f ) );
+				transform.Rotate( new Vector3( 0.0f, 0.0f, 2.5f ) );
 			}
 			if( rigidbody2D.velocity.y < 1.0f && 
 			   (transform.rotation.eulerAngles.z > 340 || transform.rotation.eulerAngles.z < 330) )
 			{	
-				transform.Rotate( new Vector3( 0.0f, 0.0f, -1.0f ) );
+				transform.Rotate( new Vector3( 0.0f, 0.0f, -1.5f ) );
 			}
 		}
 	}

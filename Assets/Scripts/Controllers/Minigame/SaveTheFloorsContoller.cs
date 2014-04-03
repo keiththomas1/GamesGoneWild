@@ -11,6 +11,8 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 	// Identifier for our head gameobject
 	public GameObject head;
+	public Sprite faceTwo;
+	public Sprite faceThree;
 
 	// Handle for the countdown text object
 	public GameObject countdown;
@@ -46,8 +48,8 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	bool rotating;
 
 	// Use this for initialization
-	void Start () {
-
+	void Start () 
+	{
 		// Finding our controller gameobject
 		globalController = GameObject.Find("Global Controller");
 
@@ -81,7 +83,8 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	void Update () {
 
 		// Condition whether to send a puke gameobject or not
-		if (StartPuking == true && pukePrefabIndex < 14) {
+		if (StartPuking == true && pukePrefabIndex < 14) 
+		{
 
 			// Debugging purposes
 			//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
@@ -116,6 +119,11 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		// If we're still counting down
 		if( countdownPhase )
 		{
+			if( countdownTimer <= 1.5f )	// A bit hacky, should have a boolean to control which state.
+			{
+				head.GetComponent<SpriteRenderer>().sprite = faceTwo;
+			}
+
 			// If the timer is still going, decrement it
 			if( countdownTimer > 0.0f )
 			{
@@ -124,6 +132,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			else
 			{
 				// Start the pukes coming and nullify the countdown stuff
+				head.GetComponent<SpriteRenderer>().sprite = faceThree;
 				StartPuking = true;
 				countdownPhase = false;
 				Destroy( countdown );
@@ -150,7 +159,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 					rotateDirection = "Left";
 				}
 
-				rotateTimer = Random.value * 4.0f;
+				rotateTimer = Random.value * 2.0f;
 			}
 
 			if( rotateDirection == "Left" )
