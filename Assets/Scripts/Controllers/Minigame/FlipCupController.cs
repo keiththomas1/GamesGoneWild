@@ -19,6 +19,8 @@ public class FlipCupController : MonoBehaviour
 	// Whether the countdown has finished
 	bool canStart;
 
+	public float massCenter;
+
 	int totalCount = 0;
 	int landedCount = 0;
 	bool isFlicked;
@@ -28,8 +30,7 @@ public class FlipCupController : MonoBehaviour
 	{
 		globalController = GameObject.Find( "Global Controller" );
 		isFlicked= false;
-	    float mass = (float).2;
-		rigidbody.centerOfMass = new Vector3 (0,mass, 0);
+		rigidbody.centerOfMass = new Vector3 (0, massCenter, 0);
 	
 		canStart = false;
 	}

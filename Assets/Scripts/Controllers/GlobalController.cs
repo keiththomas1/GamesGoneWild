@@ -24,6 +24,8 @@ public class GlobalController : MonoBehaviour
 
 	// If in selection mode, this is filled with the current game being played
 	public string currentSelectionLevel;
+	// Which minigame are we playing? In numerics
+	public int currentLevel;
 
 	// Variables to keep track of party points
 	public GameObject pointsBox;
@@ -58,10 +60,23 @@ public class GlobalController : MonoBehaviour
 	{
 	}
 
-	public void StartMode( string mode )
+	public void StartMode( string mode, string game )
 	{
 		gameMode = mode;
 		StartModeMusic();
+
+		if( mode == "Selection" )
+		{
+			for( int i=0; i<minigameNames.Length; i++ )
+			{
+				if( minigameNames[i] == game )
+				{
+					currentLevel = i;
+					break;
+				}
+			}
+		}
+		currentSelectionLevel = game;
 		
 		NextMinigame();
 	}
@@ -81,6 +96,7 @@ public class GlobalController : MonoBehaviour
 					return;
 				}
 				previousMode = minigameNames[random];
+				currentLevel = random;
 				Application.LoadLevel( minigameNames[random] );
 			}
 			else

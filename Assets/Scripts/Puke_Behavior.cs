@@ -49,7 +49,7 @@ public class Puke_Behavior : MonoBehaviour {
 
 	// Obviously destroying our puke gameobject once it collides with the bucket 
 	void OnTriggerEnter2D( Collider2D coll){
-
+		Debug.Log("Collision");
 		if( coll.name == "Bucket")
 			// Lets destroy the puke gameobject in the Controller file
 			controller.GetComponent<SaveTheFloorsContoller> ().DestroyPuke ();

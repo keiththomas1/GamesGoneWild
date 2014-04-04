@@ -5,6 +5,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 	// Controller script in order to move from game to game and save any data necessary
 	public GameObject globalController;
+	bool gameOver;
 
 	// Creating our gameobject for controlling the scene
 	public GameObject [] pukePrefabArray;
@@ -54,6 +55,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	{
 		// Finding our controller gameobject
 		globalController = GameObject.Find("Global Controller");
+		gameOver = false;
 
 		// Finding our head gameobject
 		head = GameObject.Find ("Head");
@@ -85,112 +87,115 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-		// Condition whether to send a puke gameobject or not
-		if (StartPuking == true && pukePrefabIndex < 14) 
+	void Update () 
+	{
+		if( !gameOver )
 		{
-
-			// Debugging purposes
-			//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
-			Debug.Log ("pukePrefabIndex is " + pukePrefabIndex);
-
-			// 
-			float pukeAngle;
-			if( head.transform.rotation.eulerAngles.z > 180.0f )
-				pukeAngle = -1.0f * (360.0f - head.transform.rotation.eulerAngles.z);
-			else
-				pukeAngle = head.transform.rotation.eulerAngles.z;
-
-			// Giving the current element in pukePrefabArray gravity
-			pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle );
-			StartPuking = false;
-
-			throwupAnimationOn = true;
-			throwupTimer = .3f;
-			head.GetComponent<SpriteRenderer>().sprite = faceFour;
-		}
-
-		// To Do: when pukePrefabIndex == 14, take minigame out of rotation
-
-		// Detecting current location of the puke gameobject
-		currentPos = pukePrefabArray [pukePrefabIndex].transform.position;
-
-		// If puke gameobject falls below this range, player loses game and exits game
-		if ( currentPos.y < -9)
-		{
-			if( globalController )
-				globalController.GetComponent<GlobalController>().LostMinigame();
-			else
-				Debug.Log( "Lost game, but no global controller!" );
-		}
-
-		// If we're still counting down
-		if( countdownPhase )
-		{
-			if( countdownTimer <= 2.5f )	// A bit hacky, should have a boolean to control which state.
+			// Condition whether to send a puke gameobject or not
+			if (StartPuking == true && pukePrefabIndex < 14) 
 			{
-				head.GetComponent<SpriteRenderer>().sprite = faceTwo;
-			}
-
-			// If the timer is still going, decrement it
-			if( countdownTimer > 0.0f )
-			{
-				countdownTimer -= Time.deltaTime;
-			}
-			else
-			{
-				// Start the pukes coming and nullify the countdown stuff
-				head.GetComponent<SpriteRenderer>().sprite = faceThree;
-				StartPuking = true;
-				countdownPhase = false;
-				Destroy( countdown );
-			}
-		}
-		else
-		{
-			rotating = true;
-		}
-
-		if( rotating )
-		{
-			rotateTimer -= Time.deltaTime;
-
-			if( rotateTimer <= 0.0f )
-			{
-				Debug.Log( "Angle: " + head.transform.rotation.eulerAngles.z );
+				
+				// Debugging purposes
+				//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
+				Debug.Log ("pukePrefabIndex is " + pukePrefabIndex);
+				
+				// 
+				float pukeAngle;
 				if( head.transform.rotation.eulerAngles.z > 180.0f )
+					pukeAngle = -1.0f * (360.0f - head.transform.rotation.eulerAngles.z);
+				else
+					pukeAngle = head.transform.rotation.eulerAngles.z;
+				
+				// Giving the current element in pukePrefabArray gravity
+				pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle );
+				StartPuking = false;
+				
+				throwupAnimationOn = true;
+				throwupTimer = .3f;
+				head.GetComponent<SpriteRenderer>().sprite = faceFour;
+			}
+			
+			// To Do: when pukePrefabIndex == 14, take minigame out of rotation
+			
+			// Detecting current location of the puke gameobject
+			currentPos = pukePrefabArray [pukePrefabIndex].transform.position;
+			
+			// If puke gameobject falls below this range, player loses game and exits game
+			if ( currentPos.y < -9)
+			{
+				if( globalController )
+					globalController.GetComponent<GlobalController>().LostMinigame();
+				else
+					Debug.Log( "Lost game, but no global controller!" );
+			}
+			
+			// If we're still counting down
+			if( countdownPhase )
+			{
+				if( countdownTimer <= 2.5f )	// A bit hacky, should have a boolean to control which state.
 				{
-					rotateDirection = "Right";
+					head.GetComponent<SpriteRenderer>().sprite = faceTwo;
+				}
+				
+				// If the timer is still going, decrement it
+				if( countdownTimer > 0.0f )
+				{
+					countdownTimer -= Time.deltaTime;
 				}
 				else
 				{
-					rotateDirection = "Left";
+					// Start the pukes coming and nullify the countdown stuff
+					head.GetComponent<SpriteRenderer>().sprite = faceThree;
+					StartPuking = true;
+					countdownPhase = false;
+					Destroy( countdown );
 				}
-
-				rotateTimer = Random.value * 2.0f;
 			}
-
-			if( rotateDirection == "Left" )
+			else
 			{
-				head.transform.Rotate ( 0, 0, -rotateSpeed * Time.deltaTime, Space.World);
+				rotating = true;
 			}
-			else // if "Right"
+			
+			if( rotating )
 			{
-				head.transform.Rotate ( 0, 0, rotateSpeed * Time.deltaTime, Space.World);
+				rotateTimer -= Time.deltaTime;
+				
+				if( rotateTimer <= 0.0f )
+				{
+					Debug.Log( "Angle: " + head.transform.rotation.eulerAngles.z );
+					if( head.transform.rotation.eulerAngles.z > 180.0f )
+					{
+						rotateDirection = "Right";
+					}
+					else
+					{
+						rotateDirection = "Left";
+					}
+					
+					rotateTimer = Random.value * 2.0f;
+				}
+				
+				if( rotateDirection == "Left" )
+				{
+					head.transform.Rotate ( 0, 0, -rotateSpeed * Time.deltaTime, Space.World);
+				}
+				else // if "Right"
+				{
+					head.transform.Rotate ( 0, 0, rotateSpeed * Time.deltaTime, Space.World);
+				}
 			}
-		}
-
-		if( throwupAnimationOn )
-		{
-			throwupTimer -= Time.deltaTime;
-
-			if( throwupTimer <= 0.0f )
+			
+			if( throwupAnimationOn )
 			{
-				throwupAnimationOn = false;
-				head.GetComponent<SpriteRenderer>().sprite = faceThree;
+				throwupTimer -= Time.deltaTime;
+				
+				if( throwupTimer <= 0.0f )
+				{
+					throwupAnimationOn = false;
+					head.GetComponent<SpriteRenderer>().sprite = faceThree;
+				}
 			}
-		}
+		}	
 	}
 
 	// Destroy this instance puke gameobject.
@@ -213,6 +218,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		{
 			if( globalController )
 			{
+				gameOver = true;
 				globalController.GetComponent<GlobalController>().pukeLevel++;
 				globalController.GetComponent<GlobalController>().BeatMinigame();
 			}

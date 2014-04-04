@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Auto : MonoBehaviour {
 	public GameObject globalController;
+	public bool gameOver;
 
 	//float autoacc;
 	float speed;
@@ -24,6 +25,7 @@ public class Auto : MonoBehaviour {
 	void Start () 
 	{
 		globalController = GameObject.Find( "Global Controller" );
+		gameOver = false;
 
 		// random start can f
 		if (Random.value > .5) 
@@ -45,46 +47,49 @@ public class Auto : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if( gameStarted )
-		{// Create the angle. Range is -180 to 180.
-			localAngle = transform.localEulerAngles;
-			if( localAngle.z > 180 )
-				localAngle.z = localAngle.z - 360;
-			
-			// Check if the person has lost.
-			if( localAngle.z > 75 || localAngle.z < -75 )
-			{
-				globalController.GetComponent<GlobalController>().LostMinigame();
-			}
-			
-			// If person is at top of the rotation
-			if( (localAngle.z > -15 && localAngle.z <= 0)
-			   || (localAngle.z < 15 && localAngle.z >= 0) )
-			{
-				curSpeed = (Time.deltaTime * speed * modifier * 20);
-			}
-			else // If not at top of rotation
-			{
-				curSpeed = (Time.deltaTime * speed * (localAngle.z));
-			}
-			
-			// Create a max limit for the curSpeed
-			if( curSpeed > 3.0f )
-				curSpeed = 3.0f;
-			if( curSpeed < -3.0f )
-				curSpeed = -3.0f;
-			
-			// Perform the rotation and increase the speed.
-			transform.Rotate (0, 0, curSpeed);
-			speed += .007f;
-		}
-		else
+		if( !gameOver )
 		{
-			countdownTimer -= Time.deltaTime;
-			if( countdownTimer <= 0.0f )
+			if( gameStarted )
+			{// Create the angle. Range is -180 to 180.
+				localAngle = transform.localEulerAngles;
+				if( localAngle.z > 180 )
+					localAngle.z = localAngle.z - 360;
+				
+				// Check if the person has lost.
+				if( localAngle.z > 75 || localAngle.z < -75 )
+				{
+					globalController.GetComponent<GlobalController>().LostMinigame();
+				}
+				
+				// If person is at top of the rotation
+				if( (localAngle.z > -15 && localAngle.z <= 0)
+				   || (localAngle.z < 15 && localAngle.z >= 0) )
+				{
+					curSpeed = (Time.deltaTime * speed * modifier * 20);
+				}
+				else // If not at top of rotation
+				{
+					curSpeed = (Time.deltaTime * speed * (localAngle.z));
+				}
+				
+				// Create a max limit for the curSpeed
+				if( curSpeed > 3.0f )
+					curSpeed = 3.0f;
+				if( curSpeed < -3.0f )
+					curSpeed = -3.0f;
+				
+				// Perform the rotation and increase the speed.
+				transform.Rotate (0, 0, curSpeed);
+				speed += .007f;
+			}
+			else
 			{
-				Destroy( countdown );
-				gameStarted = true;
+				countdownTimer -= Time.deltaTime;
+				if( countdownTimer <= 0.0f )
+				{
+					Destroy( countdown );
+					gameStarted = true;
+				}
 			}
 		}
 	}

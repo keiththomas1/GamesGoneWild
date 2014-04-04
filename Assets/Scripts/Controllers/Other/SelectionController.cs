@@ -54,33 +54,27 @@ public class SelectionController : MonoBehaviour
 					break;
 				case "BPText":
 				case "BPPic":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "BeerPong";
-					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
+					globalController.GetComponent<GlobalController>().StartMode( "Selection", "BeerPong" );
 					break;
 				case "FlippyText":
 				case "FlippyPic":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "FlippyCup";
-					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
+					globalController.GetComponent<GlobalController>().StartMode( "Selection", "FlippyCup" );
 					break;
 				case "DartsText":
 				case "DartsPic":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "Darts";
-					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
+					globalController.GetComponent<GlobalController>().StartMode( "Selection", "Darts" );
 					break;
 				case "ArmWrestlingText":
 				case "ArmWrestlingPic":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "ArmWrestle";
-					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
+					globalController.GetComponent<GlobalController>().StartMode( "Selection", "ArmWrestle" );
 					break;
 				case "ThrowUpText":
 				case "ThrowUpPic":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "Save_The_Floor";
-					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
+					globalController.GetComponent<GlobalController>().StartMode( "Selection", "Save_The_Floor" );
 					break;
 				case "TiltText":
 				case "TiltPic":
-					globalController.GetComponent<GlobalController>().currentSelectionLevel = "fall";
-					globalController.GetComponent<GlobalController>().StartMode( "Selection" );
+					globalController.GetComponent<GlobalController>().StartMode( "Selection", "fall" );
 					break;
 				}
 			}

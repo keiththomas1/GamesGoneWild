@@ -4,6 +4,7 @@ using System.Collections;
 
 public class AutoRotate : MonoBehaviour {
 	public GameObject globalController;
+	bool gameOver;
 
 	public float accspeed = 100.0f;
 	float accx;
@@ -23,6 +24,7 @@ public class AutoRotate : MonoBehaviour {
 	void Start () 
 	{
 		globalController = GameObject.Find( "Global Controller" );
+		gameOver = false;
 				//HingeJoint2D  hinge = GetComponent<HingeJoint2D>();
 				//JointMotor2D motor = hinge.motor;
 				//The character falls randomly left or right
@@ -37,39 +39,46 @@ public class AutoRotate : MonoBehaviour {
 	// Update is calle		d once per frame
 	void Update () 
 	{
-		if( gameStarted )
+		if( !gameOver )
 		{
-			time -= Time.deltaTime;
-			if (time < 0)
+			if( gameStarted )
 			{
-				if( globalController )
-					globalController.GetComponent<GlobalController>().BeatMinigame();
+				time -= Time.deltaTime;
+				if (time < 0)
+				{
+					if( globalController )
+					{
+						gameOver = true;
+						this.GetComponent<Auto>().gameOver = true;
+						globalController.GetComponent<GlobalController>().BeatMinigame();
+					}
+					else
+						GuiTextDebug.debug ("you won");
+				}
 				else
-					GuiTextDebug.debug ("you won");
+				{
+					float curSpeed = Time.deltaTime * speed;
+					if ((Input.acceleration.x - acc_x) != 0) 
+					{
+						accx = (Input.acceleration.x * randomSpeed) * curSpeed;
+						transform.Rotate (0, 0, accx);
+					}
+				}
+				
+				// This is a random modifer added to the user control so that it's slightly unpredicable.
+				randomSpeed += (Random.value * 4) - 2;
+				if( randomSpeed < 10.0f )
+					randomSpeed = 10.0f;
+				if( randomSpeed > 15.0f )
+					randomSpeed = 15.0f;
 			}
 			else
 			{
-				float curSpeed = Time.deltaTime * speed;
-				if ((Input.acceleration.x - acc_x) != 0) 
+				countdownTimer -= Time.deltaTime;
+				if( countdownTimer <= 0.0f )
 				{
-					accx = (Input.acceleration.x * randomSpeed) * curSpeed;
-					transform.Rotate (0, 0, accx);
+					gameStarted = true;
 				}
-			}
-			
-			// This is a random modifer added to the user control so that it's slightly unpredicable.
-			randomSpeed += (Random.value * 4) - 2;
-			if( randomSpeed < 10.0f )
-				randomSpeed = 10.0f;
-			if( randomSpeed > 15.0f )
-				randomSpeed = 15.0f;
-		}
-		else
-		{
-			countdownTimer -= Time.deltaTime;
-			if( countdownTimer <= 0.0f )
-			{
-				gameStarted = true;
 			}
 		}
 	}

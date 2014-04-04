@@ -28,7 +28,7 @@ public class MenuController : MonoBehaviour
 				switch( hit.collider.name )
 				{
 				case "PlayText":
-					globalController.GetComponent<GlobalController>().StartMode("Normal Mode");
+					globalController.GetComponent<GlobalController>().StartMode("Normal Mode", "");
 					break;
 				case "SelectionText":
 					Application.LoadLevel( "SelectionScene" );
