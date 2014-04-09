@@ -9,7 +9,7 @@ public class Timer_Box : MonoBehaviour {
 	{
 		if( person.GetComponent<Auto>().gameStarted && transform.localScale.x > 0.1f )
 		{
-			transform.localScale -= new Vector3(0.043F, 0, 0);
+			transform.localScale -= new Vector3(0.043F * 60.0f * Time.deltaTime, 0, 0);
 		}
 	}
 }

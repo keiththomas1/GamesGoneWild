@@ -9,7 +9,7 @@ public class FlipCupController : MonoBehaviour {
 	Vector3 finalPos;
 	Vector3 Pos;
 	Vector3 FlickPos = new Vector3(0,0,0);
-	Vector3 FlickAmmount = new Vector3(0,-70,0);
+	Vector3 FlickAmount = new Vector3(0,-70,0);
 	Vector3 startPosition = new Vector3(0,1,-2);
 
 	public GameObject countdown;
@@ -19,8 +19,8 @@ public class FlipCupController : MonoBehaviour {
 	// Whether the countdown has finished
 	bool canStart;
 
-	int totalCount = 0;
-	int count = 0;
+	float totalCount = 0;
+	float count = 0;
 	bool isFlicked;
 
 	// Use this for initialization
@@ -55,9 +55,6 @@ public class FlipCupController : MonoBehaviour {
 				finalPos.x *= 1.3f;
 				Pos = finalPos - initPos;
 
-				Debug.Log("True Pos: " + Pos);
-
-
 				//Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
 				if( Pos.y > 1200.0f )
 					Pos.y = 1200.0f;
@@ -69,7 +66,7 @@ public class FlipCupController : MonoBehaviour {
 
 				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
 				Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
-				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmmount,FlickPos);// simulates the rotation of the cup
+				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
 				isFlicked = true; //the cup has been flicked
 			}
 		}
@@ -77,11 +74,11 @@ public class FlipCupController : MonoBehaviour {
 		if(isFlicked){
 			//hardcoded....only way i found that worked..
 			if (transform.position.y >= 2.2 && transform.position.y <= 2.4)
-				count++;
-			totalCount++;
+				count += 60.0f * Time.deltaTime;
+			totalCount += 60.0f * Time.deltaTime;
 		}
 
-		if (count == 50){
+		if (count >= 50.0f){
 			Debug.Log ("landed!!!!! Reloading level");
 			isFlicked = false;
 			count = 0;
@@ -92,7 +89,7 @@ public class FlipCupController : MonoBehaviour {
 			//**********Once ball is instantiated.. it won't let me flick it again.
 		}
 		//Debug.Log(totalCount);
-		if (totalCount >= 200)
+		if (totalCount >= 200.0f)
 		{
 			globalController.GetComponent<GlobalController>().LostMinigame();
 			Debug.Log("Failed");

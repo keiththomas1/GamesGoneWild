@@ -19,7 +19,7 @@ public class DartBoardBehavior : MonoBehaviour
 	{
 		if( isMoving )
 		{
-			transform.Translate( speedVector );
+			transform.Translate( speedVector * 60.0f * Time.deltaTime );
 		}
 		if( transform.position.x < 7.6f )
 		{

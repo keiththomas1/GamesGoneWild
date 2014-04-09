@@ -162,7 +162,6 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 				
 				if( rotateTimer <= 0.0f )
 				{
-					Debug.Log( "Angle: " + head.transform.rotation.eulerAngles.z );
 					if( head.transform.rotation.eulerAngles.z > 180.0f )
 					{
 						rotateDirection = "Right";

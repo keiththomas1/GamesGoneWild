@@ -20,7 +20,7 @@ public class PillarBehavior : MonoBehaviour
 	{
 		if( isMoving )
 		{
-			transform.Translate( speedVector );
+			transform.Translate( speedVector * 60.0f * Time.deltaTime );
 		}
 	}
 

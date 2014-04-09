@@ -47,14 +47,14 @@ public class DartBehavior : MonoBehaviour
 				if( Input.GetMouseButtonDown( 0 ) )
 				{
 					dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
-					rigidbody2D.AddForce( dartJumpHeight );
+					rigidbody2D.AddForce( dartJumpHeight * 60.0f * Time.deltaTime );
 				}
 			}
 			
 			if( horizontalMoving )
 			{
 				Debug.Log("Moving " + Time.frameCount);
-				transform.Translate( speedVector );
+				transform.Translate( speedVector * 60.0f * Time.deltaTime );
 			}
 			
 			if( transform.position.y < -6.0f || transform.position.x > 13.0f )
@@ -66,12 +66,12 @@ public class DartBehavior : MonoBehaviour
 			if( rigidbody2D.velocity.y > 0.0f && 
 			   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
 			{
-				transform.Rotate( new Vector3( 0.0f, 0.0f, 2.5f ) );
+				transform.Rotate( new Vector3( 0.0f, 0.0f, 2.5f * 60.0f * Time.deltaTime ) );
 			}
 			if( rigidbody2D.velocity.y < 1.0f && 
 			   (transform.rotation.eulerAngles.z > 340 || transform.rotation.eulerAngles.z < 330) )
 			{	
-				transform.Rotate( new Vector3( 0.0f, 0.0f, -0.5f ) );
+				transform.Rotate( new Vector3( 0.0f, 0.0f, -0.5f * 60.0f * Time.deltaTime ) );
 			}
 		}
 	}

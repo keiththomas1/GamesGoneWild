@@ -26,7 +26,7 @@ public class SelectionController : MonoBehaviour
 
 		transitioning = false;
 		direction = "";
-		transitionVector = new Vector2( .3f, 0.0f );
+		transitionVector = new Vector2( .4f, 0.0f );
 		currentGroup = 0;
 		
 		leftArrow.renderer.enabled = false;
@@ -84,11 +84,12 @@ public class SelectionController : MonoBehaviour
 		{
 			if( direction == "Left" )
 			{
-				// HACK - dynamic for loop isn't working for this for some reason, hard-coded
-				groups[0].transform.Translate( transitionVector );
-				groups[1].transform.Translate( transitionVector );
+				for( int i=0; i<groups.Length; i++ )
+				{
+					groups[i].transform.Translate( transitionVector );
+				}
 				
-				if( groups[currentGroup-1].transform.position.x >= -1.7 )
+				if( groups[currentGroup-1].transform.position.x >= -3.0f )
 				{
 					transitioning = false;
 					currentGroup--;
@@ -109,11 +110,12 @@ public class SelectionController : MonoBehaviour
 			}
 			else // direction == "Right" 
 			{
-				// HACK - dynamic for loop isn't working for this for some reason, hard-coded
-				groups[0].transform.Translate( -transitionVector );
-				groups[1].transform.Translate( -transitionVector );
+				for( int i=0; i<groups.Length; i++ )
+				{
+					groups[i].transform.Translate( -transitionVector );
+				}
 
-				if( groups[currentGroup+1].transform.position.x <= -1.7 )
+				if( groups[currentGroup+1].transform.position.x <= -3.0f )
 				{
 					transitioning = false;
 					currentGroup++;

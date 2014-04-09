@@ -99,8 +99,8 @@ public class BeerPongController : MonoBehaviour
 			{
 				if( "right" == sliderDirection )
 				{
-					ballParent.transform.Translate( rightSlide );
-					sliderHorizontal.transform.Translate( rightSlide );
+					ballParent.transform.Translate( rightSlide * 60.0f * Time.deltaTime );
+					sliderHorizontal.transform.Translate( rightSlide * 60.0f * Time.deltaTime );
 					
 					if( sliderHorizontal.transform.position.x >= (slideBarHorizontal.transform.position.x + slideBarHorizontalActualLength/2) )
 					{
@@ -109,8 +109,8 @@ public class BeerPongController : MonoBehaviour
 				}
 				else // if "left" == sliderDirection
 				{
-					ballParent.transform.Translate( leftSlide );
-					sliderHorizontal.transform.Translate( leftSlide );
+					ballParent.transform.Translate( leftSlide * 60.0f * Time.deltaTime );
+					sliderHorizontal.transform.Translate( leftSlide * 60.0f * Time.deltaTime );
 					
 					if( sliderHorizontal.transform.position.x <= (slideBarHorizontal.transform.position.x - slideBarHorizontalActualLength/2) )
 					{
@@ -130,7 +130,7 @@ public class BeerPongController : MonoBehaviour
 			{
 				if( "up" == sliderDirection )
 				{
-					sliderVertical.transform.Translate( rightSlide );
+					sliderVertical.transform.Translate( rightSlide * 60.0f * Time.deltaTime );
 					
 					if( sliderVertical.transform.position.y >= (slideBarVertical.transform.position.y + slideBarVerticalActualLength/2) )
 					{
@@ -139,7 +139,7 @@ public class BeerPongController : MonoBehaviour
 				}
 				else // if "down" == sliderDirection
 				{
-					sliderVertical.transform.Translate( leftSlide );
+					sliderVertical.transform.Translate( leftSlide * 60.0f * Time.deltaTime );
 					
 					if( sliderVertical.transform.position.y <= (slideBarVertical.transform.position.y - slideBarVerticalActualLength/2) )
 					{
@@ -162,7 +162,7 @@ public class BeerPongController : MonoBehaviour
 	{
 		if( !isShootingVertical && !isShootingHorizontal && !isFinished ) // Then ball should be in air
 		{
-			ballParent.transform.Translate( ballMovement );
+			ballParent.transform.Translate( ballMovement * 60.0f * Time.deltaTime );
 			
 			if( ball.transform.position.y < 
 			   (sliderVertical.transform.position.y - (sliderVertical.transform.position.y - sliderHorizontal.transform.position.y)/2 ) )

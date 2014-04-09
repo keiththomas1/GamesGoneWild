@@ -97,7 +97,7 @@ public class DartsController : MonoBehaviour
 
 	void FloorUpdate()
 	{
-		floor.transform.Translate( floorSpeed );
+		floor.transform.Translate( floorSpeed * 60.0f * Time.deltaTime );
 	}
 
 	public void StartMovingDart()
