@@ -7,6 +7,7 @@ public class DartsController : MonoBehaviour
 	public GameObject dart;
 	public bool dartFlying;
 	public bool dartMoving;
+	public bool gameOver;
 
 	public GameObject countdown;
 	float gameStartTimer;
@@ -29,11 +30,12 @@ public class DartsController : MonoBehaviour
 
 		gameStartTimer = 3.5f;
 		gameStarted = false;
+		gameOver = false;
 
 		dartFlying = true;
 		dartMoving = false;
 
-		floorSpeed = new Vector2( -.06f, 0.0f );
+		floorSpeed = new Vector2( -.07f, 0.0f );
 
 		pillarTimer = 2.0f;
 		currentPillar = 0;
@@ -46,22 +48,25 @@ public class DartsController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if( gameStarted )
+		if( !gameOver )
 		{
-			if( dartFlying )
+			if( gameStarted )
 			{
-				PillarUpdate();
-				FloorUpdate();
+				if( dartFlying )
+				{
+					PillarUpdate();
+					FloorUpdate();
+				}
 			}
-		}
-		else
-		{
-			gameStartTimer -= Time.deltaTime;
-			if( gameStartTimer <= 0.0f )
+			else
 			{
-				gameStarted = true;
-				dart.GetComponent<DartBehavior>().StartGame();
-				Destroy( countdown );
+				gameStartTimer -= Time.deltaTime;
+				if( gameStartTimer <= 0.0f )
+				{
+					gameStarted = true;
+					dart.GetComponent<DartBehavior>().StartGame();
+					Destroy( countdown );
+				}
 			}
 		}
 	}

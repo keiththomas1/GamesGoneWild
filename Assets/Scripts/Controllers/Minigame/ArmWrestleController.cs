@@ -87,7 +87,7 @@ public class ArmWrestleController : MonoBehaviour
 		if( tempPos.x <= winX )
 		{
 			globalController.GetComponent<GlobalController>().armEnemyLevel++;
-			globalController.GetComponent<GlobalController>().BeatMinigame();
+			globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 		}
 	}
 }

@@ -5,6 +5,7 @@ public class DartBehavior : MonoBehaviour
 {
 	GameObject globalController;
 	public GameObject dartController;
+	bool gameOver;
 	
 	Vector2 dartJumpHeight;
 	float dartJumpConstant;
@@ -22,11 +23,12 @@ public class DartBehavior : MonoBehaviour
 	{
 		globalController = GameObject.Find("Global Controller");
 
+		gameOver = false;
 		dartJumpConstant = 200.0f;
 
 		canControl = true;
 		horizontalMoving = false;
-		speedVector = new Vector2( .06f, 0.0f );
+		speedVector = new Vector2( .08f, 0.0f );
 
 		startPosition = transform.position;
 		gameStarted = false;
@@ -35,73 +37,80 @@ public class DartBehavior : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if( !gameStarted )
+		if( !gameOver )
 		{
-			rigidbody2D.gravityScale = 0.0f;
-			transform.position = startPosition;
-		}
-		else
-		{
-			if( canControl )
+			if( !gameStarted )
 			{
-				if( Input.GetMouseButtonDown( 0 ) )
+				rigidbody2D.gravityScale = 0.0f;
+				transform.position = startPosition;
+			}
+			else
+			{
+				if( canControl )
 				{
-					dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
-					rigidbody2D.AddForce( dartJumpHeight * 60.0f * Time.deltaTime );
+					if( Input.GetMouseButtonDown( 0 ) )
+					{
+						dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
+						rigidbody2D.AddForce( dartJumpHeight * 60.0f * Time.deltaTime );
+					}
 				}
-			}
-			
-			if( horizontalMoving )
-			{
-				Debug.Log("Moving " + Time.frameCount);
-				transform.Translate( speedVector * 60.0f * Time.deltaTime );
-			}
-			
-			if( transform.position.y < -6.0f || transform.position.x > 13.0f )
-			{
-				globalController.GetComponent<GlobalController>().LostMinigame();
-			}
-			
-			//Debug.Log( transform.rotation.z
-			if( rigidbody2D.velocity.y > 0.0f && 
-			   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
-			{
-				transform.Rotate( new Vector3( 0.0f, 0.0f, 2.5f * 60.0f * Time.deltaTime ) );
-			}
-			if( rigidbody2D.velocity.y < 1.0f && 
-			   (transform.rotation.eulerAngles.z > 340 || transform.rotation.eulerAngles.z < 330) )
-			{	
-				transform.Rotate( new Vector3( 0.0f, 0.0f, -0.5f * 60.0f * Time.deltaTime ) );
+				
+				if( horizontalMoving )
+				{
+					Debug.Log("Moving " + Time.frameCount);
+					transform.Translate( speedVector * 60.0f * Time.deltaTime );
+				}
+				
+				if( transform.position.y < -6.0f || transform.position.x > 13.0f )
+				{
+					globalController.GetComponent<GlobalController>().LostMinigame();
+				}
+				
+				//Debug.Log( transform.rotation.z
+				if( rigidbody2D.velocity.y > 0.0f && 
+				   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
+				{
+					transform.Rotate( new Vector3( 0.0f, 0.0f, 2.5f * 60.0f * Time.deltaTime ) );
+				}
+				if( rigidbody2D.velocity.y < 1.0f && 
+				   (transform.rotation.eulerAngles.z > 340 || transform.rotation.eulerAngles.z < 330) )
+				{	
+					transform.Rotate( new Vector3( 0.0f, 0.0f, -0.5f * 60.0f * Time.deltaTime ) );
+				}
 			}
 		}
 	}
 
 	void OnTriggerEnter2D( Collider2D coll )
 	{
-		if( "DartBoard" == coll.name && transform.position.x < 7.7f )
+		if( !gameOver )
 		{
-			horizontalMoving = false;
-			canControl = false;
-			
-			rigidbody2D.velocity = new Vector2( 0.0f, 0.0f );
-			rigidbody2D.gravityScale = 0.0f;
-
-			// HACK - Show points or something here instead of immediate win
-
-			globalController.GetComponent<GlobalController>().dartLevel++;
-			globalController.GetComponent<GlobalController>().BeatMinigame();
-		}
-		else
-		{
-			// Position check is in case it hits the backed up pillars at end of map
-			if( canControl && transform.position.x < 5.0f )
+			if( "DartBoard" == coll.name && transform.position.x < 7.7f )
 			{
 				horizontalMoving = false;
 				canControl = false;
-
-				dartController.GetComponent<DartsController>().SlowDown();
-
-				this.GetComponent<SpriteRenderer>().sprite = brokenDart;
+				
+				rigidbody2D.velocity = new Vector2( 0.0f, 0.0f );
+				rigidbody2D.gravityScale = 0.0f;
+				
+				gameOver = true;
+				dartController.GetComponent<DartsController>().gameOver = true;
+				
+				globalController.GetComponent<GlobalController>().dartLevel++;
+				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
+			}
+			else
+			{
+				// Position check is in case it hits the backed up pillars at end of map
+				if( canControl && transform.position.x < 5.0f )
+				{
+					horizontalMoving = false;
+					canControl = false;
+					
+					dartController.GetComponent<DartsController>().SlowDown();
+					
+					this.GetComponent<SpriteRenderer>().sprite = brokenDart;
+				}
 			}
 		}
 	}

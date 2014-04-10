@@ -11,7 +11,9 @@ public class DartBoardBehavior : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		speedVector = new Vector2( -.07f, 0.0f );
+		transform.Translate( new Vector2( 0.0f, (Random.value*4)-2 ) );
+
+		speedVector = new Vector2( -.08f, 0.0f );
 	}
 	
 	// Update is called once per frame

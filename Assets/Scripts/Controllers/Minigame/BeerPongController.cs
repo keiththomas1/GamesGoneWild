@@ -32,10 +32,17 @@ public class BeerPongController : MonoBehaviour
 	bool cupAnimTimerStart;
 	float cupAnimTimer;
 	int cupIndex;
-	public GameObject goodJobText;
 
+	public GameObject instructionText;
+	public GameObject descriptionText;
+	int partyPoints;
+	
 	// Sound Effects
 	public GameObject inCupSFX;
+	
+	public GameObject countdown;
+	float gameStartTimer;
+	bool gameStarted;
 	
 	// Use this for initialization
 	void Start () 
@@ -45,7 +52,7 @@ public class BeerPongController : MonoBehaviour
 		isShootingHorizontal = true;
 		isShootingVertical = false;
 		isFinished = false;
-		goodJobText.renderer.enabled = false;
+		descriptionText.renderer.enabled = false;
 		
 		//initialBallSize = ball.transform.localScale;
 		ballMovement = new Vector2( 0.0f, .1f );
@@ -70,8 +77,13 @@ public class BeerPongController : MonoBehaviour
 		}
 		cupAnimTimerStart = false;
 		cupAnimTimer = 1.0f;
+		
+		gameStartTimer = 3.5f;
+		gameStarted = false;
 
 		gameOver = false;
+
+		partyPoints = 0;
 		
 		RandomizeSliderStartPosition();
 	}
@@ -93,7 +105,7 @@ public class BeerPongController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if( !gameOver )
+		if( !gameOver && gameStarted )
 		{
 			if( isShootingHorizontal )
 			{
@@ -156,6 +168,19 @@ public class BeerPongController : MonoBehaviour
 			BallMovement();
 			TickTimers();
 		}
+
+		if( !gameStarted )
+		{
+			gameStartTimer -= Time.deltaTime;
+			if( gameStartTimer <= 0.0f )
+			{
+				Destroy( countdown );
+				gameStarted = true;
+
+				// HACK - Eventually, fade out instead of removing.
+				Destroy( instructionText );
+			}
+		}
 	}
 	
 	void BallMovement()
@@ -177,16 +202,37 @@ public class BeerPongController : MonoBehaviour
 			if( ball.transform.position.y > sliderVertical.transform.position.y )
 			{
 				isFinished = true;
-				
-				if( CheckBallInCup() )
+
+				int finishType = CheckBallInCup();
+				if( finishType != 0 )	// != 0
 				{
-					goodJobText.renderer.enabled = true;
+					switch( finishType )
+					{
+					case 1:
+						descriptionText.GetComponent<TextMesh>().text = "Island!";
+						partyPoints = 120;
+						break;
+					case 2:
+						descriptionText.GetComponent<TextMesh>().text = "Freshman Cup!";
+						partyPoints = 60;
+						break;
+					case 3:
+						descriptionText.GetComponent<TextMesh>().text = "Water Cup!";
+						partyPoints = 10;
+						break;
+					case 4:
+						descriptionText.GetComponent<TextMesh>().text = "Nice Shot!";
+						partyPoints = 100;
+						break;
+					}
+					descriptionText.renderer.enabled = true;
 				}
 			}
 		}
 	}
-			
-	bool CheckBallInCup()
+
+	// Returns 1 if island, 2 if freshman cup, 3 if water cup, 4 if other
+	int CheckBallInCup()
 	{
 		if( globalController )
 		{
@@ -199,24 +245,37 @@ public class BeerPongController : MonoBehaviour
 					   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/6)
 					   && ballParent.transform.position.y <= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/2) )
 					{	
+						// Play ball in cup sound
 						inCupSFX.GetComponent<AudioSource>().Play();
+						// Remove cup in global controller
 						globalController.GetComponent<GlobalController>().CupsPlaced[i] = false;
+						// Play "moving" animation
 						cups[i].animation.Play();
+						// Start timer until animation is over
 						cupAnimTimerStart = true;
+						// Keep current cup for future use
 						cupIndex = i;
+						
+						// Kill off the ball
 						Destroy( ball );
-						return true;
+
+						if( isIsland( cupIndex ) )
+							return 1;
+						if( isFreshman( cupIndex ) )
+							return 2;
+						// if cupIndex == 10, don't think this is implemented yet
+						//   return 3
+						return 4;
 					}
 				}
 			}
-			globalController.GetComponent<GlobalController>().LostMinigame();
 		}
-		else
-		{
-			Debug.Log( "No global controller" );
-		}
+						             
+		// Kill off the ball
+		Destroy( ball );
+		globalController.GetComponent<GlobalController>().LostMinigame();
 		
-		return false;
+		return 0;
 	}
 			
 	void TickTimers()
@@ -229,9 +288,103 @@ public class BeerPongController : MonoBehaviour
 			{
 				// Try to fade it out eventually
 				Destroy( cups[cupIndex] );
-				globalController.GetComponent<GlobalController>().BeatMinigame();
+				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
 				gameOver = true;
 			}
 		}
+	}
+
+	bool isIsland( int index )
+	{
+		switch( index )
+		{
+		case 0:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[1] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[4] )
+				return true;
+			break;
+		case 1:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[0] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[2] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[4] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[5] )
+				return true;
+			break;
+		case 2:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[1] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[3] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[5] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[6] )
+				return true;
+			break;
+		case 3:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[2] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[6] )
+				return true;
+			break;
+		case 4:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[0] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[1] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[5] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[7] )
+				return true;
+			break;
+		case 5:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[1] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[2] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[4] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[6] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[7] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[8] )
+				return true;
+			break;
+		case 6:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[2] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[3] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[5] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[8] )
+				return true;
+			break;
+		case 7:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[4] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[5] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[8] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[9] )
+				return true;
+			break;
+		case 8:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[5] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[6] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[7] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[9] )
+				return true;
+			break;
+		case 9:
+			if( !globalController.GetComponent<GlobalController>().CupsPlaced[7] &&
+			   !globalController.GetComponent<GlobalController>().CupsPlaced[8] )
+				return true;
+			break;
+		}
+
+		return false;
+	}
+
+	bool isFreshman( int index )
+	{
+		if( index == 5 )
+		{
+			if( globalController.GetComponent<GlobalController>().CupsPlaced[0] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[1] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[2] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[3] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[4] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[6] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[7] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[8] &&
+			   globalController.GetComponent<GlobalController>().CupsPlaced[9] )
+				return true;
+		}
+
+		return false;
 	}
 }

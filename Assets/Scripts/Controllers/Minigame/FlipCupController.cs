@@ -82,7 +82,7 @@ public class FlipCupController : MonoBehaviour {
 			Debug.Log ("landed!!!!! Reloading level");
 			isFlicked = false;
 			count = 0;
-			globalController.GetComponent<GlobalController>().BeatMinigame();
+			globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			//DestroyObject(Cup_placeholder);
 			//Instantiate(Cup_placeholder,startPosition,transform.rotation);
 			//Debug.Log (transform.position);
