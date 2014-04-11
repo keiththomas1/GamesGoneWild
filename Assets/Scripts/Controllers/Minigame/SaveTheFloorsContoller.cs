@@ -49,6 +49,13 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	// Timer for how long to keep throw up face on person
 	float throwupTimer;
 	bool throwupAnimationOn;
+	
+	// Variables for fading out the instructions
+	public GameObject instructionText;
+	float fadeTimer;
+	Color colorStart;
+	Color colorEnd;
+	float fadeValue;
 
 	// Use this for initialization
 	void Start () 
@@ -72,18 +79,28 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		// Initializing identifier so no gravity is given to puke gameobject
 		StartPuking = false;
 
-		// Set the countdown timer to 3.5 seconds
-		countdownTimer = 3.5f;
+		// Set the countdown timer to 2.7 seconds
+		countdown.GetComponent<Animator>().speed = 1.4f;
+		countdownTimer = 2.7f;
 		countdownPhase = true;
 
 		// Set up all the variables for rotation
-		rotateSpeed = 20.0f;
-		rotateDirection = "Right";
-		rotateTimer = 2.0f;
+		rotateSpeed = 24.0f;
+		if( Random.value > .5 )
+			rotateDirection = "Left";
+		else
+			rotateDirection = "Right";
+		rotateTimer = 1.0f;
 		rotating = false;
 
 		// Whether the face is throwing up at the moment
 		throwupAnimationOn = false;
+		
+		// Fading instructions variables
+		fadeTimer = 3.0f; // set duration time in seconds in the Inspector
+		colorStart = instructionText.renderer.material.color;
+		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
+		fadeValue = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -132,7 +149,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			// If we're still counting down
 			if( countdownPhase )
 			{
-				if( countdownTimer <= 2.5f )	// A bit hacky, should have a boolean to control which state.
+				if( countdownTimer <= 1.8f )	// A bit hacky, should have a boolean to control which state.
 				{
 					head.GetComponent<SpriteRenderer>().sprite = faceTwo;
 				}
@@ -154,6 +171,18 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			else
 			{
 				rotating = true;
+				
+				if( fadeValue < 1.0f )
+				{
+					fadeTimer -= Time.deltaTime;
+					fadeValue += Time.deltaTime;
+					instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+					
+					if( fadeValue >= 1.0f )
+					{
+						Destroy( instructionText );
+					}
+				}
 			}
 			
 			if( rotating )
@@ -171,7 +200,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 						rotateDirection = "Left";
 					}
 					
-					rotateTimer = Random.value * 2.0f;
+					rotateTimer = Random.value * 1.6f;
 				}
 				
 				if( rotateDirection == "Left" )

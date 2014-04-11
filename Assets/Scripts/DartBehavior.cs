@@ -9,6 +9,8 @@ public class DartBehavior : MonoBehaviour
 	
 	Vector2 dartJumpHeight;
 	float dartJumpConstant;
+	float dartJumpTimer;
+	bool canJump;
 
 	bool canControl;
 	public bool horizontalMoving;
@@ -25,6 +27,7 @@ public class DartBehavior : MonoBehaviour
 
 		gameOver = false;
 		dartJumpConstant = 200.0f;
+		canJump = true;
 
 		canControl = true;
 		horizontalMoving = false;
@@ -48,10 +51,22 @@ public class DartBehavior : MonoBehaviour
 			{
 				if( canControl )
 				{
-					if( Input.GetMouseButtonDown( 0 ) )
+					if( Input.GetMouseButtonDown( 0 ) && canJump )
 					{
 						dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
-						rigidbody2D.AddForce( dartJumpHeight * 60.0f * Time.deltaTime );
+						rigidbody2D.AddForce( dartJumpHeight );
+
+						canJump = false;
+					}
+				}
+
+				if( !canJump )
+				{
+					dartJumpTimer -= Time.deltaTime;
+					if( dartJumpTimer <= 0.0f )
+					{
+						canJump = true;
+						dartJumpTimer = .2f;
 					}
 				}
 				
@@ -83,6 +98,7 @@ public class DartBehavior : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D coll )
 	{
+		Debug.Log( "Collision with " + coll.ToString() + " and game over = " + gameOver.ToString() );
 		if( !gameOver )
 		{
 			if( "DartBoard" == coll.name && transform.position.x < 7.7f )

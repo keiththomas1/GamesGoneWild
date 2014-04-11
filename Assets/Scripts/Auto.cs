@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Auto : MonoBehaviour {
+public class Auto : MonoBehaviour 
+{
 	public GameObject globalController;
 	public bool gameOver;
 
@@ -20,6 +21,13 @@ public class Auto : MonoBehaviour {
 	public GameObject countdown;
 	float countdownTimer;
 	public bool gameStarted;
+	
+	// Variables for fading out the instructions
+	public GameObject instructionText;
+	float fadeTimer;
+	Color colorStart;
+	Color colorEnd;
+	float fadeValue;
 
 	// Use this for initialization
 	void Start () 
@@ -39,9 +47,16 @@ public class Auto : MonoBehaviour {
 		}
 
 		speed = 1.0f;
-
-		countdownTimer = 3.5f;
+		
+		countdown.GetComponent<Animator>().speed = 1.4f;
+		countdownTimer = 2.7f;
 		gameStarted = false;
+		
+		// Fading instructions variables
+		fadeTimer = 3.0f; // set duration time in seconds in the Inspector
+		colorStart = instructionText.renderer.material.color;
+		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
+		fadeValue = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -81,6 +96,18 @@ public class Auto : MonoBehaviour {
 				// Perform the rotation and increase the speed.
 				transform.Rotate (0, 0, curSpeed);
 				speed += .007f;
+				
+				if( fadeValue < 1.0f )
+				{
+					fadeTimer -= Time.deltaTime;
+					fadeValue += Time.deltaTime;
+					instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+					
+					if( fadeValue >= 1.0f )
+					{
+						Destroy( instructionText );
+					}
+				}
 			}
 			else
 			{

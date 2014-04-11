@@ -28,7 +28,8 @@ public class ArmWrestleController : MonoBehaviour
 		globalController = GameObject.Find( "Global Controller" );
 
 		startedGame = false;
-		startTimer = 3.4f;
+		countdownTimer.GetComponent<Animator>().speed = 1.4f;
+		startTimer = 2.7f;
 
 		initialArmX = arms.transform.position.x;
 		winGuage = initialArmX;

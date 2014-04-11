@@ -67,8 +67,8 @@ public class Bucket_Controller : MonoBehaviour {
 
 		// If player is touching screen, lets move the object
 		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
-			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
-			transform.Translate ( touchDeltaPosition.x * speed, 0, 0);
+			//Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
+			//transform.Translate ( touchDeltaPosition.x * speed, 0, 0);
 		}
 	}
 }

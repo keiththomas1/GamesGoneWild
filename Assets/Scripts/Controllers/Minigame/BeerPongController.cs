@@ -43,6 +43,12 @@ public class BeerPongController : MonoBehaviour
 	public GameObject countdown;
 	float gameStartTimer;
 	bool gameStarted;
+
+	// Variables for fading out the instructions
+	float fadeTimer;
+	Color colorStart;
+	Color colorEnd;
+	float fadeValue;
 	
 	// Use this for initialization
 	void Start () 
@@ -77,13 +83,20 @@ public class BeerPongController : MonoBehaviour
 		}
 		cupAnimTimerStart = false;
 		cupAnimTimer = 1.0f;
-		
-		gameStartTimer = 3.5f;
+
+		countdown.GetComponent<Animator>().speed = 1.4f;
+		gameStartTimer = 2.7f;
 		gameStarted = false;
 
 		gameOver = false;
 
 		partyPoints = 0;
+
+		// Fading instructions variables
+		fadeTimer = 3.0f; // set duration time in seconds in the Inspector
+		colorStart = instructionText.renderer.material.color;
+		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
+		fadeValue = 0.0f;
 		
 		RandomizeSliderStartPosition();
 	}
@@ -164,6 +177,18 @@ public class BeerPongController : MonoBehaviour
 					isShootingVertical = false;
 				}
 			}
+
+			if( fadeValue < 1.0f )
+			{
+				fadeTimer -= Time.deltaTime;
+				fadeValue += Time.deltaTime;
+				instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+
+				if( fadeValue >= 1.0f )
+				{
+					Destroy( instructionText );
+				}
+			}
 			
 			BallMovement();
 			TickTimers();
@@ -176,9 +201,6 @@ public class BeerPongController : MonoBehaviour
 			{
 				Destroy( countdown );
 				gameStarted = true;
-
-				// HACK - Eventually, fade out instead of removing.
-				Destroy( instructionText );
 			}
 		}
 	}
