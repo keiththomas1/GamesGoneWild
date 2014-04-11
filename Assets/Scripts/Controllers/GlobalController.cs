@@ -202,11 +202,38 @@ public class GlobalController : MonoBehaviour
 	}
 
 	// Adds new score and returns the list.
+	// HACK - Only shows four high scores right now, will need to change in the future.
 	public List<int> SaveHighScore(int score)
 	{
+		int tempScore; 
+		// Get the high scores from the preferences
+		for( int i=0; i < 5; i++ )
+		{
+			tempScore = PlayerPrefs.GetInt("HighScore" + i.ToString());
+			if( tempScore != 0 )
+			{
+				HighScores.Add( tempScore );
+			}
+			else
+			{
+				break;
+			}
+		}
+
 		HighScores.Add( score );
 		HighScores.Sort();
-		// PlayerPrefs, save it for later
+
+		// Save the high scores to the preferences
+		for( int i=0; i < HighScores.Count; i++ )
+		{
+			PlayerPrefs.SetInt("HighScore" + i.ToString(), HighScores[i]);
+
+			if( i >= 5 )
+			{
+				break;
+			}
+		}
+		PlayerPrefs.Save();
 
 		return HighScores;
 	}
