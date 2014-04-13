@@ -50,7 +50,7 @@ public class MenuController : MonoBehaviour
 		{ 
 
 			GUI.Label(new Rect(200, 10, 275, 90),"Welcome \n" + FBName + "!", MenuText);
-			GUI.DrawTexture(new Rect(800,10,128,128),profilePic,ScaleMode.ScaleToFit,true,0);
+			GUI.DrawTexture(new Rect(1500,10,256,256),profilePic,ScaleMode.ScaleToFit,true,0);
 		}  
 	}
 	public void CallFBInit(){
@@ -63,7 +63,7 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Is game showing? " + isGameShown);
 	}
 	private void CallFBLogin(){
-		FB.Login("basic_info", LoginCallback);
+		FB.Login("basic_info, publish_actions", LoginCallback);
 	}
 	private void LoginCallback(FBResult result){
 		if(FB.IsLoggedIn) {
