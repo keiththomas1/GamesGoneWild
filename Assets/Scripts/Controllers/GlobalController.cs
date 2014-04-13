@@ -37,13 +37,8 @@ public class GlobalController : MonoBehaviour
 	public GameObject scoreText;
 	int totalPartyPoints;
 
-<<<<<<< HEAD
-
-=======
 	// High scores
 	List<int> HighScores;
->>>>>>> 2e26cf2adaee829664da7bac3ddf317e891cf538
-
 	// Use this for initialization
 	void Start () 
 	{
@@ -214,14 +209,11 @@ public class GlobalController : MonoBehaviour
 		menuMusic.GetComponent<AudioSource>().Play();
 	}
 
-<<<<<<< HEAD
 	public void SetUserName()
 	{
 		FBUsername = menuController.GetComponent<MenuController>().FBName;
 	}
 
-
-=======
 	// Adds new score and returns the list.
 	// HACK - Only shows four high scores right now, will need to change in the future.
 	public List<int> SaveHighScore(int score)
@@ -258,5 +250,4 @@ public class GlobalController : MonoBehaviour
 
 		return HighScores;
 	}
->>>>>>> 2e26cf2adaee829664da7bac3ddf317e891cf538
 }
