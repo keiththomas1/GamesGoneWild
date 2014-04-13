@@ -86,7 +86,7 @@ public class SelectionController : MonoBehaviour
 			{
 				for( int i=0; i<groups.Length; i++ )
 				{
-					groups[i].transform.Translate( transitionVector );
+					groups[i].transform.Translate( transitionVector * 60.0f * Time.deltaTime );
 				}
 				
 				if( groups[currentGroup-1].transform.position.x >= -3.0f )
@@ -112,7 +112,7 @@ public class SelectionController : MonoBehaviour
 			{
 				for( int i=0; i<groups.Length; i++ )
 				{
-					groups[i].transform.Translate( -transitionVector );
+					groups[i].transform.Translate( -transitionVector * 60.0f * Time.deltaTime );
 				}
 
 				if( groups[currentGroup+1].transform.position.x <= -3.0f )

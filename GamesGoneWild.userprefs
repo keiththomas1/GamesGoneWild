@@ -2,13 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DartBehavior.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="291" Column="80" />
-      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="128" Column="40" />
-      <File FileName="Assets\Scripts\AutoRotate.cs" Line="53" Column="75" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\ArmWrestleController.cs" Line="90" Column="72" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\FlipCupController.cs" Line="89" Column="75" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\SaveTheFloorsContoller.cs" Line="222" Column="73" />
-      <File FileName="Assets\Scripts\DartBehavior.cs" Line="100" Column="73" />
+      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\DartsController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DartBehavior.cs" Line="128" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

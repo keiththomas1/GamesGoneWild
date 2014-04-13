@@ -20,6 +20,8 @@ public class DartBehavior : MonoBehaviour
 	bool gameStarted;
 	public Sprite brokenDart;
 
+	public GameObject descriptionText;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -35,6 +37,8 @@ public class DartBehavior : MonoBehaviour
 
 		startPosition = transform.position;
 		gameStarted = false;
+
+		descriptionText.renderer.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -72,7 +76,6 @@ public class DartBehavior : MonoBehaviour
 				
 				if( horizontalMoving )
 				{
-					Debug.Log("Moving " + Time.frameCount);
 					transform.Translate( speedVector * 60.0f * Time.deltaTime );
 				}
 				
@@ -80,8 +83,7 @@ public class DartBehavior : MonoBehaviour
 				{
 					globalController.GetComponent<GlobalController>().LostMinigame();
 				}
-				
-				//Debug.Log( transform.rotation.z
+
 				if( rigidbody2D.velocity.y > 0.0f && 
 				   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
 				{
@@ -111,9 +113,31 @@ public class DartBehavior : MonoBehaviour
 				
 				gameOver = true;
 				dartController.GetComponent<DartsController>().gameOver = true;
+
+				// Figure out the points that the user earned
+				float dartBoardY = coll.transform.position.y;
+				float dartPosition = transform.position.y - dartBoardY;
+				int partyPoints;
+				Debug.Log(dartPosition);
+				if( dartPosition <= .45 && dartPosition >= -.3 )
+				{
+					partyPoints = 110;
+					descriptionText.GetComponent<TextMesh>().text = "Bullseye!";
+				}
+				else if( dartPosition <= 1.75 && dartPosition >= -1.7 )
+				{
+					partyPoints = 80;
+					descriptionText.GetComponent<TextMesh>().text = "Great Throw!";
+				}
+				else
+				{
+					partyPoints = 60;
+					descriptionText.GetComponent<TextMesh>().text = "Nice!";
+				}
+				descriptionText.renderer.enabled = true;
 				
 				globalController.GetComponent<GlobalController>().dartLevel++;
-				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
+				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
 			}
 			else
 			{
