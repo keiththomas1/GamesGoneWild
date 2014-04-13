@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GlobalController : MonoBehaviour 
 {
@@ -36,7 +37,12 @@ public class GlobalController : MonoBehaviour
 	public GameObject scoreText;
 	int totalPartyPoints;
 
+<<<<<<< HEAD
 
+=======
+	// High scores
+	List<int> HighScores;
+>>>>>>> 2e26cf2adaee829664da7bac3ddf317e891cf538
 
 	// Use this for initialization
 	void Start () 
@@ -59,6 +65,8 @@ public class GlobalController : MonoBehaviour
 			Renderer r = (Renderer)c;
 			r.enabled = false;
 		}
+		
+		HighScores = new List<int> ();
 
 		// Technically setting for the first time, but hey, modularization..
 		ResetVariables();
@@ -117,15 +125,22 @@ public class GlobalController : MonoBehaviour
 		}
 		else 	// If we've lost..
 		{
-			LostGame();
+			if( gameMode == "Normal Mode" )
+			{
+				Application.LoadLevel( "HighScore" );
+			}
+			else
+			{
+				LostGame();
+			}
 		}
 	}
 
 	// Call this if the player won a minigame and make sure to increment
 	// any global variables located in this associated with that minigame.
-	public void BeatMinigame()	
+	public void BeatMinigame( int score )	
 	{
-		partyPoints+=100;
+		partyPoints += score;
 
 		Application.LoadLevelAdditive( "MinigameWin");
 	}
@@ -139,7 +154,7 @@ public class GlobalController : MonoBehaviour
 	}
 
 	// When you drink all of your beers
-	void LostGame()
+	public void LostGame()
 	{
 		// HACK: This will eventually route to a "losing" screen where the player is passed out
 		// or something. Then a high score type thing and THEN back to the menu screen.
@@ -199,10 +214,49 @@ public class GlobalController : MonoBehaviour
 		menuMusic.GetComponent<AudioSource>().Play();
 	}
 
+<<<<<<< HEAD
 	public void SetUserName()
 	{
 		FBUsername = menuController.GetComponent<MenuController>().FBName;
 	}
 
 
+=======
+	// Adds new score and returns the list.
+	// HACK - Only shows four high scores right now, will need to change in the future.
+	public List<int> SaveHighScore(int score)
+	{
+		int tempScore; 
+		// Get the high scores from the preferences
+		for( int i=0; i < 5; i++ )
+		{
+			tempScore = PlayerPrefs.GetInt("HighScore" + i.ToString());
+			if( tempScore != 0 )
+			{
+				HighScores.Add( tempScore );
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		HighScores.Add( score );
+		HighScores.Sort();
+
+		// Save the high scores to the preferences
+		for( int i=0; i < HighScores.Count; i++ )
+		{
+			PlayerPrefs.SetInt("HighScore" + i.ToString(), HighScores[i]);
+
+			if( i >= 5 )
+			{
+				break;
+			}
+		}
+		PlayerPrefs.Save();
+
+		return HighScores;
+	}
+>>>>>>> 2e26cf2adaee829664da7bac3ddf317e891cf538
 }

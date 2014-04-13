@@ -50,7 +50,7 @@ public class AutoRotate : MonoBehaviour {
 					{
 						gameOver = true;
 						this.GetComponent<Auto>().gameOver = true;
-						globalController.GetComponent<GlobalController>().BeatMinigame();
+						globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 					}
 					else
 						GuiTextDebug.debug ("you won");

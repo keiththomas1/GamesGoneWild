@@ -8,58 +8,62 @@ public class HighScoreController : MonoBehaviour {
 
 	private const int LeaderBoardLength = 10;
 
+	public GameObject pointsText;
 	public int points;
+	
+	public RaycastHit hit;
+	public Ray ray;
 
-	void Start () {
-		Debug.Log ("Entered HighScore");
+	public GameObject[] highScoreTexts;
+	List<int> HighScores;
 
+	void Start () 
+	{
 		globalController = GameObject.Find ("Global Controller");
 
-		if(!globalController)
-			Debug.Log ("fucking why is it false");
+		if( globalController )
+			points = globalController.GetComponent<GlobalController> ().partyPoints;
+		else
+			points = 4300; // Arbitrary - for testing
 
-		points = globalController.GetComponent<GlobalController> ().partyPoints;
-
-
-
-		SaveHighScore ("You", points);
-		Debug.Log (GetHighScore());
+		pointsText.GetComponent<TextMesh>().text = "Points: " + points.ToString();
+		
+		HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
+		DisplayHighScores();
 	}
 
 	// Update is called once per frame
-	void Update () {
-
-		
-	}
-
-	public void SaveHighScore(string name, int score){
-		List<Scores> HighScores = new List<Scores> ();
-
-		int i = 1;
-		while (i<=LeaderBoardLength && i<=HighScores.Count){
-	        Scores temp = new Scores ();
-   		    temp.name = name;
-		    temp.score = score;
-		    HighScores.Add (temp);
-			PlayerPrefs.SetInt("Score"+i+"score",HighScores[i-1].score);
+	void Update () 
+	{
+		if( Input.GetMouseButtonDown( 0 ) )
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if( Physics.Raycast(ray,out hit) )
+			{
+				Debug.Log( hit.collider.name );
+				switch( hit.collider.name )
+				{
+				case "MainMenuText":
+					globalController.GetComponent<GlobalController>().LostGame();
+					break;
+				}
+			}
 		}
 	}
-	public List<Scores> GetHighScore(){
-		List<Scores> HighScores = new List<Scores>();
 
-		int i = 1;
+	public void DisplayHighScores()
+	{
+		int count = HighScores.Count;
 
-		while(i<=LeaderBoardLength && PlayerPrefs.HasKey("Score"+i+"score")){
-		    Scores temp = new Scores();
-		    temp.score = PlayerPrefs.GetInt ("Score"+i+"score");
-			HighScores.Add(temp);
+		foreach( GameObject scoreText in highScoreTexts )
+		{
+			if( count == 0 )
+			{
+				break;
+			}
+			scoreText.GetComponent<TextMesh>().text = HighScores[count-1].ToString();
+			count--;
 		}
-		return HighScores;
-	}
-
-	public class Scores{
-		public int score;
-		public string name;
 	}
 
 	void OnApplicationQuit(){

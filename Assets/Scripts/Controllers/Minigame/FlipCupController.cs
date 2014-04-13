@@ -14,7 +14,7 @@ public class FlipCupController : MonoBehaviour {
 
 	public GameObject countdown;
 	// How long until countdown is done
-	float countdownTimer = 3.5f;
+	float countdownTimer;
 
 	// Whether the countdown has finished
 	bool canStart;
@@ -25,10 +25,12 @@ public class FlipCupController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		globalController = GameObject.Find( "Global Controller" );
 		isFlicked= false;
-	   // float mass = (float).2;
-		//rigidbody.centerOfMass = new Vector3 (0,mass, 0);
+		
+		countdown.GetComponent<Animator>().speed = 1.4f;
+		countdownTimer = 2.7f;
 	
 		canStart = false;
 	}
@@ -82,7 +84,7 @@ public class FlipCupController : MonoBehaviour {
 			Debug.Log ("landed!!!!! Reloading level");
 			isFlicked = false;
 			count = 0;
-			globalController.GetComponent<GlobalController>().BeatMinigame();
+			globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			//DestroyObject(Cup_placeholder);
 			//Instantiate(Cup_placeholder,startPosition,transform.rotation);
 			//Debug.Log (transform.position);

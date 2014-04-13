@@ -7,6 +7,7 @@ public class DartsController : MonoBehaviour
 	public GameObject dart;
 	public bool dartFlying;
 	public bool dartMoving;
+	public bool gameOver;
 
 	public GameObject countdown;
 	float gameStartTimer;
@@ -21,19 +22,28 @@ public class DartsController : MonoBehaviour
 	int currentPillar;
 
 	public GameObject board;
+	
+	// Variables for fading out the instructions
+	public GameObject instructionText;
+	float fadeTimer;
+	Color colorStart;
+	Color colorEnd;
+	float fadeValue;
 
 	// Use this for initialization
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
-
-		gameStartTimer = 3.5f;
+		
+		countdown.GetComponent<Animator>().speed = 1.4f;
+		gameStartTimer = 2.7f;
 		gameStarted = false;
+		gameOver = false;
 
 		dartFlying = true;
 		dartMoving = false;
 
-		floorSpeed = new Vector2( -.06f, 0.0f );
+		floorSpeed = new Vector2( -.07f, 0.0f );
 
 		pillarTimer = 2.0f;
 		currentPillar = 0;
@@ -41,27 +51,48 @@ public class DartsController : MonoBehaviour
 			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 3;
 		else
 			pillarCount = 5;
+		
+		// Fading instructions variables
+		fadeTimer = 3.0f; // set duration time in seconds in the Inspector
+		colorStart = instructionText.renderer.material.color;
+		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
+		fadeValue = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if( gameStarted )
+		if( !gameOver )
 		{
-			if( dartFlying )
+			if( gameStarted )
 			{
-				PillarUpdate();
-				FloorUpdate();
+				if( dartFlying )
+				{
+					PillarUpdate();
+					FloorUpdate();
+				}
+				
+				if( fadeValue < 1.0f )
+				{
+					fadeTimer -= Time.deltaTime;
+					fadeValue += Time.deltaTime;
+					instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+					
+					if( fadeValue >= 1.0f )
+					{
+						Destroy( instructionText );
+					}
+				}
 			}
-		}
-		else
-		{
-			gameStartTimer -= Time.deltaTime;
-			if( gameStartTimer <= 0.0f )
+			else
 			{
-				gameStarted = true;
-				dart.GetComponent<DartBehavior>().StartGame();
-				Destroy( countdown );
+				gameStartTimer -= Time.deltaTime;
+				if( gameStartTimer <= 0.0f )
+				{
+					gameStarted = true;
+					dart.GetComponent<DartBehavior>().StartGame();
+					Destroy( countdown );
+				}
 			}
 		}
 	}
