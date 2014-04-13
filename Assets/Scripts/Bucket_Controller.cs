@@ -49,7 +49,7 @@ public class Bucket_Controller : MonoBehaviour {
 	/// Raises the mouse drag event.
 	/// </summary>
 	void OnMouseDrag(){
-		
+		Debug.Log( Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, 0f, 0f ) ));
 		// Determines screen point position in desktop mode
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, DesktopScreenPoint.y, DesktopScreenPoint.z);
 

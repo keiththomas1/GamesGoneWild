@@ -82,18 +82,6 @@ public class AutoRotate : MonoBehaviour {
 			}
 		}
 	}
-
-	void OnGUI()
-	{
-		if (time > 0.0)
-		{
-			GUI.Box (new Rect (20, 20, 30, 20), "" + time.ToString ("0.0"));
-		}
-		else
-		{
-			GUI.Box (new Rect (20, 20, 30, 20), "" + "0.0" );
-		}
-	}
 }
 
 
