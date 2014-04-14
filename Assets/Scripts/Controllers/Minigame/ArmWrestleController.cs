@@ -5,9 +5,9 @@ public class ArmWrestleController : MonoBehaviour
 {
 	public GameObject globalController;
 
+	bool gameOver;
 	bool startedGame;
-	float startTimer;	// HACK - This shouldn't be needed. It is timed based on an animation, ideally
-							// we would base it on when the animation ends.
+	float startTimer;	
 
 	public GameObject arms;
 	float initialArmX;
@@ -21,12 +21,21 @@ public class ArmWrestleController : MonoBehaviour
 	float playerStrength;
 	float enemyStrength;
 	int enemyMultiplier;
+	float strengthRotation;
+	
+	// Variables for fading out the instructions
+	public GameObject instructionText;
+	float fadeTimer;
+	Color colorStart;
+	Color colorEnd;
+	float fadeValue;
 
 	// Use this for initialization
 	void Start () 
 	{
 		globalController = GameObject.Find( "Global Controller" );
 
+		gameOver = false;
 		startedGame = false;
 		countdownTimer.GetComponent<Animator>().speed = 1.4f;
 		startTimer = 2.7f;
@@ -40,8 +49,8 @@ public class ArmWrestleController : MonoBehaviour
 		}*/
 		//countdownTimer.animation.Stop();
 		
-		playerStrength = .1f;
-		enemyStrength = .001f;
+		playerStrength = .6f;
+		enemyStrength = .015f;
 		if( globalController )
 		{
 			enemyMultiplier = globalController.GetComponent<GlobalController>().armEnemyLevel;
@@ -51,44 +60,75 @@ public class ArmWrestleController : MonoBehaviour
 			Debug.Log("Missing a global controller.");
 			enemyMultiplier = 1;
 		}
+
+		// Fading instructions variables
+		fadeTimer = 3.0f; // set duration time in seconds in the Inspector
+		colorStart = instructionText.renderer.material.color;
+		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
+		fadeValue = 0.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if( startedGame )
+		if( !gameOver )
 		{
-			if( Input.GetMouseButtonDown( 0 ) )
+			if( startedGame )
 			{
-				winGuage -= playerStrength;
+				if( Input.GetMouseButtonDown( 0 ) )
+				{
+					winGuage -= playerStrength;
+					strengthRotation = 10.0f;
+				}
+				else
+				{
+					strengthRotation = -.2f * enemyMultiplier;
+				}
+				
+				winGuage += (enemyStrength * enemyMultiplier);
+				
+				// Not needed at the moment.
+				//tempPos = arms.transform.position;
+				//tempPos.x = winGuage;
+				//arms.transform.position = tempPos;
+				
+				arms.transform.Rotate( new Vector3( 0.0f, strengthRotation, 0.0f ) );
+				
+				
+				if( fadeValue < 1.0f )
+				{
+					fadeTimer -= Time.deltaTime;
+					fadeValue += Time.deltaTime;
+					instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+					
+					if( fadeValue >= 1.0f )
+					{
+						Destroy( instructionText );
+					}
+				}
+			}
+			else
+			{
+				startTimer -= Time.deltaTime;
+				
+				if( startTimer <= 0.0f )
+				{
+					startedGame = true;
+					Destroy( countdownTimer );
+				}
 			}
 			
-			winGuage += (enemyStrength * enemyMultiplier);
-			
-			tempPos = arms.transform.position;
-			tempPos.x = winGuage;
-			arms.transform.position = tempPos;
-		}
-		else
-		{
-			startTimer -= Time.deltaTime;
-
-			if( startTimer <= 0.0f )
+			// Check if win or lose.
+			if( arms.transform.rotation.eulerAngles.y > 70.0f && arms.transform.rotation.eulerAngles.y < 180.0f )
 			{
-				startedGame = true;
-				Destroy( countdownTimer );
+				gameOver = true;
+				globalController.GetComponent<GlobalController>().armEnemyLevel++;
+				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			}
-		}
-
-		// Check if win or lose.
-		if( tempPos.x >= loseX )
-		{
-			globalController.GetComponent<GlobalController>().LostMinigame();
-		}
-		if( tempPos.x <= winX )
-		{
-			globalController.GetComponent<GlobalController>().armEnemyLevel++;
-			globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
+			if( arms.transform.rotation.eulerAngles.y < 290.0f && arms.transform.rotation.eulerAngles.y > 180.0f )
+			{
+				globalController.GetComponent<GlobalController>().LostMinigame();
+			}
 		}
 	}
 }
