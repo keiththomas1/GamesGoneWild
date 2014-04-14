@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Facebook\Editor\FacebookPostprocess.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Blaise\Documents\ClassWork\Assets\Facebook\Scripts\AndroidFacebook.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="52" Column="30" />
-      <File FileName="Assets\Scripts\Controllers\Other\Util.cs" Line="10" Column="64" />
+      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="66" Column="40" />
       <File FileName="c:\Users\Blaise\Documents\ClassWork\Assets\Facebook\Scripts\AndroidFacebook.cs" Line="88" Column="25" />
-      <File FileName="Assets\Facebook\Editor\FacebookPostprocess.cs" Line="52" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
