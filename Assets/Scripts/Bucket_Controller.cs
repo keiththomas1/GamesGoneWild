@@ -10,7 +10,7 @@ public class Bucket_Controller : MonoBehaviour {
 	GameObject Bucket;
 
 	// Bucket speed
-	float speed = 0.1F;
+	//float speed = 0.1F;
 
 	// Used for keyboard / desktop mode
 	Vector3 DesktopScreenPoint;
@@ -29,11 +29,8 @@ public class Bucket_Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update (){
 
-		// Movement in desktop mode
-		OnMobileOver ();
-
 		// Movement in mobile platform mode
-		touchBucketNavigation ();
+		OnMobileOver ();
 	}
 
 	/// <summary>

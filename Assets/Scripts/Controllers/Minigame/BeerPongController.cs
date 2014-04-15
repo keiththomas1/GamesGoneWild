@@ -297,7 +297,8 @@ public class BeerPongController : MonoBehaviour
 						             
 		// Kill off the ball
 		Destroy( ball );
-		globalController.GetComponent<GlobalController>().LostMinigame();
+		if( globalController )
+			globalController.GetComponent<GlobalController>().LostMinigame();
 		
 		return 0;
 	}

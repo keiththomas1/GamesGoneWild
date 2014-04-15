@@ -23,7 +23,7 @@ public class DartBoardBehavior : MonoBehaviour
 		{
 			transform.Translate( speedVector * 60.0f * Time.deltaTime );
 		}
-		if( transform.position.x < 7.6f )
+		if( transform.position.x < 7.0f )
 		{
 			controller.GetComponent<DartsController>().StartMovingDart();
 
