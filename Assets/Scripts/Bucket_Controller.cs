@@ -10,7 +10,7 @@ public class Bucket_Controller : MonoBehaviour {
 	GameObject Bucket;
 
 	// Bucket speed
-	float speed = 0.1F;
+	//float speed = 0.1F;
 
 	// Used for keyboard / desktop mode
 	Vector3 DesktopScreenPoint;

@@ -9,8 +9,8 @@ public class FlipCupController : MonoBehaviour {
 	Vector3 finalPos;
 	Vector3 Pos;
 	Vector3 FlickPos = new Vector3(0,0,0);
-	Vector3 FlickAmount = new Vector3(0,-70,0);
-	Vector3 startPosition = new Vector3(0,1,-2);
+	Vector3 FlickAmount = new Vector3(0,-80,0);
+	//Vector3 startPosition = new Vector3(0,1,-2);
 
 	public GameObject countdown;
 	// How long until countdown is done

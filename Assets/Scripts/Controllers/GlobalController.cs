@@ -32,10 +32,8 @@ public class GlobalController : MonoBehaviour
 	// Which minigame are we playing? In numerics
 	public int currentLevel;
 
-	// Variables to keep track of party points
 	public GameObject pointsBox;
 	public GameObject scoreText;
-	int totalPartyPoints;
 
 
 	// High scores
@@ -166,7 +164,6 @@ public class GlobalController : MonoBehaviour
 		partyPoints = 0;	
 		beersDrank = 0;	// Lives lost
 		beerLives = 4;	// Total lives
-		totalPartyPoints = 0;
 
 		// Beer Pong
 		CupsPlaced = new bool[10];
