@@ -29,11 +29,8 @@ public class Bucket_Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update (){
 
-		// Movement in desktop mode
-		OnMobileOver ();
-
 		// Movement in mobile platform mode
-		touchBucketNavigation ();
+		OnMobileOver ();
 	}
 
 	/// <summary>
