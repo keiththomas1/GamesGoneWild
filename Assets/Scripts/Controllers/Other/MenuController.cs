@@ -7,7 +7,7 @@ using Facebook.MiniJSON;
 
 public class MenuController : MonoBehaviour 
 {
-	public GameObject globalController;
+	public GameObject globalController; 
 	public Texture FBLoginButton;
 	public RaycastHit hit;
 	public Ray ray;
@@ -17,12 +17,15 @@ public class MenuController : MonoBehaviour
 
 	public string FBName;
 	public Texture profilePic;
+	public int score;
 
 
 	// Use this for initialization
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
+		score = globalController.GetComponent<GlobalController> ().totalPartyPoints;
+		Debug.Log ("score: " + score);
 
 		CallFBInit ();
 		hit = new RaycastHit();

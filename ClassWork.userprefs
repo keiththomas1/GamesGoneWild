@@ -1,9 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Blaise\Documents\ClassWork\Assets\Facebook\Scripts\AndroidFacebook.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\FlipCupController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="66" Column="40" />
+      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="28" Column="33" />
+      <File FileName="Assets\Scripts\Controllers\Other\HighScoreController.cs" Line="74" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="227" Column="28" />
       <File FileName="c:\Users\Blaise\Documents\ClassWork\Assets\Facebook\Scripts\AndroidFacebook.cs" Line="88" Column="25" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="61" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\FlipCupController.cs" Line="97" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -35,7 +35,7 @@ public class GlobalController : MonoBehaviour
 	// Variables to keep track of party points
 	public GameObject pointsBox;
 	public GameObject scoreText;
-	int totalPartyPoints;
+	public int totalPartyPoints;
 
 
 	// High scores
@@ -157,6 +157,7 @@ public class GlobalController : MonoBehaviour
 		// or something. Then a high score type thing and THEN back to the menu screen.
 
 		// Reset all variables.
+
 		ResetVariables();
 		Application.LoadLevel( "MenuScene" );
 	}
@@ -223,6 +224,7 @@ public class GlobalController : MonoBehaviour
 	public List<int> SaveHighScore(int score)
 	{
 		int tempScore; 
+		totalPartyPoints = score;
 		// Get the high scores from the preferences
 		for( int i=0; i < 5; i++ )
 		{

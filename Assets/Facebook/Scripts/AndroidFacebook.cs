@@ -171,6 +171,8 @@ namespace Facebook
             if (parameters.ContainsKey("key_hash"))
             {
                 keyHash = (string)parameters["key_hash"];
+				Debug.Log("Proper hash: " + keyHash);
+
             }
 
             OnAuthResponse(new FBResult(message));
