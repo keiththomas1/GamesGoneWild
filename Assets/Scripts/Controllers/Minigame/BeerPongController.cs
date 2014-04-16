@@ -15,8 +15,8 @@ public class BeerPongController : MonoBehaviour
 	//Vector3 initialBallSize;
 	Vector2 ballMovement;
 	Vector2 downBallMovement;
-	float ballGrowRate = 1.02f;
-	float ballShrinkRate = .96f;
+	float ballGrowRate = 1.04f;
+	float ballShrinkRate = .92f;
 	
 	public GameObject sliderHorizontal;
 	public GameObject sliderVertical;
@@ -34,7 +34,9 @@ public class BeerPongController : MonoBehaviour
 	int cupIndex;
 
 	public GameObject instructionText;
+	public GameObject instructionTextShadow;
 	public GameObject descriptionText;
+	public GameObject descriptionTextShadow;
 	int partyPoints;
 	
 	// Sound Effects
@@ -59,6 +61,7 @@ public class BeerPongController : MonoBehaviour
 		isShootingVertical = false;
 		isFinished = false;
 		descriptionText.renderer.enabled = false;
+		descriptionTextShadow.renderer.enabled = false;
 		
 		//initialBallSize = ball.transform.localScale;
 		ballMovement = new Vector2( 0.0f, .1f );
@@ -185,10 +188,12 @@ public class BeerPongController : MonoBehaviour
 				fadeTimer -= Time.deltaTime;
 				fadeValue += Time.deltaTime;
 				instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+				instructionTextShadow.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 
 				if( fadeValue >= 1.0f )
 				{
 					Destroy( instructionText );
+					Destroy( instructionTextShadow );
 				}
 			}
 			
@@ -234,22 +239,27 @@ public class BeerPongController : MonoBehaviour
 					{
 					case 1:
 						descriptionText.GetComponent<TextMesh>().text = "Island!";
+						descriptionTextShadow.GetComponent<TextMesh>().text = "Island!";
 						partyPoints = 120;
 						break;
 					case 2:
 						descriptionText.GetComponent<TextMesh>().text = "Freshman Cup!";
+						descriptionTextShadow.GetComponent<TextMesh>().text = "Freshman Cup!";
 						partyPoints = 60;
 						break;
 					case 3:
 						descriptionText.GetComponent<TextMesh>().text = "Water Cup!";
+						descriptionTextShadow.GetComponent<TextMesh>().text = "Water Cup!";
 						partyPoints = 10;
 						break;
 					case 4:
 						descriptionText.GetComponent<TextMesh>().text = "Nice Shot!";
+						descriptionTextShadow.GetComponent<TextMesh>().text = "Nice Shot!";
 						partyPoints = 100;
 						break;
 					}
 					descriptionText.renderer.enabled = true;
+					descriptionTextShadow.renderer.enabled = true;
 				}
 			}
 		}

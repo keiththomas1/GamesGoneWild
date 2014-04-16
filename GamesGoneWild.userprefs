@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\ArmWrestleController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DartBehavior.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="252" Column="3" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\ArmWrestleController.cs" Line="90" Column="33" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="35" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="186" Column="53" />
+      <File FileName="Assets\Scripts\DartBehavior.cs" Line="91" Column="45" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\DartsController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DartBoardBehavior.cs" Line="32" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

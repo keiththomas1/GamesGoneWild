@@ -14,15 +14,36 @@ public class MenuController : MonoBehaviour
 	public GUIStyle MenuText;
 	public GUIStyle FBbuttonStyle;
 
-
 	public string FBName;
 	public Texture profilePic;
 
+	// Text objects for changing text on the fly
+	public GameObject facebookLoggedInText;
+	public GameObject facebookLoggedInTextShadow;
+	public GameObject highScoreText;
+	public GameObject highScoreTextShadow;
 
 	// Use this for initialization
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
+
+		int partyPoints;
+		if( globalController )
+		{
+			List<int> tempList = globalController.GetComponent<GlobalController>().GetHighScores();
+			tempList.Reverse();
+			partyPoints = tempList[0];
+		}
+		else
+		{
+			partyPoints = 0;
+		}
+		highScoreText.GetComponent<TextMesh>().text = "High Score: " + partyPoints.ToString();
+		highScoreTextShadow.GetComponent<TextMesh>().text = "High Score: " + partyPoints.ToString();
+		
+		facebookLoggedInText.GetComponent<TextMesh>().text = "";
+		facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "";
 
 		CallFBInit ();
 		hit = new RaycastHit();
@@ -39,7 +60,7 @@ public class MenuController : MonoBehaviour
 		if (!FB.IsLoggedIn)
 		{   
 
-			if (GUI.Button(new Rect(200, 70, 275, 90),"", FBbuttonStyle))
+			if (GUI.Button(new Rect(200, 20, 240, 40),"", FBbuttonStyle))
 			{
 				Debug.Log ("Calling FBLogin()");
 				CallFBLogin();
@@ -48,8 +69,9 @@ public class MenuController : MonoBehaviour
 
 		if (FB.IsLoggedIn)
 		{ 
-
-			GUI.Label(new Rect(200, 10, 275, 90),"Welcome \n" + FBName + "!", MenuText);
+			facebookLoggedInText.GetComponent<TextMesh>().text = "Logged In - " + FBName;
+			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
+			//GUI.Label(new Rect(200, 10, 275, 90),"Welcome \n" + FBName + "!", MenuText);
 			GUI.DrawTexture(new Rect(1500,10,256,256),profilePic,ScaleMode.ScaleToFit,true,0);
 		}  
 	}

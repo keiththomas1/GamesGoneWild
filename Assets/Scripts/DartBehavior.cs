@@ -22,13 +22,15 @@ public class DartBehavior : MonoBehaviour
 
 	public GameObject descriptionText;
 
+	public GameObject dartBoard;
+
 	// Use this for initialization
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
 
 		gameOver = false;
-		dartJumpConstant = 200.0f;
+		dartJumpConstant = 240.0f;
 		canJump = true;
 
 		canControl = true;
@@ -84,12 +86,12 @@ public class DartBehavior : MonoBehaviour
 					globalController.GetComponent<GlobalController>().LostMinigame();
 				}
 
-				if( rigidbody2D.velocity.y > 0.0f && 
+				if( rigidbody2D.velocity.y > 1.0f && 
 				   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
 				{
 					transform.Rotate( new Vector3( 0.0f, 0.0f, 2.5f * 60.0f * Time.deltaTime ) );
 				}
-				if( rigidbody2D.velocity.y < 1.0f && 
+				else if( rigidbody2D.velocity.y < 1.0f && 
 				   (transform.rotation.eulerAngles.z > 340 || transform.rotation.eulerAngles.z < 330) )
 				{	
 					transform.Rotate( new Vector3( 0.0f, 0.0f, -0.5f * 60.0f * Time.deltaTime ) );
@@ -100,16 +102,18 @@ public class DartBehavior : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D coll )
 	{
-		Debug.Log( "Collision with " + coll.ToString() + " and game over = " + gameOver.ToString() );
+		Debug.Log( "Collision with " + coll.ToString() + " and position = " + transform.position.x.ToString() );
 		if( !gameOver )
 		{
-			if( "DartBoard" == coll.name && transform.position.x < 7.7f )
+			if( "DartBoard" == coll.name && transform.position.x < 7.2f )
 			{
 				horizontalMoving = false;
 				canControl = false;
 				
 				rigidbody2D.velocity = new Vector2( 0.0f, 0.0f );
 				rigidbody2D.gravityScale = 0.0f;
+
+				dartBoard.GetComponent<DartBoardBehavior>().StopVertical();
 				
 				gameOver = true;
 				dartController.GetComponent<DartsController>().gameOver = true;
@@ -118,7 +122,7 @@ public class DartBehavior : MonoBehaviour
 				float dartBoardY = coll.transform.position.y;
 				float dartPosition = transform.position.y - dartBoardY;
 				int partyPoints;
-				Debug.Log(dartPosition);
+
 				if( dartPosition <= .45 && dartPosition >= -.3 )
 				{
 					partyPoints = 110;
@@ -158,6 +162,6 @@ public class DartBehavior : MonoBehaviour
 	public void StartGame()
 	{
 		gameStarted = true;
-		rigidbody2D.gravityScale = 0.6f;
+		rigidbody2D.gravityScale = 0.9f;
 	}
 }

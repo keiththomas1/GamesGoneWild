@@ -4,46 +4,80 @@ using System.Collections;
 public class DartBoardBehavior : MonoBehaviour 
 {
 	public GameObject controller;
-	bool isMoving;
+	bool horizontalMoving;
+	bool verticalMoving;
+	bool movingUpwards;
 	
-	Vector2 speedVector;
+	Vector2 horizontalVector;
+	Vector2 verticalVector;
 	
 	// Use this for initialization
 	void Start () 
 	{
 		transform.Translate( new Vector2( 0.0f, (Random.value*4)-2 ) );
 
-		speedVector = new Vector2( -.08f, 0.0f );
+		horizontalMoving = false;
+		verticalMoving = true;
+		movingUpwards = true;
+
+		horizontalVector = new Vector2( -.08f, 0.0f );
+		verticalVector = new Vector2( 0.0f, .06f );
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if( isMoving )
+		if( horizontalMoving )
 		{
-			transform.Translate( speedVector * 60.0f * Time.deltaTime );
+			transform.Translate( horizontalVector * 60.0f * Time.deltaTime );
+		}
+		if( verticalMoving )
+		{
+			if( movingUpwards )
+			{
+				transform.Translate( verticalVector * 60.0f * Time.deltaTime );
+
+				if( transform.position.y > 2.1f )
+				{
+					movingUpwards = false;
+				}
+			}
+			else
+			{
+				transform.Translate( -verticalVector * 60.0f * Time.deltaTime );
+				
+				if( transform.position.y < -2.1f )
+				{
+					movingUpwards = true;
+				}
+			}
 		}
 		if( transform.position.x < 7.0f )
 		{
 			controller.GetComponent<DartsController>().StartMovingDart();
 
-			isMoving = false;
+			horizontalMoving = false;
 			
 			controller.GetComponent<DartsController>().dartFlying = false;
 
 			Vector3 tempPos = transform.position;
-			tempPos.x = 7.6f;
+			tempPos.x = 7.0f;
 			transform.position = tempPos;
 		}
 	}
 	
 	public void StartMoving()
 	{
-		isMoving = true;
+		horizontalMoving = true;
+	}
+
+	public void StopVertical()
+	{
+		verticalMoving = false;
 	}
 	
 	public void SlowDown()
 	{
-		speedVector = new Vector2( -.03f, 0.0f );
+		horizontalVector = new Vector2( -.03f, 0.0f );
 	}
 }

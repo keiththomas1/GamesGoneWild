@@ -35,17 +35,10 @@ public class GlobalController : MonoBehaviour
 	public GameObject pointsBox;
 	public GameObject scoreText;
 
-
-	// High scores
-	List<int> HighScores;
-
 	// Use this for initialization
 	void Start () 
 	{
-
 		menuController = GameObject.Find( "Menu Controller" );
-
-
 
 		// Essential for making this "global" and persistent.
 		Object.DontDestroyOnLoad( this );
@@ -60,8 +53,6 @@ public class GlobalController : MonoBehaviour
 			Renderer r = (Renderer)c;
 			r.enabled = false;
 		}
-		
-		HighScores = new List<int> ();
 
 		// Technically setting for the first time, but hey, modularization..
 		ResetVariables();
@@ -191,7 +182,8 @@ public class GlobalController : MonoBehaviour
 		{
 			playGameMusic.GetComponent<AudioSource>().Stop();
 		}
-		playGameMusic.GetComponent<AudioSource>().Play();
+		// Disabled till we get real music.
+		//playGameMusic.GetComponent<AudioSource>().Play();
 	}
 
 	// This is called when the menu is started
@@ -205,7 +197,8 @@ public class GlobalController : MonoBehaviour
 		{
 			playGameMusic.GetComponent<AudioSource>().Stop();
 		}
-		menuMusic.GetComponent<AudioSource>().Play();
+		// Disabled till we get real music.
+		//menuMusic.GetComponent<AudioSource>().Play();
 	}
 
 
@@ -219,14 +212,50 @@ public class GlobalController : MonoBehaviour
 	// HACK - Only shows four high scores right now, will need to change in the future.
 	public List<int> SaveHighScore(int score)
 	{
+		List<int> tempList = GetHighScores();
+
+		if( score > tempList[0] )
+		{
+			if( tempList.Count >= 5 )
+			{
+				tempList[0] = score;
+				Debug.Log( tempList[0] );
+			}
+			else
+			{
+				tempList.Add( score );
+			}
+			tempList.Sort();
+
+			// Save the high scores to the preferences
+			for( int i=0; i < tempList.Count; i++ )
+			{
+				PlayerPrefs.SetInt("HighScore" + i.ToString(), tempList[i]);
+				
+				if( i >= 5 )
+				{
+					break;
+				}
+			}
+			PlayerPrefs.Save();
+		}
+
+		return tempList;
+	}
+
+	// Returns list of highscores in ascending order.
+	public List<int> GetHighScores()
+	{
 		int tempScore; 
+		List<int> newHighscores = new List<int>();
 		// Get the high scores from the preferences
 		for( int i=0; i < 5; i++ )
 		{
 			tempScore = PlayerPrefs.GetInt("HighScore" + i.ToString());
+			Debug.Log("High score " + i.ToString() + ": " + tempScore.ToString());
 			if( tempScore != 0 )
 			{
-				HighScores.Add( tempScore );
+				newHighscores.Add( tempScore );
 			}
 			else
 			{
@@ -234,22 +263,6 @@ public class GlobalController : MonoBehaviour
 			}
 		}
 
-		HighScores.Add( score );
-		HighScores.Sort();
-
-		// Save the high scores to the preferences
-		for( int i=0; i < HighScores.Count; i++ )
-		{
-			PlayerPrefs.SetInt("HighScore" + i.ToString(), HighScores[i]);
-
-			if( i >= 5 )
-			{
-				break;
-			}
-		}
-		PlayerPrefs.Save();
-
-		return HighScores;
+		return newHighscores;
 	}
-
 }
