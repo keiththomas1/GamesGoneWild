@@ -28,8 +28,6 @@ public class MenuController : MonoBehaviour
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
-		score = globalController.GetComponent<GlobalController> ().totalPartyPoints;
-		Debug.Log ("score: " + score);
 
 		int partyPoints;
 		if( globalController )

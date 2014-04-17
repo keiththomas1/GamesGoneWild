@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class GlobalController : MonoBehaviour 
 {
 	string gameMode;
-	public string[] minigameNames;
+	List<string> allMinigames;
+	List<string> currentMinigames;
 	string previousMode;
 
 	// Facebook User Information -- name, picture, etc.
@@ -20,6 +21,7 @@ public class GlobalController : MonoBehaviour
 	public int partyPoints;
 	public int beersDrank;
 	public int beerLives;
+	public int turnUpLevel;
 
 	// Variables kept for progress in mini-games
 	public bool[] CupsPlaced;	// For beer pong.
@@ -39,6 +41,19 @@ public class GlobalController : MonoBehaviour
 	void Start () 
 	{
 		menuController = GameObject.Find( "Menu Controller" );
+
+		allMinigames = new List<string>();
+		allMinigames.Add("BeerPong");
+		allMinigames.Add("FlippyCup");
+		allMinigames.Add("Darts");
+		allMinigames.Add("Save_The_Floor");
+		allMinigames.Add("fall");
+		allMinigames.Add("ArmWrestle");
+		
+		currentMinigames = new List<string>();
+		currentMinigames.Add("BeerPong");
+		currentMinigames.Add("FlippyCup");
+		currentMinigames.Add("Darts");
 
 		// Essential for making this "global" and persistent.
 		Object.DontDestroyOnLoad( this );
@@ -72,9 +87,9 @@ public class GlobalController : MonoBehaviour
 
 		if( mode == "Selection" )
 		{
-			for( int i=0; i<minigameNames.Length; i++ )
+			for( int i=0; i<allMinigames.Count; i++ )
 			{
-				if( minigameNames[i] == game )
+				if( allMinigames[i] == game )
 				{
 					currentLevel = i;
 					break;
@@ -92,17 +107,25 @@ public class GlobalController : MonoBehaviour
 		{
 			if( gameMode == "Normal Mode" )
 			{
-				// Choose a random minigame
-				// HACK - Consider a more intelligent ordering before finished
-				int random = Random.Range( 0, minigameNames.Length);
-				if( minigameNames[random] == previousMode )
+				if( currentMinigames.Count > 0 )
 				{
-					NextMinigame();
-					return;
+					int random = Random.Range( 0, currentMinigames.Count);
+					previousMode = currentMinigames[random];
+					currentMinigames.Remove( previousMode );
+					currentLevel = random;
+					Application.LoadLevel( previousMode );
 				}
-				previousMode = minigameNames[random];
-				currentLevel = random;
-				Application.LoadLevel( minigameNames[random] );
+				else // it's time to turn up
+				{
+					turnUpLevel++;
+
+					for( int i=0; i<(2+turnUpLevel); i++ )
+					{
+						currentMinigames.Add( allMinigames[i] );
+					}
+
+					Application.LoadLevel( "TurnUpScene" );
+				}
 			}
 			else
 			{
@@ -155,6 +178,7 @@ public class GlobalController : MonoBehaviour
 		partyPoints = 0;	
 		beersDrank = 0;	// Lives lost
 		beerLives = 4;	// Total lives
+		turnUpLevel = 1;
 
 		// Beer Pong
 		CupsPlaced = new bool[10];

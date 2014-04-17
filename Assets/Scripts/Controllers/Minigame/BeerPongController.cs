@@ -228,7 +228,7 @@ public class BeerPongController : MonoBehaviour
 				ball.transform.localScale = ball.transform.localScale * ballShrinkRate;
 			}
 			
-			if( ball.transform.position.y > sliderVertical.transform.position.y )
+			if( ball.transform.position.y > (sliderVertical.transform.position.y+.2f) )
 			{
 				isFinished = true;
 
