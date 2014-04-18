@@ -7,7 +7,7 @@ public class GlobalController : MonoBehaviour
 	string gameMode;
 	List<string> allMinigames;
 	List<string> currentMinigames;
-	string previousMode;
+	public string previousMode;
 
 	// Facebook User Information -- name, picture, etc.
 	public GameObject menuController;
@@ -49,11 +49,6 @@ public class GlobalController : MonoBehaviour
 		allMinigames.Add("Save_The_Floor");
 		allMinigames.Add("fall");
 		allMinigames.Add("ArmWrestle");
-		
-		currentMinigames = new List<string>();
-		currentMinigames.Add("BeerPong");
-		currentMinigames.Add("FlippyCup");
-		currentMinigames.Add("Darts");
 
 		// Essential for making this "global" and persistent.
 		Object.DontDestroyOnLoad( this );
@@ -85,7 +80,7 @@ public class GlobalController : MonoBehaviour
 		gameMode = mode;
 		StartModeMusic();
 
-		if( mode == "Selection" )
+		/*if( mode == "Selection" )
 		{
 			for( int i=0; i<allMinigames.Count; i++ )
 			{
@@ -95,7 +90,7 @@ public class GlobalController : MonoBehaviour
 					break;
 				}
 			}
-		}
+		}*/
 		currentSelectionLevel = game;
 		
 		NextMinigame();
@@ -175,6 +170,11 @@ public class GlobalController : MonoBehaviour
 
 	void ResetVariables()
 	{
+		currentMinigames = new List<string>();
+		currentMinigames.Add("BeerPong");
+		currentMinigames.Add("FlippyCup");
+		currentMinigames.Add("Darts");
+
 		partyPoints = 0;	
 		beersDrank = 0;	// Lives lost
 		beerLives = 4;	// Total lives
