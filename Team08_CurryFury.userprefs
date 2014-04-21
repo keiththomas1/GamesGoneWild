@@ -1,12 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\FlipCupController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Other\MenuController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\FlipCupController.cs" Line="12" Column="41" />
-      <File FileName="Assets\iTween\ReadMe!\ReadMe!.txt" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Controllers\ArmWrestleController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Controllers\SplashScreenController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Controllers\BeerPongController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="185" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
