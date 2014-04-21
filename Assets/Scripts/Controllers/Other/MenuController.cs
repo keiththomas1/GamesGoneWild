@@ -28,7 +28,13 @@ public class MenuController : MonoBehaviour
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
-		CallFBInit ();
+		if (!FB.IsLoggedIn) {
+			CallFBInit ();
+		}
+		else{
+			Debug.Log("Logged in? " + FB.IsLoggedIn);
+			OnLoggedIn();
+		}
 		int partyPoints;
 		if( globalController )
 		{
@@ -48,11 +54,6 @@ public class MenuController : MonoBehaviour
 
 
 		hit = new RaycastHit();
-
-		if (FB.IsLoggedIn)
-		{
-			OnLoggedIn();
-		}
 	}
 	
 	void OnGUI()
@@ -74,7 +75,7 @@ public class MenuController : MonoBehaviour
 			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			//GUI.Label(new Rect(200, 10, 275, 90),"Welcome \n" + FBName + "!", MenuText);
 			if (profilePic != null)
-			    GUI.DrawTexture(new Rect(1500,10,256,256),profilePic,ScaleMode.ScaleToFit,true,0);
+			    GUI.DrawTexture(new Rect(10,10,100,100),profilePic,ScaleMode.ScaleToFit,true,0);
 		}  
 	}
 	public void CallFBInit(){
