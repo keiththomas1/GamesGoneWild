@@ -53,9 +53,9 @@ public class FlipCupController : MonoBehaviour {
 				{
 					//finalPos = Input.mousePosition*10;
 				finalPos = Input.mousePosition;
-				finalPos.y *= 10;
-				finalPos.x *= 1.3f;
+				finalPos.y *= 8;
 				Pos = finalPos - initPos;
+				Pos.x *= 1.3f;
 
 				//Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
 				if( Pos.y > 1200.0f )
@@ -63,11 +63,11 @@ public class FlipCupController : MonoBehaviour {
 				if( Pos.x > 450.0f )
 					Pos.x = 450.0f;
 				if( Pos.x < -450.0f )
-						Pos.x = -450.0f;
+					Pos.x = -450.0f;
 				Debug.Log( "Flick vector: " + Pos );
 
 				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
-				Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
+				Cup_placeholder.rigidbody.AddForce(0,0,180);	//pushes cup from edge onto table
 				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
 				isFlicked = true; //the cup has been flicked
 			}

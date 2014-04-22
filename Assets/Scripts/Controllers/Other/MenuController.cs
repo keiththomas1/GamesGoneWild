@@ -61,7 +61,7 @@ public class MenuController : MonoBehaviour
 		if (!FB.IsLoggedIn)
 		{   
 
-			if (GUI.Button(new Rect(200, 20, 240, 40),"", FBbuttonStyle))
+			if (GUI.Button(new Rect(200, 20, 260, 60),"", FBbuttonStyle))
 			{
 				Debug.Log ("Calling FBLogin()");
 				CallFBLogin();
