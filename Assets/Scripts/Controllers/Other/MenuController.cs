@@ -28,7 +28,13 @@ public class MenuController : MonoBehaviour
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
-
+		if (!FB.IsLoggedIn) {
+			CallFBInit ();
+		}
+		else{
+			Debug.Log("Logged in? " + FB.IsLoggedIn);
+			OnLoggedIn();
+		}
 		int partyPoints;
 		if( globalController )
 		{
@@ -46,13 +52,8 @@ public class MenuController : MonoBehaviour
 		facebookLoggedInText.GetComponent<TextMesh>().text = "";
 		facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "";
 
-		CallFBInit ();
-		hit = new RaycastHit();
 
-		if (FB.IsLoggedIn)
-		{
-			OnLoggedIn();
-		}
+		hit = new RaycastHit();
 	}
 	
 	void OnGUI()
@@ -73,7 +74,8 @@ public class MenuController : MonoBehaviour
 			facebookLoggedInText.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			//GUI.Label(new Rect(200, 10, 275, 90),"Welcome \n" + FBName + "!", MenuText);
-			GUI.DrawTexture(new Rect(1500,10,256,256),profilePic,ScaleMode.ScaleToFit,true,0);
+			if (profilePic != null)
+			    GUI.DrawTexture(new Rect(10,10,100,100),profilePic,ScaleMode.ScaleToFit,true,0);
 		}  
 	}
 	public void CallFBInit(){
@@ -86,7 +88,7 @@ public class MenuController : MonoBehaviour
 		Debug.Log("Is game showing? " + isGameShown);
 	}
 	private void CallFBLogin(){
-		FB.Login("basic_info, publish_actions", LoginCallback);
+		FB.Login("basic_info", LoginCallback);
 	}
 	private void LoginCallback(FBResult result){
 		if(FB.IsLoggedIn) {
@@ -97,6 +99,7 @@ public class MenuController : MonoBehaviour
 
 	void OnLoggedIn()
 	{
+		//Get the users name and profile picture from facebook
 		FB.API("/me?fields=name", Facebook.HttpMethod.GET, APICallback);
 		LoadPicture (Util.GetPictureURL ("me", 128, 128), MyPictureCallback);
 	}
@@ -110,7 +113,8 @@ public class MenuController : MonoBehaviour
 			// Let's just try again                                                                                                
 			FB.API("/me?fields=name)", Facebook.HttpMethod.GET, APICallback);     
 			return;                                                                                                                
-		}                                                                                                                          
+		}           
+		//deserialzie json object
 		var dict = Json.Deserialize(result.Text) as Dictionary<String,System.Object>;
 		Debug.Log ("deserialized: " + dict.GetType ());
 		Debug.Log ("dict['name'][0]: " + dict ["name"] as String);
