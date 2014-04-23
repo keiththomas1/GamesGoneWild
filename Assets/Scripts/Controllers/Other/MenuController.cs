@@ -36,8 +36,13 @@ public class MenuController : MonoBehaviour
 		else{
 			//If logged in then show the name and picture
 			Debug.Log("Logged in? " + FB.IsLoggedIn);
+
 			profilePic = globalController.GetComponent<GlobalController> ().profilePic;
 			FBName = globalController.GetComponent<GlobalController> ().FBUsername;
+			if (profilePic == null || FBName == null){
+				OnLoggedIn();
+			}
+		
 		}
 
 		int partyPoints;
@@ -78,7 +83,7 @@ public class MenuController : MonoBehaviour
 			facebookLoggedInText.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			if (profilePic != null)
-			    GUI.DrawTexture(new Rect(10,10,140,140),profilePic,ScaleMode.ScaleToFit,true,0);
+			    GUI.DrawTexture(new Rect(10,10,110,110),profilePic,ScaleMode.ScaleToFit,true,0);
 		}  
 	}
 
@@ -93,6 +98,18 @@ public class MenuController : MonoBehaviour
 	}
 	private void CallFBLogin(){
 		FB.Login("basic_info", LoginCallback);
+	}
+	public void CallPublishActions(){
+		FB.Login ("publish_actions", PublishActionsCallBack);
+	}
+	private void PublishActionsCallBack(FBResult result){
+		if (FB.IsLoggedIn) {
+			Debug.Log(FB.UserId + " Publish Actions Called");
+			CallFBFeed();
+		}
+		else {
+			Debug.Log (result.Error);
+		}
 	}
 	private void LoginCallback(FBResult result){
 		if(FB.IsLoggedIn) {

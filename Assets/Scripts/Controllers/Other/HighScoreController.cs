@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Facebook;
+using Facebook.MiniJSON;
 
 public class HighScoreController : MonoBehaviour {
 
 	public GameObject globalController;
+	public Texture FBShareButton;
+	public GUIStyle FBShareStyle;
 
 	private const int LeaderBoardLength = 10;
 
@@ -17,9 +21,12 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject[] highScoreTexts;
 	List<int> HighScores;
 
+
+
 	void Start () 
 	{
 		globalController = GameObject.Find ("Global Controller");
+
 
 		if( globalController )
 
@@ -32,6 +39,41 @@ public class HighScoreController : MonoBehaviour {
 		HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 		DisplayHighScores();
 	}
+
+	public void CallPublishActions(){
+		FB.Login ("publish_actions", PublishActionsCallBack);
+
+	}
+	private void PublishActionsCallBack(FBResult result){
+		if (FB.IsLoggedIn) {
+			Debug.Log(FB.UserId + " Publish Actions Called");
+			CallFBFeed();
+		}
+		else {
+			Debug.Log (result.Error);
+		}
+	}
+	private void CallFBFeed(){
+		FB.Feed(
+			linkName: "Curry Furry Games",
+			linkDescription: "Games Gone Wild!",
+			linkCaption: "I just scored " + points + " points! Can you beat it?",
+			picture: "http://gamesgonewild.files.wordpress.com/2014/03/bpscreenshot.png",
+			callback: LogCallback
+			);
+	}
+	void LogCallback(FBResult response) {
+		Debug.Log(response.Text);
+	}
+
+	void OnGUI(){
+
+		if (GUI.Button(new Rect(200, 920, 2000, 500),FBShareButton, FBShareStyle)){
+			CallPublishActions();
+		}
+	
+	}
+
 
 	// Update is called once per frame
 	void Update () 
