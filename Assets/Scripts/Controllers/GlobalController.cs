@@ -12,6 +12,7 @@ public class GlobalController : MonoBehaviour
 	// Facebook User Information -- name, picture, etc.
 	public GameObject menuController;
 	public string FBUsername;
+	public Texture profilePic;
 
 	// All of the music to play
 	public GameObject menuMusic;
@@ -40,7 +41,7 @@ public class GlobalController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		menuController = GameObject.Find( "Menu Controller" );
+
 
 		allMinigames = new List<string>();
 		allMinigames.Add("BeerPong");
@@ -226,9 +227,13 @@ public class GlobalController : MonoBehaviour
 	}
 
 
-	public void SetUserName()
+	public void SetUserName(string name)
 	{
-		FBUsername = menuController.GetComponent<MenuController>().FBName;
+		FBUsername = name;
+	}
+	public void SetProfilePic(Texture picture)
+	{
+		profilePic = picture;
 	}
 
 
@@ -289,4 +294,6 @@ public class GlobalController : MonoBehaviour
 
 		return newHighscores;
 	}
+
+
 }
