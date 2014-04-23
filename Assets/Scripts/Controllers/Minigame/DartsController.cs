@@ -13,6 +13,9 @@ public class DartsController : MonoBehaviour
 	float gameStartTimer;
 	bool gameStarted;
 
+	// Speed of all objects in scene (except background)
+	public float roomSpeed;
+
 	public GameObject floor;
 	Vector2 floorSpeed;
 
@@ -43,9 +46,14 @@ public class DartsController : MonoBehaviour
 		dartFlying = true;
 		dartMoving = false;
 
-		floorSpeed = new Vector2( -.07f, 0.0f );
+		if( globalController )
+			roomSpeed = .08f + (globalController.GetComponent<GlobalController>().dartLevel * .01f);
+		else
+			roomSpeed = .09f;
 
-		pillarTimer = 2.0f;
+		floorSpeed = new Vector2( -roomSpeed + .01f, 0.0f );
+
+		pillarTimer = 2.0f - (globalController.GetComponent<GlobalController>().dartLevel*.1f);
 		currentPillar = 0;
 		if( globalController )
 			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 3;
@@ -113,13 +121,13 @@ public class DartsController : MonoBehaviour
 				board.GetComponent<DartBoardBehavior>().StartMoving();
 			}
 
-			if( currentPillar == (pillarCount-2) )
+			if( currentPillar == (pillarCount-2) )	// If dartboard is coming next
 			{
-				pillarTimer = 4.0f;
+				pillarTimer = 4.0f- (globalController.GetComponent<GlobalController>().dartLevel*.2f);
 			}
 			else
 			{
-				pillarTimer = 2.0f;
+				pillarTimer = 2.0f - (globalController.GetComponent<GlobalController>().dartLevel*.1f);
 			}
 
 			currentPillar++;
@@ -134,7 +142,7 @@ public class DartsController : MonoBehaviour
 	public void StartMovingDart()
 	{
 		dartMoving = true;
-		dart.GetComponent<DartBehavior>().horizontalMoving = true;
+		dart.GetComponent<DartBehavior>().StartMoving();
 	}
 
 	public void SlowDown()
@@ -144,6 +152,6 @@ public class DartsController : MonoBehaviour
 			pillars[i].GetComponent<PillarBehavior>().SlowDown();
 		}
 		board.GetComponent<DartBoardBehavior>().SlowDown();
-		floorSpeed = new Vector2( -.03f, 0.0f );
+		floorSpeed = new Vector2( -(roomSpeed-.01f)/2.0f, 0.0f );
 	}
 }

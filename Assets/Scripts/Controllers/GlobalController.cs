@@ -26,6 +26,7 @@ public class GlobalController : MonoBehaviour
 
 	// Variables kept for progress in mini-games
 	public bool[] CupsPlaced;	// For beer pong.
+	public int beerPongLevel;
 	public int armEnemyLevel;	// For arm wrestle.
 	public int dartLevel;
 	public int pukeLevel;
@@ -187,11 +188,11 @@ public class GlobalController : MonoBehaviour
 		{
 			CupsPlaced[i] = true;
 		}
-		// Arm Wrestling
+
+		// Mini-game "levels"
+		beerPongLevel = 1;
 		armEnemyLevel = 1;
-		// Darts
 		dartLevel = 1;
-		// Save the Floors
 		pukeLevel = 4;
 	}
 

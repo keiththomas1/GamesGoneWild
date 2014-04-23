@@ -27,6 +27,7 @@ public class BeerPongController : MonoBehaviour
 	string sliderDirection;
 	Vector2 rightSlide;
 	Vector2 leftSlide;
+	float sliderMultiplier;
 	
 	public GameObject[] cups;
 	bool cupAnimTimerStart;
@@ -63,14 +64,14 @@ public class BeerPongController : MonoBehaviour
 		descriptionText.renderer.enabled = false;
 		descriptionTextShadow.renderer.enabled = false;
 		
-		//initialBallSize = ball.transform.localScale;
-		ballMovement = new Vector2( 0.0f, .1f );
-		
 		slideBarHorizontalActualLength = slideBarHorizontal.renderer.bounds.size.x * .9f; // HACK - This is just because the bar is curved.
 		slideBarVerticalActualLength = slideBarVertical.renderer.bounds.size.y * .85f; // HACK - This is just because the bar is curved.
 		sliderDirection = "right";
-		rightSlide = new Vector2( .1f, 0.0f );
-		leftSlide = new Vector2( -.1f, 0.0f );
+
+		sliderMultiplier = globalController.GetComponent<GlobalController>().beerPongLevel * .01f;
+		ballMovement = new Vector2( 0.0f, .1f + sliderMultiplier );
+		rightSlide = new Vector2( .1f + sliderMultiplier, 0.0f );
+		leftSlide = new Vector2( -.1f - sliderMultiplier, 0.0f );
 		
 		ball.GetComponent<Animator>().enabled = false;
 		
@@ -276,7 +277,7 @@ public class BeerPongController : MonoBehaviour
 				{
 					if( ballParent.transform.position.x >= (cups[i].transform.position.x - cups[i].renderer.bounds.size.x/2)
 					   && ballParent.transform.position.x <= (cups[i].transform.position.x + cups[i].renderer.bounds.size.x/2)
-					   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/6)
+					   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/7)
 					   && ballParent.transform.position.y <= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/2) )
 					{	
 						// Play ball in cup sound
@@ -323,6 +324,7 @@ public class BeerPongController : MonoBehaviour
 			{
 				// Try to fade it out eventually
 				Destroy( cups[cupIndex] );
+				globalController.GetComponent<GlobalController>().beerPongLevel++;
 				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
 				gameOver = true;
 			}

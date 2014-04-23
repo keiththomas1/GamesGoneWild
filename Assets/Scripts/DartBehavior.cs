@@ -14,6 +14,7 @@ public class DartBehavior : MonoBehaviour
 
 	bool canControl;
 	public bool horizontalMoving;
+	float speed;
 	Vector2 speedVector;
 
 	Vector3 startPosition;
@@ -30,12 +31,11 @@ public class DartBehavior : MonoBehaviour
 		globalController = GameObject.Find("Global Controller");
 
 		gameOver = false;
-		dartJumpConstant = 240.0f;
+		dartJumpConstant = 240.0f + (globalController.GetComponent<GlobalController>().dartLevel * 10.0f);
 		canJump = true;
 
 		canControl = true;
 		horizontalMoving = false;
-		speedVector = new Vector2( .08f, 0.0f );
 
 		startPosition = transform.position;
 		gameStarted = false;
@@ -72,7 +72,7 @@ public class DartBehavior : MonoBehaviour
 					if( dartJumpTimer <= 0.0f )
 					{
 						canJump = true;
-						dartJumpTimer = .2f;
+						dartJumpTimer = .18f;
 					}
 				}
 				
@@ -159,9 +159,16 @@ public class DartBehavior : MonoBehaviour
 		}
 	}
 
+	public void StartMoving()
+	{
+		speed = dartController.GetComponent<DartsController>().roomSpeed;
+		speedVector = new Vector2( speed, 0.0f );
+		horizontalMoving = true;
+	}
+
 	public void StartGame()
 	{
 		gameStarted = true;
-		rigidbody2D.gravityScale = 0.9f;
+		rigidbody2D.gravityScale = 0.9f + (globalController.GetComponent<GlobalController>().dartLevel * .05f);
 	}
 }

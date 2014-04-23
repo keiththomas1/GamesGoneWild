@@ -7,7 +7,8 @@ public class DartBoardBehavior : MonoBehaviour
 	bool horizontalMoving;
 	bool verticalMoving;
 	bool movingUpwards;
-	
+
+	float speed;
 	Vector2 horizontalVector;
 	Vector2 verticalVector;
 	
@@ -20,7 +21,6 @@ public class DartBoardBehavior : MonoBehaviour
 		verticalMoving = true;
 		movingUpwards = true;
 
-		horizontalVector = new Vector2( -.08f, 0.0f );
 		verticalVector = new Vector2( 0.0f, .06f );
 	}
 	
@@ -68,6 +68,8 @@ public class DartBoardBehavior : MonoBehaviour
 	
 	public void StartMoving()
 	{
+		speed = controller.GetComponent<DartsController>().roomSpeed;
+		horizontalVector = new Vector2( -speed, 0.0f );
 		horizontalMoving = true;
 	}
 
@@ -78,6 +80,6 @@ public class DartBoardBehavior : MonoBehaviour
 	
 	public void SlowDown()
 	{
-		horizontalVector = new Vector2( -.03f, 0.0f );
+		horizontalVector = new Vector2( -speed/2, 0.0f );
 	}
 }
