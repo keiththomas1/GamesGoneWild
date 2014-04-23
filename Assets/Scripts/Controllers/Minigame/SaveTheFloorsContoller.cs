@@ -6,37 +6,27 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	// Controller script in order to move from game to game and save any data necessary
 	public GameObject globalController;
 	bool gameOver;
-
 	// Creating our gameobject for controlling the scene
 	public GameObject [] pukePrefabArray;
-
 	// Identifier for our head gameobject
 	public GameObject head;
 	public Sprite faceTwo;
 	public Sprite faceThree;
 	public Sprite faceFour;
-
 	// Handle for the countdown text object
 	public GameObject countdown;
-
 	// True if the countdown is still going
 	bool countdownPhase;
-	
 	// Timer for when to start the game and destroy countdown
 	float countdownTimer;
-
 	// Index for array of pukePrefab gameobject
 	int pukePrefabIndex;
-
 	// How many pukes you need to win
 	int pukesToWin;
-
 	// This will initiate gravity when needed
 	bool StartPuking;
-
 	// Storing y - location of current puke gameobject
 	Vector3 currentPos;
-
 	// Rotation speed each second
 	float rotateSpeed;
 	// Direction to rotate in
@@ -45,17 +35,19 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	float rotateTimer;
 	// Whether we're actually rotating right now
 	bool rotating;
-	
 	// Timer for how long to keep throw up face on person
 	float throwupTimer;
 	bool throwupAnimationOn;
-	
 	// Variables for fading out the instructions
 	public GameObject instructionText;
 	float fadeTimer;
 	Color colorStart;
 	Color colorEnd;
 	float fadeValue;
+	// Difficulty level
+	float scale = 2.0f;
+	// Puke SFX
+	public GameObject PukeSound;
 
 	// Use this for initialization
 	void Start () 
@@ -109,9 +101,8 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		if( !gameOver )
 		{
 			// Condition whether to send a puke gameobject or not
-			if (StartPuking == true && pukePrefabIndex < 14) 
+			if (StartPuking == true && pukePrefabIndex < pukePrefabArray.Length) 
 			{
-				
 				// Debugging purposes
 				//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
 				Debug.Log ("pukePrefabIndex is " + pukePrefabIndex);
@@ -124,16 +115,14 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 					pukeAngle = head.transform.rotation.eulerAngles.z;
 				
 				// Giving the current element in pukePrefabArray gravity
-				pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle );
+				pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle, pukesToWin);
 				StartPuking = false;
 				
 				throwupAnimationOn = true;
-				throwupTimer = .3f;
+				throwupTimer = 0.3f;
 				head.GetComponent<SpriteRenderer>().sprite = faceFour;
+				PukeSound.GetComponent<AudioSource>().Play();
 			}
-			
-			// To Do: when pukePrefabIndex == 14, take minigame out of rotation
-			
 			// Detecting current location of the puke gameobject
 			currentPos = pukePrefabArray [pukePrefabIndex].transform.position;
 			

@@ -29,6 +29,9 @@ public class Auto : MonoBehaviour
 	Color colorEnd;
 	float fadeValue;
 
+	// Game SFX
+	public GameObject HurtSFX;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -73,7 +76,9 @@ public class Auto : MonoBehaviour
 				// Check if the person has lost.
 				if( localAngle.z > 75 || localAngle.z < -75 )
 				{
+					HurtSFX.GetComponent<AudioSource>().Play ();
 					globalController.GetComponent<GlobalController>().LostMinigame();
+
 				}
 				
 				// If person is at top of the rotation
