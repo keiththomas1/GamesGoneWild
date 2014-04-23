@@ -25,6 +25,11 @@ public class DartBehavior : MonoBehaviour
 
 	public GameObject dartBoard;
 
+	// Dart's SFX
+	public GameObject DartBreakSFX;
+	public GameObject TapDartSFX;
+	public GameObject DartBoardHitSFX;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -61,6 +66,7 @@ public class DartBehavior : MonoBehaviour
 					{
 						dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
 						rigidbody2D.AddForce( dartJumpHeight );
+						TapDartSFX.GetComponent<AudioSource>().Play ();
 
 						canJump = false;
 					}
@@ -118,6 +124,8 @@ public class DartBehavior : MonoBehaviour
 				gameOver = true;
 				dartController.GetComponent<DartsController>().gameOver = true;
 
+				// SFX first
+				DartBoardHitSFX.GetComponent<AudioSource>().Play ();
 				// Figure out the points that the user earned
 				float dartBoardY = coll.transform.position.y;
 				float dartPosition = transform.position.y - dartBoardY;
@@ -150,6 +158,7 @@ public class DartBehavior : MonoBehaviour
 				{
 					horizontalMoving = false;
 					canControl = false;
+					DartBreakSFX.GetComponent<AudioSource>().Play ();
 					
 					dartController.GetComponent<DartsController>().SlowDown();
 					

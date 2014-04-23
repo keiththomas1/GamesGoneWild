@@ -33,7 +33,7 @@ public class Puke_Behavior : MonoBehaviour {
 	/// <summary>
 	/// Gravity this instance. Giving the puke gameobject some gravity so it call fall
 	/// </summary>
-	public void Shoot( float angle ){
+	public void Shoot( float angle, int level){
 		
 		// We need to give our gameobject some gravity inorder for it to fall.
 		// Currently, gravity is set to 0 on all pukePrefab gameobjects.
@@ -43,7 +43,23 @@ public class Puke_Behavior : MonoBehaviour {
 		tempRotation.z = angle;
 		this.transform.Rotate( tempRotation );
 
-		this.rigidbody2D.gravityScale = 1.5f;
+		if( level < 6)
+			this.rigidbody2D.gravityScale = 1.5f;
+		else if( level >= 6 && level < 8)
+			this.rigidbody2D.gravityScale = 2.0f;
+		else if( level >= 8 && level < 10)
+			this.rigidbody2D.gravityScale = 2.5f;
+		else if( level >= 10 &&level < 12)
+			this.rigidbody2D.gravityScale = 3.0f;
+		else if( level >= 12 && level < 14)
+			this.rigidbody2D.gravityScale = 3.5f;
+		else if( level >= 14 && level < 16)
+			this.rigidbody2D.gravityScale = 4.0f;
+		else if( level >= 16 && level < 18)
+			this.rigidbody2D.gravityScale = 4.5f;
+		else
+			this.rigidbody2D.gravityScale = 5.0f;
+
 		rigidbody2D.AddForce( new Vector2( angle*13.0f, -50.0f ) );
 	}
 

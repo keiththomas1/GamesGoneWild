@@ -42,6 +42,7 @@ public class BeerPongController : MonoBehaviour
 	
 	// Sound Effects
 	public GameObject inCupSFX;
+	public GameObject MadeCupSFX;
 	
 	public GameObject countdown;
 	float gameStartTimer;
@@ -256,6 +257,7 @@ public class BeerPongController : MonoBehaviour
 					case 4:
 						descriptionText.GetComponent<TextMesh>().text = "Nice Shot!";
 						descriptionTextShadow.GetComponent<TextMesh>().text = "Nice Shot!";
+						MadeCupSFX.GetComponent<AudioSource>().Play();
 						partyPoints = 100;
 						break;
 					}
