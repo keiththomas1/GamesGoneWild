@@ -8,12 +8,10 @@ using Facebook.MiniJSON;
 public class MenuController : MonoBehaviour 
 {
 	public GameObject globalController; 
-	public Texture FBLoginButton;
 	public RaycastHit hit;
 	public Ray ray;
-	public GUIStyle MenuText;
-	public GUIStyle FBbuttonStyle;
 
+	//facebook data
 	public string FBName;
 	public Texture profilePic;
 	public int score;
@@ -23,18 +21,25 @@ public class MenuController : MonoBehaviour
 	public GameObject facebookLoggedInTextShadow;
 	public GameObject highScoreText;
 	public GameObject highScoreTextShadow;
+	public Texture FBLoginButton;
+	public GUIStyle FBbuttonStyle;
 
 	// Use this for initialization
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
+
+		//Initial check to see if user is logged into Facebook
 		if (!FB.IsLoggedIn) {
 			CallFBInit ();
 		}
 		else{
+			//If logged in then show the name and picture
 			Debug.Log("Logged in? " + FB.IsLoggedIn);
-			OnLoggedIn();
+			profilePic = globalController.GetComponent<GlobalController> ().profilePic;
+			FBName = globalController.GetComponent<GlobalController> ().FBUsername;
 		}
+
 		int partyPoints;
 		if( globalController )
 		{
@@ -52,13 +57,12 @@ public class MenuController : MonoBehaviour
 		facebookLoggedInText.GetComponent<TextMesh>().text = "";
 		facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "";
 
-
 		hit = new RaycastHit();
 	}
 	
 	void OnGUI()
 	{
-
+		//If not logged in, display the login button
 		if (!FB.IsLoggedIn)
 		{   
 
@@ -68,16 +72,16 @@ public class MenuController : MonoBehaviour
 				CallFBLogin();
 			}
 		}
-
+		//If logged in, display the user name and picture
 		if (FB.IsLoggedIn)
 		{ 
 			facebookLoggedInText.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
-			//GUI.Label(new Rect(200, 10, 275, 90),"Welcome \n" + FBName + "!", MenuText);
 			if (profilePic != null)
-			    GUI.DrawTexture(new Rect(10,10,100,100),profilePic,ScaleMode.ScaleToFit,true,0);
+			    GUI.DrawTexture(new Rect(10,10,140,140),profilePic,ScaleMode.ScaleToFit,true,0);
 		}  
 	}
+
 	public void CallFBInit(){
 		FB.Init(OnInitComplete, OnHideUnity);
 	}
@@ -96,7 +100,6 @@ public class MenuController : MonoBehaviour
 			OnLoggedIn ();
 		}
 	}
-
 	void OnLoggedIn()
 	{
 		//Get the users name and profile picture from facebook
@@ -120,6 +123,7 @@ public class MenuController : MonoBehaviour
 		Debug.Log ("dict['name'][0]: " + dict ["name"] as String);
 
 		FBName = dict ["name"] as String;
+		globalController.GetComponent<GlobalController> ().SetUserName (FBName);
 	}          
 
     void MyPictureCallback(Texture texture)                                                                                        
@@ -133,6 +137,8 @@ public class MenuController : MonoBehaviour
 			return;
 		}
 		profilePic = texture;
+		globalController.GetComponent<GlobalController> ().SetProfilePic (profilePic);
+
 	}
 
 	delegate void LoadPictureCallback(Texture texture);
@@ -174,6 +180,8 @@ public class MenuController : MonoBehaviour
 	void LogCallback(FBResult response) {
 		Debug.Log(response.Text);
 	}
+
+
 	
 	// Update is called once per frame
 	void Update () 
