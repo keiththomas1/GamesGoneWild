@@ -79,7 +79,8 @@ public class DartsController : MonoBehaviour
 					PillarUpdate();
 					FloorUpdate();
 				}
-				
+
+				// Handles the fading of the instruction text
 				if( fadeValue < 1.0f )
 				{
 					fadeTimer -= Time.deltaTime;

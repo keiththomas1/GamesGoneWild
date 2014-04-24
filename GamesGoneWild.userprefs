@@ -1,13 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PillarBehavior.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\FlipCupController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="191" Column="3" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="282" Column="8" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\DartsController.cs" Line="52" Column="19" />
-      <File FileName="Assets\Scripts\DartBehavior.cs" Line="32" Column="3" />
-      <File FileName="Assets\Scripts\DartBoardBehavior.cs" Line="83" Column="43" />
-      <File FileName="Assets\Scripts\PillarBehavior.cs" Line="31" Column="3" />
+      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="87" Column="22" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="204" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\FlipCupController.cs" Line="141" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

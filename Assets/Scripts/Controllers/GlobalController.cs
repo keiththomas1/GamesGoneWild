@@ -81,19 +81,10 @@ public class GlobalController : MonoBehaviour
 	{
 		gameMode = mode;
 		StartModeMusic();
-
-		/*if( mode == "Selection" )
-		{
-			for( int i=0; i<allMinigames.Count; i++ )
-			{
-				if( allMinigames[i] == game )
-				{
-					currentLevel = i;
-					break;
-				}
-			}
-		}*/
 		currentSelectionLevel = game;
+
+		if( gameMode != "Normal Mode" )
+			previousMode = "";
 		
 		NextMinigame();
 	}

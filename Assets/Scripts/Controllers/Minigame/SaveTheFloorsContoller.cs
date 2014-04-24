@@ -64,9 +64,9 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		// Set the number of pukes needed to win minigame
 		if( globalController )
-			pukesToWin = globalController.GetComponent<GlobalController>().pukeLevel;
+			pukesToWin = globalController.GetComponent<GlobalController>().pukeLevel;	// Starts at 4
 		else  // For testing purposes, when ran not from splash screen
-			pukesToWin = 5;
+			pukesToWin = 4;
 
 		// Initializing identifier so no gravity is given to puke gameobject
 		StartPuking = false;
@@ -101,7 +101,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		if( !gameOver )
 		{
 			// Condition whether to send a puke gameobject or not
-			if (StartPuking == true && pukePrefabIndex < pukePrefabArray.Length) 
+			if (StartPuking && pukePrefabIndex < pukePrefabArray.Length) 
 			{
 				// Debugging purposes
 				//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
@@ -189,7 +189,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 						rotateDirection = "Left";
 					}
 					
-					rotateTimer = Random.value * 1.6f;
+					rotateTimer = (Random.value * .8f) + .8f;
 				}
 				
 				if( rotateDirection == "Left" )

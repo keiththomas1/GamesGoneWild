@@ -22,6 +22,14 @@ public class FlipCupController : MonoBehaviour {
 	float totalCount = 0;
 	float count = 0;
 	bool isFlicked;
+	
+	public GameObject instructionText;
+	public GameObject instructionTextShadow;
+	// Variables for fading out the instructions
+	float fadeTimer;
+	Color colorStart;
+	Color colorEnd;
+	float fadeValue;
 
 	// Use this for initialization
 	void Start () {
@@ -33,6 +41,12 @@ public class FlipCupController : MonoBehaviour {
 		countdownTimer = 2.7f;
 	
 		canStart = false;
+		
+		// Fading instructions variables
+		fadeTimer = 3.0f; // set duration time in seconds in the Inspector
+		colorStart = instructionText.renderer.material.color;
+		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
+		fadeValue = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -108,6 +122,22 @@ public class FlipCupController : MonoBehaviour {
 			{
 				Destroy( countdown );
 				canStart = true;
+			}
+		}
+		else
+		{
+			if( fadeValue < 1.0f )
+			{
+				fadeTimer -= Time.deltaTime;
+				fadeValue += Time.deltaTime;
+				instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+				instructionTextShadow.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+				
+				if( fadeValue >= 1.0f )
+				{
+					Destroy( instructionText );
+					Destroy( instructionTextShadow );
+				}
 			}
 		}
 	}

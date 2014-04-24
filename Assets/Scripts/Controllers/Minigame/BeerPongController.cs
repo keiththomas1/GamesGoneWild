@@ -9,13 +9,17 @@ public class BeerPongController : MonoBehaviour
 	bool isShootingHorizontal;
 	bool isShootingVertical;
 	bool isFinished;
+
+	// Concerning bouncing when cup missed.
+	bool isBouncing;
+	Vector3 bounceStartPosition;
 	
 	public GameObject ballParent;
 	public GameObject ball;
 	//Vector3 initialBallSize;
 	Vector2 ballMovement;
 	Vector2 downBallMovement;
-	float ballGrowRate = 1.04f;
+	float ballGrowRate = 1.03f;
 	float ballShrinkRate = .92f;
 	
 	public GameObject sliderHorizontal;
@@ -33,11 +37,15 @@ public class BeerPongController : MonoBehaviour
 	bool cupAnimTimerStart;
 	float cupAnimTimer;
 	int cupIndex;
+	
+	public GameObject descriptionText;
+	public GameObject descriptionTextShadow;
+	bool descriptionTextGrowing;
+	float textGrowthTimer;
+	float growthTimerRate; // A constantly decreasing number to make the growth exponential
 
 	public GameObject instructionText;
 	public GameObject instructionTextShadow;
-	public GameObject descriptionText;
-	public GameObject descriptionTextShadow;
 	int partyPoints;
 	
 	// Sound Effects
@@ -62,14 +70,22 @@ public class BeerPongController : MonoBehaviour
 		isShootingHorizontal = true;
 		isShootingVertical = false;
 		isFinished = false;
+
+		isBouncing = false;
+
 		descriptionText.renderer.enabled = false;
 		descriptionTextShadow.renderer.enabled = false;
+		descriptionTextGrowing = false;
+		growthTimerRate = .06f;
 		
 		slideBarHorizontalActualLength = slideBarHorizontal.renderer.bounds.size.x * .9f; // HACK - This is just because the bar is curved.
 		slideBarVerticalActualLength = slideBarVertical.renderer.bounds.size.y * .85f; // HACK - This is just because the bar is curved.
 		sliderDirection = "right";
 
-		sliderMultiplier = globalController.GetComponent<GlobalController>().beerPongLevel * .01f;
+		if( globalController )
+			sliderMultiplier = globalController.GetComponent<GlobalController>().beerPongLevel * .01f;
+		else
+			sliderMultiplier = .01f;
 		ballMovement = new Vector2( 0.0f, .1f + sliderMultiplier );
 		rightSlide = new Vector2( .1f + sliderMultiplier, 0.0f );
 		leftSlide = new Vector2( -.1f - sliderMultiplier, 0.0f );
@@ -123,6 +139,7 @@ public class BeerPongController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		// HACK - implement pause functionality here.
 		if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
 
 		if( !gameOver && gameStarted )
@@ -198,6 +215,24 @@ public class BeerPongController : MonoBehaviour
 					Destroy( instructionTextShadow );
 				}
 			}
+
+			// Handles the "explosion" animation of the description text
+			if( descriptionTextGrowing )
+			{
+				textGrowthTimer -= Time.deltaTime;
+
+				if( textGrowthTimer <= 0.0f )
+				{
+					descriptionText.GetComponent<TextMesh>().fontSize = descriptionText.GetComponent<TextMesh>().fontSize + 3;
+					descriptionTextShadow.GetComponent<TextMesh>().fontSize = descriptionTextShadow.GetComponent<TextMesh>().fontSize + 3;
+					growthTimerRate -= .004f;
+					textGrowthTimer = growthTimerRate;
+				}
+				if( descriptionText.GetComponent<TextMesh>().fontSize > 110 )
+				{
+					descriptionTextGrowing = false;
+				}
+			}
 			
 			BallMovement();
 			TickTimers();
@@ -218,51 +253,92 @@ public class BeerPongController : MonoBehaviour
 	{
 		if( !isShootingVertical && !isShootingHorizontal && !isFinished ) // Then ball should be in air
 		{
-			ballParent.transform.Translate( ballMovement * 60.0f * Time.deltaTime );
-			
-			if( ball.transform.position.y < 
-			   (sliderVertical.transform.position.y - (sliderVertical.transform.position.y - sliderHorizontal.transform.position.y)/2 ) )
+			if( !isBouncing )
 			{
-				ball.transform.localScale = ball.transform.localScale * ballGrowRate;
-			}
-			else
-			{
-				ball.transform.localScale = ball.transform.localScale * ballShrinkRate;
-			}
-			
-			if( ball.transform.position.y > (sliderVertical.transform.position.y+.1f) )
-			{
-				isFinished = true;
-
-				int finishType = CheckBallInCup();
-				if( finishType != 0 )	// != 0
+				ballParent.transform.Translate( ballMovement * 60.0f * Time.deltaTime );
+				
+				// If ball is still on the "up" trajectory
+				if( ball.transform.position.y < 
+				   (sliderVertical.transform.position.y - (sliderVertical.transform.position.y - sliderHorizontal.transform.position.y)/3 ) )
 				{
-					switch( finishType )
+					ball.transform.localScale = ball.transform.localScale * ballGrowRate;
+				}
+				else 	// If ball is falling down
+				{
+					ball.transform.localScale = ball.transform.localScale * ballShrinkRate;
+				}
+				
+				if( ball.transform.position.y > (sliderVertical.transform.position.y+.1f) )
+				{
+					int finishType = CheckBallInCup();
+					if( finishType != 0 )
 					{
-					case 1:
-						descriptionText.GetComponent<TextMesh>().text = "Island!";
-						descriptionTextShadow.GetComponent<TextMesh>().text = "Island!";
-						partyPoints = 120;
-						break;
-					case 2:
-						descriptionText.GetComponent<TextMesh>().text = "Freshman Cup!";
-						descriptionTextShadow.GetComponent<TextMesh>().text = "Freshman Cup!";
-						partyPoints = 60;
-						break;
-					case 3:
-						descriptionText.GetComponent<TextMesh>().text = "Water Cup!";
-						descriptionTextShadow.GetComponent<TextMesh>().text = "Water Cup!";
-						partyPoints = 10;
-						break;
-					case 4:
-						descriptionText.GetComponent<TextMesh>().text = "Nice Shot!";
-						descriptionTextShadow.GetComponent<TextMesh>().text = "Nice Shot!";
-						MadeCupSFX.GetComponent<AudioSource>().Play();
-						partyPoints = 100;
-						break;
+						isFinished = true;
+
+						switch( finishType )
+						{
+						case 1:
+							descriptionText.GetComponent<TextMesh>().text = "Island!";
+							descriptionTextShadow.GetComponent<TextMesh>().text = "Island!";
+							partyPoints = 120;
+							break;
+						case 2:
+							descriptionText.GetComponent<TextMesh>().text = "Freshman Cup!";
+							descriptionTextShadow.GetComponent<TextMesh>().text = "Freshman Cup!";
+							partyPoints = 60;
+							break;
+						case 3:
+							descriptionText.GetComponent<TextMesh>().text = "Water Cup!";
+							descriptionTextShadow.GetComponent<TextMesh>().text = "Water Cup!";
+							partyPoints = 10;
+							break;
+						case 4:
+							descriptionText.GetComponent<TextMesh>().text = "Nice Shot!";
+							descriptionTextShadow.GetComponent<TextMesh>().text = "Nice Shot!";
+							MadeCupSFX.GetComponent<AudioSource>().Play();
+							partyPoints = 100;
+							break;
+						}
+						
+						descriptionText.renderer.enabled = true;
+						descriptionTextShadow.renderer.enabled = true;
+						descriptionText.GetComponent<TextMesh>().fontSize = 1;
+						descriptionTextShadow.GetComponent<TextMesh>().fontSize = 1;
+						descriptionTextGrowing = true;
 					}
-					descriptionText.renderer.enabled = true;
-					descriptionTextShadow.renderer.enabled = true;
+					else
+					{
+						isFinished = false;
+						isBouncing = true;
+						bounceStartPosition = ball.transform.position;
+					}
+				}
+			}
+			else 	// If in the process of bouncing away from the table. HACK - hardcoded values.
+			{
+				Debug.Log( "here" );
+				ballParent.transform.Translate( ballMovement * 30.0f * Time.deltaTime );
+				
+				// If ball is still on the "up" trajectory
+				if( ball.transform.position.y < 3.95f )
+				{
+					ball.transform.localScale = ball.transform.localScale * ballGrowRate;
+				}
+				else 	// If ball is falling down
+				{
+					ball.transform.localScale = ball.transform.localScale * ballShrinkRate;
+				}
+
+				
+				
+				if( ball.transform.position.y > 5.0f )
+				{
+					isFinished = true;
+				
+					// Kill off the ball
+					Destroy( ball );
+					if( globalController )
+						globalController.GetComponent<GlobalController>().LostMinigame();
 				}
 			}
 		}
@@ -307,11 +383,6 @@ public class BeerPongController : MonoBehaviour
 				}
 			}
 		}
-						             
-		// Kill off the ball
-		Destroy( ball );
-		if( globalController )
-			globalController.GetComponent<GlobalController>().LostMinigame();
 		
 		return 0;
 	}
@@ -326,8 +397,11 @@ public class BeerPongController : MonoBehaviour
 			{
 				// Try to fade it out eventually
 				Destroy( cups[cupIndex] );
-				globalController.GetComponent<GlobalController>().beerPongLevel++;
-				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
+				if( globalController )
+				{
+					globalController.GetComponent<GlobalController>().beerPongLevel++;
+					globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
+				}
 				gameOver = true;
 			}
 		}

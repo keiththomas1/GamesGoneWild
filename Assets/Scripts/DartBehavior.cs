@@ -22,8 +22,13 @@ public class DartBehavior : MonoBehaviour
 	public Sprite brokenDart;
 
 	public GameObject descriptionText;
+	bool descriptionTextGrowing;
+	float textGrowthTimer;
+	float growthTimerRate; // A constantly decreasing number to make the growth exponential
 
 	public GameObject dartBoard;
+	
+	int partyPoints;
 
 	// Dart's SFX
 	public GameObject DartBreakSFX;
@@ -46,6 +51,8 @@ public class DartBehavior : MonoBehaviour
 		gameStarted = false;
 
 		descriptionText.renderer.enabled = false;
+		descriptionTextGrowing = false;
+		growthTimerRate = .06f;
 	}
 
 	// Update is called once per frame
@@ -104,6 +111,26 @@ public class DartBehavior : MonoBehaviour
 				}
 			}
 		}
+		
+		
+		// Handles the "explosion" animation of the description text
+		if( descriptionTextGrowing )
+		{
+			textGrowthTimer -= Time.deltaTime;
+			
+			if( textGrowthTimer <= 0.0f )
+			{
+				descriptionText.GetComponent<TextMesh>().fontSize = descriptionText.GetComponent<TextMesh>().fontSize + 3;
+				growthTimerRate -= .004f;
+				textGrowthTimer = growthTimerRate;
+			}
+			if( descriptionText.GetComponent<TextMesh>().fontSize > 110 )
+			{
+				descriptionTextGrowing = false;
+				globalController.GetComponent<GlobalController>().dartLevel++;
+				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
+			}
+		}
 	}
 
 	void OnTriggerEnter2D( Collider2D coll )
@@ -129,7 +156,6 @@ public class DartBehavior : MonoBehaviour
 				// Figure out the points that the user earned
 				float dartBoardY = coll.transform.position.y;
 				float dartPosition = transform.position.y - dartBoardY;
-				int partyPoints;
 
 				if( dartPosition <= .45 && dartPosition >= -.3 )
 				{
@@ -147,9 +173,8 @@ public class DartBehavior : MonoBehaviour
 					descriptionText.GetComponent<TextMesh>().text = "Nice!";
 				}
 				descriptionText.renderer.enabled = true;
-				
-				globalController.GetComponent<GlobalController>().dartLevel++;
-				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
+				descriptionText.GetComponent<TextMesh>().fontSize = 1;
+				descriptionTextGrowing = true;
 			}
 			else
 			{
