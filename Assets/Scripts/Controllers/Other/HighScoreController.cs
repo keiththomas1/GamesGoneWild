@@ -68,9 +68,9 @@ public class HighScoreController : MonoBehaviour {
 
 	void OnGUI(){
 
-		if (GUI.Button(new Rect(200, 920, 2000, 500),FBShareButton, FBShareStyle)){
+		/*if (GUI.Button(new Rect(200, 920, 2000, 500),FBShareButton, FBShareStyle)){
 			CallPublishActions();
-		}
+		}*/
 	
 	}
 
@@ -89,7 +89,12 @@ public class HighScoreController : MonoBehaviour {
 				case "MainMenuText":
 					globalController.GetComponent<GlobalController>().LostGame();
 					break;
+
+				case "shareText":
+					CallPublishActions();
+					break;
 				}
+
 			}
 		}
 	}
