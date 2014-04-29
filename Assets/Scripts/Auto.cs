@@ -31,6 +31,9 @@ public class Auto : MonoBehaviour
 
 	// Game SFX
 	public GameObject HurtSFX;
+	
+	public GameObject backArm;
+	public GameObject frontArm;
 
 	// Use this for initialization
 	void Start () 
@@ -99,7 +102,9 @@ public class Auto : MonoBehaviour
 					curSpeed = -3.0f;
 				
 				// Perform the rotation and increase the speed.
-				transform.Rotate (0, 0, curSpeed);
+				transform.Rotate (0.0f, 0.0f, curSpeed);
+				frontArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
+				backArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
 				speed += .007f;
 				
 				if( fadeValue < 1.0f )

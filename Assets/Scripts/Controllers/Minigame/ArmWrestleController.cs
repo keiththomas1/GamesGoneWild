@@ -82,7 +82,7 @@ public class ArmWrestleController : MonoBehaviour
 				}
 				else
 				{
-					strengthRotation = -.2f * enemyMultiplier;
+					strengthRotation = -1.2f + (-.1f * enemyMultiplier);
 				}
 				
 				winGuage += (enemyStrength * enemyMultiplier);

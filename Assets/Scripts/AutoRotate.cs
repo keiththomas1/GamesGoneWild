@@ -20,9 +20,6 @@ public class AutoRotate : MonoBehaviour {
 	
 	float countdownTimer;
 	bool gameStarted;
-	
-	public GameObject backArm;
-	public GameObject frontArm;
 
 	void Start () 
 	{
@@ -65,13 +62,6 @@ public class AutoRotate : MonoBehaviour {
 					{
 						accx = (Input.acceleration.x * randomSpeed) * curSpeed;
 						transform.Rotate (0, 0, accx);
-
-						//if( frontArm.transform.rotation.eulerAngles.z < 30.0f || 
-						//    frontArm.transform.rotation.eulerAngles.z > 330.0f)
-						//{
-							frontArm.transform.Rotate( 0.0f, 0.0f, accx );
-							backArm.transform.Rotate( 0.0f, 0.0f, accx );
-						//}
 					}
 				}
 				

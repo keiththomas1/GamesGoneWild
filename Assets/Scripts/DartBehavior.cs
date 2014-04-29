@@ -121,7 +121,7 @@ public class DartBehavior : MonoBehaviour
 			if( textGrowthTimer <= 0.0f )
 			{
 				descriptionText.GetComponent<TextMesh>().fontSize = descriptionText.GetComponent<TextMesh>().fontSize + 3;
-				growthTimerRate -= .004f;
+				growthTimerRate -= .004f * 60.0f * Time.deltaTime;
 				textGrowthTimer = growthTimerRate;
 			}
 			if( descriptionText.GetComponent<TextMesh>().fontSize > 110 )

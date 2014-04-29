@@ -9,7 +9,7 @@ public class FlipCupController : MonoBehaviour {
 	Vector3 finalPos;
 	Vector3 Pos;
 	Vector3 FlickPos = new Vector3(0,0,0);
-	Vector3 FlickAmount = new Vector3(0,-80,0);
+	Vector3 FlickAmount = new Vector3(0,-57,0);
 	//Vector3 startPosition = new Vector3(0,1,-2);
 
 	public GameObject countdown;
@@ -80,15 +80,16 @@ public class FlipCupController : MonoBehaviour {
 					Pos.x = -450.0f;
 				Debug.Log( "Flick vector: " + Pos );
 				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
-				Cup_placeholder.rigidbody.AddForce(0,0,180);	//pushes cup from edge onto table
+				Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
 				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
 				isFlicked = true; //the cup has been flicked
 			}
 		}
 		//if the balls y pos is in the landed area and is not changing, then success!
 		if(isFlicked){
+			Debug.Log ( transform.position.y );
 			//hardcoded....only way i found that worked..
-			if (transform.position.y >= 2.2 && transform.position.y <= 2.4)
+			if (transform.position.y <= 2.74 && transform.position.y >= 2.7)
 				count += 60.0f * Time.deltaTime;
 			totalCount += 60.0f * Time.deltaTime;
 		}
@@ -97,7 +98,10 @@ public class FlipCupController : MonoBehaviour {
 			Debug.Log ("landed!!!!! Reloading level");
 			isFlicked = false;
 			count = 0;
-			globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
+			if( globalController )
+				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
+			else
+				Debug.Log( "Winner!" );
 			//DestroyObject(Cup_placeholder);
 			//Instantiate(Cup_placeholder,startPosition,transform.rotation);
 			//Debug.Log (transform.position);

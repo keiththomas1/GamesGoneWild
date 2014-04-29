@@ -225,7 +225,7 @@ public class BeerPongController : MonoBehaviour
 				{
 					descriptionText.GetComponent<TextMesh>().fontSize = descriptionText.GetComponent<TextMesh>().fontSize + 3;
 					descriptionTextShadow.GetComponent<TextMesh>().fontSize = descriptionTextShadow.GetComponent<TextMesh>().fontSize + 3;
-					growthTimerRate -= .004f;
+					growthTimerRate -= .004f * 60.0f * Time.deltaTime;
 					textGrowthTimer = growthTimerRate;
 				}
 				if( descriptionText.GetComponent<TextMesh>().fontSize > 110 )
