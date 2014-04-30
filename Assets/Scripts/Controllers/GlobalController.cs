@@ -200,7 +200,7 @@ public class GlobalController : MonoBehaviour
 			playGameMusic.GetComponent<AudioSource>().Stop();
 		}
 		// Disabled till we get real music.
-		//playGameMusic.GetComponent<AudioSource>().Play();
+		playGameMusic.GetComponent<AudioSource>().Play();
 	}
 
 	// This is called when the menu is started
@@ -215,7 +215,7 @@ public class GlobalController : MonoBehaviour
 			playGameMusic.GetComponent<AudioSource>().Stop();
 		}
 		// Disabled till we get real music.
-		//menuMusic.GetComponent<AudioSource>().Play();
+		menuMusic.GetComponent<AudioSource>().Play();
 	}
 
 

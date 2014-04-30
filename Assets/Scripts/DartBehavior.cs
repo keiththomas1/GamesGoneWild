@@ -41,7 +41,10 @@ public class DartBehavior : MonoBehaviour
 		globalController = GameObject.Find("Global Controller");
 
 		gameOver = false;
-		dartJumpConstant = 240.0f + (globalController.GetComponent<GlobalController>().dartLevel * 10.0f);
+		if( globalController )
+			dartJumpConstant = 240.0f + (globalController.GetComponent<GlobalController>().dartLevel * 10.0f);
+		else
+			dartJumpConstant = 240.0f;
 		canJump = true;
 
 		canControl = true;
@@ -73,7 +76,7 @@ public class DartBehavior : MonoBehaviour
 					{
 						dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
 						rigidbody2D.AddForce( dartJumpHeight );
-//						TapDartSFX.GetComponent<AudioSource>().Play ();
+						TapDartSFX.GetComponent<AudioSource>().Play ();
 
 						canJump = false;
 					}
@@ -142,6 +145,9 @@ public class DartBehavior : MonoBehaviour
 			{
 				horizontalMoving = false;
 				canControl = false;
+
+				// SFX first
+				DartBoardHitSFX.GetComponent<AudioSource>().Play ();
 				
 				rigidbody2D.velocity = new Vector2( 0.0f, 0.0f );
 				rigidbody2D.gravityScale = 0.0f;
@@ -151,8 +157,6 @@ public class DartBehavior : MonoBehaviour
 				gameOver = true;
 				dartController.GetComponent<DartsController>().gameOver = true;
 
-				// SFX first
-//				DartBoardHitSFX.GetComponent<AudioSource>().Play ();
 				// Figure out the points that the user earned
 				float dartBoardY = coll.transform.position.y;
 				float dartPosition = transform.position.y - dartBoardY;
@@ -203,6 +207,9 @@ public class DartBehavior : MonoBehaviour
 	public void StartGame()
 	{
 		gameStarted = true;
-		rigidbody2D.gravityScale = 0.9f + (globalController.GetComponent<GlobalController>().dartLevel * .05f);
+		if( globalController )
+			rigidbody2D.gravityScale = 0.9f + (globalController.GetComponent<GlobalController>().dartLevel * .05f);
+		else
+			rigidbody2D.gravityScale = .95f;
 	}
 }
