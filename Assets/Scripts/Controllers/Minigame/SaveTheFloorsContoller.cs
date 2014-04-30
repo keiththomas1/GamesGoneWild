@@ -10,6 +10,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	public GameObject [] pukePrefabArray;
 	// Identifier for our head gameobject
 	public GameObject head;
+	// Animation for head
 	public Sprite faceTwo;
 	public Sprite faceThree;
 	public Sprite faceFour;
@@ -41,6 +42,9 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	// Variables for fading out the instructions
 	public GameObject instructionText;
 	float fadeTimer;
+	// Longer intervals for higher levels with puke
+	float pukeIntervalTimer;
+	bool pukeInterval = false;
 	Color colorStart;
 	Color colorEnd;
 	float fadeValue;
@@ -212,6 +216,19 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 					head.GetComponent<SpriteRenderer>().sprite = faceThree;
 				}
 			}
+			// Create longer intervals when in higher levels
+			if( pukeInterval )
+			{
+				pukeIntervalTimer -= Time.deltaTime;
+				
+				if( pukeIntervalTimer <= 0.0f )
+				{
+					// Give the next pukePrefab element some gravity
+					StartPuking = true;
+
+					pukeInterval = false;
+				}
+			}
 		}	
 	}
 
@@ -227,10 +244,9 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		// Go the next element of pukePrefabArray
 		pukePrefabIndex++;
 
-		// Give the next pukePrefab element some gravity
-		StartPuking = true;
+		pukeInterval = true;
+		pukeIntervalTimer = .25f + (globalController.GetComponent<GlobalController>().pukeLevel * .1f);
 
-		//
 		if( pukePrefabIndex == pukesToWin )
 		{
 			if( globalController )

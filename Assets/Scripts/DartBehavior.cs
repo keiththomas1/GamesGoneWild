@@ -73,7 +73,7 @@ public class DartBehavior : MonoBehaviour
 					{
 						dartJumpHeight = new Vector2( 0.0f, (rigidbody2D.velocity.y*-50.0f) + dartJumpConstant );
 						rigidbody2D.AddForce( dartJumpHeight );
-//						TapDartSFX.GetComponent<AudioSource>().Play ();
+						TapDartSFX.GetComponent<AudioSource>().Play ();
 
 						canJump = false;
 					}
@@ -152,7 +152,7 @@ public class DartBehavior : MonoBehaviour
 				dartController.GetComponent<DartsController>().gameOver = true;
 
 				// SFX first
-//				DartBoardHitSFX.GetComponent<AudioSource>().Play ();
+				DartBoardHitSFX.GetComponent<AudioSource>().Play ();
 				// Figure out the points that the user earned
 				float dartBoardY = coll.transform.position.y;
 				float dartPosition = transform.position.y - dartBoardY;

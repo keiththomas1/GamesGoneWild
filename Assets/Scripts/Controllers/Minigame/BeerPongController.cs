@@ -49,8 +49,7 @@ public class BeerPongController : MonoBehaviour
 	int partyPoints;
 	
 	// Sound Effects
-	public GameObject inCupSFX;
-	public GameObject MadeCupSFX;
+	public GameObject inCupSFX, thrownSFX, rimJobSFX, bounceSFX;
 	
 	public GameObject countdown;
 	float gameStartTimer;
@@ -198,6 +197,7 @@ public class BeerPongController : MonoBehaviour
 				
 				if( Input.GetMouseButtonDown( 0 ) )
 				{
+					thrownSFX.GetComponent<AudioSource>().Play();
 					isShootingVertical = false;
 				}
 			}
@@ -295,7 +295,6 @@ public class BeerPongController : MonoBehaviour
 						case 4:
 							descriptionText.GetComponent<TextMesh>().text = "Nice Shot!";
 							descriptionTextShadow.GetComponent<TextMesh>().text = "Nice Shot!";
-							MadeCupSFX.GetComponent<AudioSource>().Play();
 							partyPoints = 100;
 							break;
 						}
@@ -310,6 +309,7 @@ public class BeerPongController : MonoBehaviour
 					{
 						isFinished = false;
 						isBouncing = true;
+						rimJobSFX.GetComponent<AudioSource>().Play();
 						bounceStartPosition = ball.transform.position;
 					}
 				}
