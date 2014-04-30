@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Facebook;
 using Facebook.MiniJSON;
+using System;
 
 public class HighScoreController : MonoBehaviour {
 
@@ -19,13 +20,18 @@ public class HighScoreController : MonoBehaviour {
 	public Ray ray;
 
 	public GameObject[] highScoreTexts;
+	public static List<object> scores = null;
 	List<int> HighScores;
+	List<object> FBScores;
 
 
 
 	void Start () 
 	{
 		globalController = GameObject.Find ("Global Controller");
+
+		CallPublishActions();
+
 
 
 		if( globalController )
@@ -38,6 +44,9 @@ public class HighScoreController : MonoBehaviour {
 		
 		HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 		DisplayHighScores();
+
+
+
 	}
 
 	public void CallPublishActions(){
@@ -47,7 +56,8 @@ public class HighScoreController : MonoBehaviour {
 	private void PublishActionsCallBack(FBResult result){
 		if (FB.IsLoggedIn) {
 			Debug.Log(FB.UserId + " Publish Actions Called");
-			CallFBFeed();
+			GetFaceBookScores ();
+			Debug.Log ("calling GetFacebookScoreS()");
 		}
 		else {
 			Debug.Log (result.Error);
@@ -65,16 +75,7 @@ public class HighScoreController : MonoBehaviour {
 	void LogCallback(FBResult response) {
 		Debug.Log(response.Text);
 	}
-
-	void OnGUI(){
-
-		/*if (GUI.Button(new Rect(200, 920, 2000, 500),FBShareButton, FBShareStyle)){
-			CallPublishActions();
-		}*/
 	
-	}
-
-
 	// Update is called once per frame
 	void Update () 
 	{
@@ -91,13 +92,123 @@ public class HighScoreController : MonoBehaviour {
 					break;
 
 				case "shareText":
-					CallPublishActions();
+					CallFBFeed();
 					break;
 				}
 
 			}
 		}
 	}
+	public void GetFaceBookScores(){
+		FB.API ("/1439214366319352/scores", Facebook.HttpMethod.GET, scoreCallBack);
+	}
+	public int getScoreFromEntry(object obj)
+	{
+		Dictionary<string,object> entry = (Dictionary<string,object>) obj;
+		return Convert.ToInt32(entry["score"]);
+	}
+
+	public void scoreCallBack(FBResult result){
+		if (result.Error == null)
+			Debug.Log ("Scores received");
+		else
+			Debug.Log (result.Error);
+
+		scores = new List<object>();
+		int playerHighScore;
+
+		//deserialize the scores from facebook
+		/*the data that is stored in FBScores is an array of objects
+		 * This is just to show you what facebook has for us so far:
+		 * {
+		  "data": [
+		    {
+		      "user": {
+		        "id": "680564761", 
+		        "name": "Colin Blaise"
+		      }, 
+		      "score": 110, 
+		      "application": {
+		        "name": "Games Gone Wild!", 
+		        "id": "1439214366319352"
+		      }
+		    }, 
+		    {
+		      "user": {
+		        "id": "100004603986976", 
+		        "name": "Raul Luna Jr."
+		      }, 
+		      "score": 0, 
+		      "application": {
+		        "name": "Games Gone Wild!", 
+		        "id": "1439214366319352"
+		      }
+		    }, 
+		    {
+		      "user": {
+		        "id": "1535344784", 
+		        "name": "Hardik Prajapati"
+		      }, 
+		      "score": 0, 
+		      "application": {
+		        "name": "Games Gone Wild!", 
+		        "id": "1439214366319352"
+		      }
+		    }, 
+		    {
+		      "user": {
+		        "id": "1237718228", 
+		        "name": "Keith Thomas"
+		      }, 
+		      "score": 0, 
+		      "application": {
+		        "name": "Games Gone Wild!", 
+		        "id": "1439214366319352"
+		      }
+		    }
+		  ]
+		}
+		* 
+		*/
+		FBScores = Util.DeserializeScores (result.Text);
+
+		//for each object that contains a persons data store the info
+		foreach(object score in FBScores){
+			//entry is the player object that contains keys "user", "score", 
+			//and "application"(we don't need this one)
+			var entry = (Dictionary<string,object>) score;
+
+			//user is the object that contains keys "id" and "name"
+			var user = (Dictionary<string,object>) entry["user"];
+
+			//id and name are keys inside the user object
+			string userId = (string)user["id"];
+			string name = (string)user["name"];
+
+			//score is a key inside the entry object,
+			playerHighScore = getScoreFromEntry(entry);
+			entry["score"] = playerHighScore.ToString();             
+
+			//Check if this entry is the current local user and 
+			//if the user's score is higher than his saved facebook score, update it.
+			if (string.Equals (userId,FB.UserId)){
+				Util.Log ("Local player: " + name + "'s score on server is " + playerHighScore);
+
+				//if new highscore, update it to facebook
+				if (points > playerHighScore){
+					entry["score"] = points.ToString();
+					var scoreData = new Dictionary<string,string>() {{"score", points.ToString()}};
+					FB.API("/me/scores",Facebook.HttpMethod.POST,LogCallback,scoreData);
+				}
+
+			}
+			Debug.Log ("userID: " + userId + " name: " + name + " score: " + entry["score"]);
+
+			//list<object> of all entry objects containing player info.
+			scores.Add (entry);
+		}
+	}
+
 
 	public void DisplayHighScores()
 	{

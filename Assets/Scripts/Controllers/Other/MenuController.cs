@@ -131,7 +131,7 @@ public class MenuController : MonoBehaviour
 		{                                                                                                                          
 			Debug.LogError(result.Error);                                                                                           
 			// Let's just try again                                                                                                
-			FB.API("/me?fields=name)", Facebook.HttpMethod.GET, APICallback);     
+			FB.API("/me?fields=name", Facebook.HttpMethod.GET, APICallback);     
 			return;                                                                                                                
 		}           
 		//deserialzie json object
