@@ -39,11 +39,11 @@ public class GlobalController : MonoBehaviour
 	public GameObject pointsBox;
 	public GameObject scoreText;
 
+	public bool pause;
 	// Use this for initialization
 	void Start () 
 	{
-
-
+		
 		allMinigames = new List<string>();
 		allMinigames.Add("BeerPong");
 		allMinigames.Add("FlippyCup");
@@ -58,6 +58,7 @@ public class GlobalController : MonoBehaviour
 		// No mode to start
 		previousMode = "";
 
+		pause = false;
 		// Set all the children of the global controller to invisible for now.
 		Component[] children = GetComponentsInChildren(typeof(Renderer));
 		foreach( Component c in children )
@@ -75,7 +76,24 @@ public class GlobalController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
+
+		// pause for ingame
+		if (Input.GetKeyDown(KeyCode.Escape)) 
+		{ 
+			if(pause == false)
+			{	
+				pause = true;
+				Time.timeScale = 0;
+
+			}
+			else
+			{
+				pause = false;
+				Time.timeScale = 1;
+
+			}
+			//Application.Quit(); 
+		}
 	}
 
 	public void StartMode( string mode, string game )
