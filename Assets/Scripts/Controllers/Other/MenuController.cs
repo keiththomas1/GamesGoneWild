@@ -218,7 +218,7 @@ public class MenuController : MonoBehaviour
 					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode("Normal Mode", "");
 					break;
-				case "SelectionText":
+				case "PracticeText":
 					ClickSound.GetComponent<AudioSource>().Play();
 					Application.LoadLevel( "SelectionScene" );
 					break;
