@@ -47,9 +47,11 @@ public class SelectionController : MonoBehaviour
 				{
 				case "LeftArrow":
 					GoLeft();
+					ClickSound.GetComponent<AudioSource>().Play();
 					break;
 				case "RightArrow":
 					GoRight();
+					ClickSound.GetComponent<AudioSource>().Play();
 					break;
 				case "BackText":
 					ClickSound.GetComponent<AudioSource>().Play();
