@@ -23,7 +23,7 @@ public class MenuController : MonoBehaviour
 	public GameObject highScoreTextShadow;
 	public Texture FBLoginButton;
 	public GUIStyle FBbuttonStyle;
-
+	public GameObject FacebookPicture;
 	//sounds
 	public GameObject ClickSound;
 
@@ -86,7 +86,8 @@ public class MenuController : MonoBehaviour
 			facebookLoggedInText.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			if (profilePic != null)
-			    GUI.DrawTexture(new Rect(10,10,110,110),profilePic,ScaleMode.ScaleToFit,true,0);
+				//FacebookPicture.guiTexture.texture = profilePic;
+			    GUI.DrawTexture(new Rect(10,100,110,110),profilePic,ScaleMode.ScaleToFit,true,0);
 		}  
 	}
 

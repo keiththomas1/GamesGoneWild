@@ -24,6 +24,7 @@ public class HighScoreController : MonoBehaviour {
 	List<int> HighScores;
 	List<object> FBScores;
 
+
 	public GameObject ClickSound;
 
 
