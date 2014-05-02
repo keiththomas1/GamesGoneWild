@@ -94,6 +94,7 @@ public class HighScoreController : MonoBehaviour {
 					break;
 
 				case "shareText":
+					ClickSound.GetComponent<AudioSource>().Play();
 					CallFBFeed();
 					break;
 				}
