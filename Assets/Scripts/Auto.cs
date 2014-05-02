@@ -103,8 +103,11 @@ public class Auto : MonoBehaviour
 				
 				// Perform the rotation and increase the speed.
 				transform.Rotate (0.0f, 0.0f, curSpeed);
-				frontArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
-				backArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
+				if( frontArm.transform.rotation.eulerAngles.z < 35 || frontArm.transform.rotation.eulerAngles.z > 325 )
+				{
+					frontArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
+					backArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
+				}
 				speed += .007f;
 				
 				if( fadeValue < 1.0f )
