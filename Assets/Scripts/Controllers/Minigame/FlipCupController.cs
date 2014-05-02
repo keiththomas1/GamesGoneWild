@@ -30,6 +30,10 @@ public class FlipCupController : MonoBehaviour {
 	Color colorStart;
 	Color colorEnd;
 	float fadeValue;
+	// Cup SFX
+	public GameObject CupSFX;
+	public GameObject FlippyTable;
+	public GameObject FlippyCup;
 
 	// Use this for initialization
 	void Start () {
@@ -67,6 +71,7 @@ public class FlipCupController : MonoBehaviour {
 				{
 					//finalPos = Input.mousePosition*10;
 				finalPos = Input.mousePosition;
+				CupSFX.GetComponent<AudioSource>().Play();
 				finalPos.y *= 8;
 				Pos = finalPos - initPos;
 				Pos.x *= 1.3f;
@@ -145,5 +150,21 @@ public class FlipCupController : MonoBehaviour {
 			}
 		}
 	}
-}	
 
+	// Check to see if Flippy Cup is hitting Flippy Table
+	void OnCollisionStay( Collision coll){
+		Debug.Log ("Coll");
+		if( coll.gameObject.name == "FlippyTable")
+			if (isFlicked) {
+				Debug.Log ("Cup is hitting table");
+				CupSFX.GetComponent<AudioSource> ().Play ();
+			}
+	}
+	
+	/*void OnCollisionExit( Collision coll){
+		Debug.Log ("Coll Exit");
+		if( isFlicked)
+			if ( coll.gameObject.name == "FlippyCup")
+				Debug.Log ("Cup is hitting table");
+	}*/
+}	
