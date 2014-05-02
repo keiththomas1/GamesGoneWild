@@ -17,6 +17,8 @@ public class SelectionController : MonoBehaviour
 	int currentGroup;
 	public GameObject[] groups;
 
+	public GameObject ClickSound;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -50,6 +52,7 @@ public class SelectionController : MonoBehaviour
 					GoRight();
 					break;
 				case "BackText":
+					ClickSound.GetComponent<AudioSource>().Play();
 					Application.LoadLevel( "MenuScene" );
 					break;
 				case "BPText":

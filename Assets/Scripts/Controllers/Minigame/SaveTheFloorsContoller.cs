@@ -52,6 +52,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	float scale = 2.0f;
 	// Puke SFX
 	public GameObject PukeSound;
+	public GameObject BucketSound;
 
 	// Use this for initialization
 	void Start () 
@@ -239,6 +240,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		Debug.Log ("In DestroyPuke() from controller");
 
 		// Destroy puke gameobject at curreent element in list
+		BucketSound.GetComponent<AudioSource>().Play();
 		DestroyObject (pukePrefabArray[pukePrefabIndex]);
 
 		// Go the next element of pukePrefabArray

@@ -24,6 +24,7 @@ public class HighScoreController : MonoBehaviour {
 	List<int> HighScores;
 	List<object> FBScores;
 
+	public GameObject ClickSound;
 
 
 	void Start () 
@@ -88,6 +89,7 @@ public class HighScoreController : MonoBehaviour {
 				switch( hit.collider.name )
 				{
 				case "MainMenuText":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().LostGame();
 					break;
 
