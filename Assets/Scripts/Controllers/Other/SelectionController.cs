@@ -17,6 +17,8 @@ public class SelectionController : MonoBehaviour
 	int currentGroup;
 	public GameObject[] groups;
 
+	public GameObject ClickSound;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -45,35 +47,44 @@ public class SelectionController : MonoBehaviour
 				{
 				case "LeftArrow":
 					GoLeft();
+					ClickSound.GetComponent<AudioSource>().Play();
 					break;
 				case "RightArrow":
 					GoRight();
+					ClickSound.GetComponent<AudioSource>().Play();
 					break;
 				case "BackText":
+					ClickSound.GetComponent<AudioSource>().Play();
 					Application.LoadLevel( "MenuScene" );
 					break;
 				case "BPText":
 				case "BPPic":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode( "Selection", "BeerPong" );
 					break;
 				case "FlippyText":
 				case "FlippyPic":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode( "Selection", "FlippyCup" );
 					break;
 				case "DartsText":
 				case "DartsPic":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode( "Selection", "Darts" );
 					break;
 				case "ArmWrestlingText":
 				case "ArmWrestlingPic":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode( "Selection", "ArmWrestle" );
 					break;
 				case "ThrowUpText":
 				case "ThrowUpPic":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode( "Selection", "Save_The_Floor" );
 					break;
 				case "TiltText":
 				case "TiltPic":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode( "Selection", "fall" );
 					break;
 				}

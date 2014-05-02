@@ -22,6 +22,8 @@ public class FlipCupController : MonoBehaviour {
 	float totalCount = 0;
 	float count = 0;
 	bool isFlicked;
+	bool makeSound;
+	int makeSoundFlag = 0;
 	
 	public GameObject instructionText;
 	public GameObject instructionTextShadow;
@@ -30,12 +32,17 @@ public class FlipCupController : MonoBehaviour {
 	Color colorStart;
 	Color colorEnd;
 	float fadeValue;
+	// Cup SFX
+	public GameObject CupSFX;
+	public GameObject FlippyTable;
+	public GameObject FlippyCup;
 
 	// Use this for initialization
 	void Start () {
 
 		globalController = GameObject.Find( "Global Controller" );
 		isFlicked= false;
+		makeSound = false;
 		
 		countdown.GetComponent<Animator>().speed = 1.4f;
 		countdownTimer = 2.7f;
@@ -67,6 +74,7 @@ public class FlipCupController : MonoBehaviour {
 				{
 					//finalPos = Input.mousePosition*10;
 				finalPos = Input.mousePosition;
+				CupSFX.GetComponent<AudioSource>().Play();
 				finalPos.y *= 8;
 				Pos = finalPos - initPos;
 				Pos.x *= 1.3f;
@@ -145,5 +153,20 @@ public class FlipCupController : MonoBehaviour {
 			}
 		}
 	}
-}	
 
+	// Check to see if Flippy Cup is hitting Flippy Table
+	void OnCollisionStay( Collision coll){
+		Debug.Log ("Coll");
+		makeSound = true;
+		if (coll.gameObject.name == "FlippyTable")
+			if (isFlicked) {
+				if (makeSound && makeSoundFlag < 2) {
+					Debug.Log ("Cup is hitting table");
+					makeSoundFlag++;
+					if( !CupSFX.GetComponent<AudioSource>().isPlaying)
+						CupSFX.GetComponent<AudioSource> ().Play ();
+				}
+			}
+		makeSound = false;
+	}
+}	

@@ -24,6 +24,9 @@ public class MenuController : MonoBehaviour
 	public Texture FBLoginButton;
 	public GUIStyle FBbuttonStyle;
 
+	//sounds
+	public GameObject ClickSound;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -212,9 +215,11 @@ public class MenuController : MonoBehaviour
 				switch( hit.collider.name )
 				{
 				case "PlayText":
+					ClickSound.GetComponent<AudioSource>().Play();
 					globalController.GetComponent<GlobalController>().StartMode("Normal Mode", "");
 					break;
 				case "SelectionText":
+					ClickSound.GetComponent<AudioSource>().Play();
 					Application.LoadLevel( "SelectionScene" );
 					break;
 				}
