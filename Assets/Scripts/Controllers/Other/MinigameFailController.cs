@@ -9,24 +9,10 @@ public class MinigameFailController : MonoBehaviour
 	float timer;
 
 	// All of the objects and sprites that need to be changed on the fly.
-	public GameObject beerGauge;
-	public Sprite beerGuage25; // 1/4 of the way full
-	public Sprite beerGuage50; // 2/4 of the way full
-	public Sprite beerGuage75; // 3/4 of the way full
-	public Sprite beerGuage100; // all of the way full
-
-	public GameObject faceOne;
-	public Sprite faceOneColor;
-	public Sprite faceOneGrey;
-	public GameObject faceTwo;
-	public Sprite faceTwoColor;
-	public Sprite faceTwoGrey;
-	public GameObject faceThree;
-	public Sprite faceThreeColor;
-	public Sprite faceThreeGrey;
-	public GameObject faceFour;
-	public Sprite faceFourColor;
-	public Sprite faceFourGrey;
+	public GameObject background;
+	public Sprite background50Percent;
+	public Sprite background75Percent;
+	public Sprite background100Percent;
 
 	public GameObject pointsText;
 
@@ -47,23 +33,15 @@ public class MinigameFailController : MonoBehaviour
 			// Already preset
 			break;
 		case 1:
-			beerGauge.GetComponent<SpriteRenderer>().sprite = beerGuage25;
-			faceOne.GetComponent<SpriteRenderer>().sprite = faceOneColor;
 			break;
 		case 2:
-			beerGauge.GetComponent<SpriteRenderer>().sprite = beerGuage50;
-			faceOne.GetComponent<SpriteRenderer>().sprite = faceOneGrey;
-			faceTwo.GetComponent<SpriteRenderer>().sprite = faceTwoColor;
+			background.GetComponent<SpriteRenderer>().sprite = background50Percent;
 			break;
 		case 3:
-			beerGauge.GetComponent<SpriteRenderer>().sprite = beerGuage75;
-			faceTwo.GetComponent<SpriteRenderer>().sprite = faceTwoGrey;
-			faceThree.GetComponent<SpriteRenderer>().sprite = faceThreeColor;
+			background.GetComponent<SpriteRenderer>().sprite = background75Percent;
 			break;
 		case 4:
-			beerGauge.GetComponent<SpriteRenderer>().sprite = beerGuage100;
-			faceThree.GetComponent<SpriteRenderer>().sprite = faceThreeGrey;
-			faceFour.GetComponent<SpriteRenderer>().sprite = faceFourColor;
+			background.GetComponent<SpriteRenderer>().sprite = background100Percent;
 			break;
 		}
 

@@ -103,7 +103,7 @@ public class DartBehavior : MonoBehaviour
 				}
 
 				if( rigidbody2D.velocity.y > 1.0f && 
-				   (transform.rotation.eulerAngles.z < 10 || transform.rotation.eulerAngles.z > 20) )
+				   (transform.rotation.eulerAngles.z < 8 || transform.rotation.eulerAngles.z > 20) )
 				{
 					transform.Rotate( new Vector3( 0.0f, 0.0f, 2.5f * 60.0f * Time.deltaTime ) );
 				}
