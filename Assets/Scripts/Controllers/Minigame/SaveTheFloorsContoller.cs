@@ -9,11 +9,12 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	// Creating our gameobject for controlling the scene
 	public GameObject [] pukePrefabArray;
 	// Identifier for our head gameobject
+	public GameObject body;
 	public GameObject head;
 	// Animation for head
-	public Sprite faceTwo;
-	public Sprite faceThree;
-	public Sprite faceFour;
+	public Sprite bodyTwo;
+	public Sprite bodyThree;
+	public Sprite pukeHead;
 	// Handle for the countdown text object
 	public GameObject countdown;
 	// True if the countdown is still going
@@ -62,6 +63,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		// Finding our head gameobject
 		head = GameObject.Find ("Head");
+		head.renderer.enabled = false;
 
 		// Set our current index of gameobject array
 		pukePrefabIndex = 0;
@@ -91,6 +93,12 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		// Whether the face is throwing up at the moment
 		throwupAnimationOn = false;
+
+		// Make all of the pukes invisible for now
+		foreach( GameObject p in pukePrefabArray )
+		{
+			p.renderer.enabled = false;
+		}
 		
 		// Fading instructions variables
 		fadeTimer = 3.0f; // set duration time in seconds in the Inspector
@@ -119,12 +127,13 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 					pukeAngle = head.transform.rotation.eulerAngles.z;
 				
 				// Giving the current element in pukePrefabArray gravity
+				pukePrefabArray [pukePrefabIndex].renderer.enabled = true;
 				pukePrefabArray [pukePrefabIndex].GetComponent<Puke_Behavior> ().Shoot( pukeAngle, pukesToWin);
 				StartPuking = false;
 				
 				throwupAnimationOn = true;
 				throwupTimer = 0.3f;
-				head.GetComponent<SpriteRenderer>().sprite = faceFour;
+				head.renderer.enabled = true;
 				PukeSound.GetComponent<AudioSource>().Play();
 			}
 			// Detecting current location of the puke gameobject
@@ -144,7 +153,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			{
 				if( countdownTimer <= 1.8f )	// A bit hacky, should have a boolean to control which state.
 				{
-					head.GetComponent<SpriteRenderer>().sprite = faceTwo;
+					body.GetComponent<SpriteRenderer>().sprite = bodyTwo;
 				}
 				
 				// If the timer is still going, decrement it
@@ -155,7 +164,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 				else
 				{
 					// Start the pukes coming and nullify the countdown stuff
-					head.GetComponent<SpriteRenderer>().sprite = faceThree;
+					body.GetComponent<SpriteRenderer>().sprite = bodyThree;
 					StartPuking = true;
 					countdownPhase = false;
 					Destroy( countdown );
@@ -213,7 +222,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 				if( throwupTimer <= 0.0f )
 				{
 					throwupAnimationOn = false;
-					head.GetComponent<SpriteRenderer>().sprite = faceThree;
+					body.GetComponent<SpriteRenderer>().sprite = bodyThree;
 				}
 			}
 			// Create longer intervals when in higher levels

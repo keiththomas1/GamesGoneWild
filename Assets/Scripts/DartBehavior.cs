@@ -97,7 +97,7 @@ public class DartBehavior : MonoBehaviour
 					transform.Translate( speedVector * 60.0f * Time.deltaTime );
 				}
 				
-				if( transform.position.y < -6.0f || transform.position.x > 13.0f )
+				if( transform.position.y < -6.0f || transform.position.y > 5.4 || transform.position.x > 13.0f )
 				{
 					globalController.GetComponent<GlobalController>().LostMinigame();
 				}

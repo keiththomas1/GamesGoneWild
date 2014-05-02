@@ -53,10 +53,8 @@ public class DartsController : MonoBehaviour
 
 		floorSpeed = new Vector2( -roomSpeed + .04f, 0.0f );
 
-		if( globalController )
-			pillarTimer = 3.0f - (globalController.GetComponent<GlobalController>().dartLevel*.1f);
-		else
-			pillarTimer = 3.0f;
+		pillarTimer = 2.0f;
+
 		currentPillar = 0;
 		if( globalController )
 			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 3;

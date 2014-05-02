@@ -1,12 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\BeerPongController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\ArmWrestleController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="218" Column="3" />
-      <File FileName="Assets\Scripts\PauseBehavior.cs" Line="42" Column="19" />
-      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="208" Column="42" />
-      <File FileName="Assets\Scripts\Controllers\Other\SelectionController.cs" Line="43" Column="1" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="192" Column="11" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\ArmWrestleController.cs" Line="81" Column="31" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
