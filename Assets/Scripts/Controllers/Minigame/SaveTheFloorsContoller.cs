@@ -248,7 +248,8 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		pukeInterval = true;
 		if( globalController )
-			pukeIntervalTimer = .25f + (globalController.GetComponent<GlobalController>().pukeLevel * .1f);
+			//pukeIntervalTimer = .25f + (globalController.GetComponent<GlobalController>().pukeLevel * .1f);
+			pukeIntervalTimer = .005f + (globalController.GetComponent<GlobalController>().pukeLevel * .1f);
 		else
 			pukeIntervalTimer = .26f;
 
