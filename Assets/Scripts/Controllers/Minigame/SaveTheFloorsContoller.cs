@@ -245,7 +245,10 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		pukePrefabIndex++;
 
 		pukeInterval = true;
-		pukeIntervalTimer = .25f + (globalController.GetComponent<GlobalController>().pukeLevel * .1f);
+		if( globalController )
+			pukeIntervalTimer = .25f + (globalController.GetComponent<GlobalController>().pukeLevel * .1f);
+		else
+			pukeIntervalTimer = .26f;
 
 		if( pukePrefabIndex == pukesToWin )
 		{

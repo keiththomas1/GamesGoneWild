@@ -78,11 +78,11 @@ public class ArmWrestleController : MonoBehaviour
 				if( Input.GetMouseButtonDown( 0 ) )
 				{
 					winGuage -= playerStrength;
-					strengthRotation = 10.0f;
+					strengthRotation = 15.0f;
 				}
 				else
 				{
-					strengthRotation = -1.2f + (-.1f * enemyMultiplier);
+					strengthRotation = -.6f + (-.15f * enemyMultiplier);
 				}
 				
 				winGuage += (enemyStrength * enemyMultiplier);
@@ -119,13 +119,13 @@ public class ArmWrestleController : MonoBehaviour
 			}
 			
 			// Check if win or lose.
-			if( arms.transform.rotation.eulerAngles.y > 70.0f && arms.transform.rotation.eulerAngles.y < 180.0f )
+			if( arms.transform.rotation.eulerAngles.y > 80.0f && arms.transform.rotation.eulerAngles.y < 180.0f )
 			{
 				gameOver = true;
 				globalController.GetComponent<GlobalController>().armEnemyLevel++;
 				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			}
-			if( arms.transform.rotation.eulerAngles.y < 290.0f && arms.transform.rotation.eulerAngles.y > 180.0f )
+			if( arms.transform.rotation.eulerAngles.y < 280.0f && arms.transform.rotation.eulerAngles.y > 180.0f )
 			{
 				globalController.GetComponent<GlobalController>().LostMinigame();
 			}

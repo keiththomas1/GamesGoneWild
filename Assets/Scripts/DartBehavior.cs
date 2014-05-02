@@ -41,7 +41,10 @@ public class DartBehavior : MonoBehaviour
 		globalController = GameObject.Find("Global Controller");
 
 		gameOver = false;
-		dartJumpConstant = 240.0f + (globalController.GetComponent<GlobalController>().dartLevel * 10.0f);
+		if( globalController )
+			dartJumpConstant = 240.0f + (globalController.GetComponent<GlobalController>().dartLevel * 10.0f);
+		else
+			dartJumpConstant = 250.0f;
 		canJump = true;
 
 		canControl = true;
@@ -203,6 +206,9 @@ public class DartBehavior : MonoBehaviour
 	public void StartGame()
 	{
 		gameStarted = true;
-		rigidbody2D.gravityScale = 0.9f + (globalController.GetComponent<GlobalController>().dartLevel * .05f);
+		if( globalController )
+			rigidbody2D.gravityScale = 0.9f + (globalController.GetComponent<GlobalController>().dartLevel * .05f);
+		else
+			rigidbody2D.gravityScale = .95f;
 	}
 }

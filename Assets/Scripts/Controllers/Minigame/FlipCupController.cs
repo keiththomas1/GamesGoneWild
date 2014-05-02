@@ -85,7 +85,7 @@ public class FlipCupController : MonoBehaviour {
 					Pos.x = -450.0f;
 				Debug.Log( "Flick vector: " + Pos );
 				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
-				Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
+				Cup_placeholder.rigidbody.AddForce(0,0,190);	//pushes cup from edge onto table
 				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
 				isFlicked = true; //the cup has been flicked
 			}
@@ -94,7 +94,7 @@ public class FlipCupController : MonoBehaviour {
 		if(isFlicked){
 			Debug.Log ( transform.position.y );
 			//hardcoded....only way i found that worked..
-			if (transform.position.y <= 2.74 && transform.position.y >= 2.7)
+			if (transform.position.y <= 2.78 && transform.position.y >= 2.7)
 				count += 60.0f * Time.deltaTime;
 			totalCount += 60.0f * Time.deltaTime;
 		}
