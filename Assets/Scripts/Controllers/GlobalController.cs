@@ -83,8 +83,15 @@ public class GlobalController : MonoBehaviour
 		StartModeMusic();
 		currentSelectionLevel = game;
 
-		if( gameMode != "Normal Mode" )
-			previousMode = "";
+		// If playing in practice mode, and not playing flippy cup, then don't set a
+		// previous mode. This is mostly used for displaying score right now.
+		if( gameMode == "Selection" )
+		{
+			if( game == "FlippyCup" )
+				previousMode = game;
+			else
+				previousMode = "";
+		}
 		
 		NextMinigame();
 	}
