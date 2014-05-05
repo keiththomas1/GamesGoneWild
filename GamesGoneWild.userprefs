@@ -1,11 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\SaveTheFloorsContoller.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\GlobalController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\Minigame\DartsController.cs" Line="56" Column="18" />
       <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="192" Column="11" />
-      <File FileName="Assets\Scripts\DartBehavior.cs" Line="100" Column="71" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\SaveTheFloorsContoller.cs" Line="126" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

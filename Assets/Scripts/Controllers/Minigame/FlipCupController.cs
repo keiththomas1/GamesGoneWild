@@ -26,7 +26,6 @@ public class FlipCupController : MonoBehaviour {
 	int makeSoundFlag = 0;
 	
 	public GameObject instructionText;
-	public GameObject instructionTextShadow;
 	// Variables for fading out the instructions
 	float fadeTimer;
 	Color colorStart;
@@ -143,12 +142,10 @@ public class FlipCupController : MonoBehaviour {
 				fadeTimer -= Time.deltaTime;
 				fadeValue += Time.deltaTime;
 				instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
-				instructionTextShadow.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
-				
+		
 				if( fadeValue >= 1.0f )
 				{
 					Destroy( instructionText );
-					Destroy( instructionTextShadow );
 				}
 			}
 		}

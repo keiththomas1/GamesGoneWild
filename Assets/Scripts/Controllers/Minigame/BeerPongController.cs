@@ -45,7 +45,6 @@ public class BeerPongController : MonoBehaviour
 	float growthTimerRate; // A constantly decreasing number to make the growth exponential
 
 	public GameObject instructionText;
-	public GameObject instructionTextShadow;
 	int partyPoints;
 	
 	// Sound Effects
@@ -207,12 +206,10 @@ public class BeerPongController : MonoBehaviour
 				fadeTimer -= Time.deltaTime;
 				fadeValue += Time.deltaTime;
 				instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
-				instructionTextShadow.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 
 				if( fadeValue >= 1.0f )
 				{
 					Destroy( instructionText );
-					Destroy( instructionTextShadow );
 				}
 			}
 
