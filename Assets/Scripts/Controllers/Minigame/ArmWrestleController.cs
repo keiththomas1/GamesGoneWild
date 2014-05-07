@@ -78,11 +78,11 @@ public class ArmWrestleController : MonoBehaviour
 				if( Input.GetMouseButtonDown( 0 ) )
 				{
 					winGuage -= playerStrength;
-					strengthRotation = 15.0f;
+					strengthRotation = 15.0f * 60.0f * Time.deltaTime;
 				}
 				else
 				{
-					strengthRotation = -.6f + (-.15f * enemyMultiplier);
+					strengthRotation = (-.6f + (-.15f * enemyMultiplier)) * 60.0f * Time.deltaTime;
 				}
 				
 				winGuage += (enemyStrength * enemyMultiplier);
