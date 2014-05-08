@@ -44,8 +44,9 @@ public class BeerPongController : MonoBehaviour
 	float textGrowthTimer;
 	float growthTimerRate; // A constantly decreasing number to make the growth exponential
 
+	public GameObject ballCursor;
+
 	public GameObject instructionText;
-	public GameObject instructionTextShadow;
 	int partyPoints;
 	
 	// Sound Effects
@@ -103,6 +104,8 @@ public class BeerPongController : MonoBehaviour
 		}
 		cupAnimTimerStart = false;
 		cupAnimTimer = 1.0f;
+		
+		ballCursor.renderer.enabled = false;
 
 		countdown.GetComponent<Animator>().speed = 1.4f;
 		gameStartTimer = 2.7f;
@@ -199,6 +202,11 @@ public class BeerPongController : MonoBehaviour
 				{
 					thrownSFX.GetComponent<AudioSource>().Play();
 					isShootingVertical = false;
+
+					Vector3 tempPosition = new Vector3( sliderHorizontal.transform.position.x,
+					                                   sliderVertical.transform.position.y, 0.0f );
+					ballCursor.transform.position = tempPosition;
+					ballCursor.renderer.enabled = true;
 				}
 			}
 
@@ -207,12 +215,10 @@ public class BeerPongController : MonoBehaviour
 				fadeTimer -= Time.deltaTime;
 				fadeValue += Time.deltaTime;
 				instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
-				instructionTextShadow.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 
 				if( fadeValue >= 1.0f )
 				{
 					Destroy( instructionText );
-					Destroy( instructionTextShadow );
 				}
 			}
 
@@ -349,13 +355,15 @@ public class BeerPongController : MonoBehaviour
 	{
 		if( globalController )
 		{
+			int rimJob = -1;
 			for( int i=0; i<10; i++ )
 			{
 				if( globalController.GetComponent<GlobalController>().CupsPlaced[i] )
 				{
-					if( ballParent.transform.position.x >= (cups[i].transform.position.x - cups[i].renderer.bounds.size.x/2)
-					   && ballParent.transform.position.x <= (cups[i].transform.position.x + cups[i].renderer.bounds.size.x/2)
-					   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/7)
+
+					if( ballParent.transform.position.x >= (cups[i].transform.position.x - cups[i].renderer.bounds.size.y/2)
+					   && ballParent.transform.position.x <= (cups[i].transform.position.x + cups[i].renderer.bounds.size.y/2)
+					   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/6)
 					   && ballParent.transform.position.y <= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/2) )
 					{	
 						// Play ball in cup sound
@@ -380,7 +388,21 @@ public class BeerPongController : MonoBehaviour
 						//   return 3
 						return 4;
 					}
+					else if( ballParent.transform.position.x >= (cups[i].transform.position.x - (cups[i].renderer.bounds.size.x*11/10))
+					        && ballParent.transform.position.x <= (cups[i].transform.position.x + (cups[i].renderer.bounds.size.x*11/10))
+					        && ballParent.transform.position.y >= (cups[i].transform.position.y - cups[i].renderer.bounds.size.y/3)
+					        && ballParent.transform.position.y <= (cups[i].transform.position.y + (cups[i].renderer.bounds.size.x*11/10)) )
+					{	
+						rimJob = i;
+					}
 				}
+			}
+
+			// If you missed but got close to a cup, show it rattle
+			if( rimJob != -1 )
+			{
+				// Play "moving" animation
+				cups[rimJob].animation.Play();
 			}
 		}
 		
