@@ -15,6 +15,7 @@ public class MenuController : MonoBehaviour
 	public string FBName;
 	public Texture profilePic;
 	public int score;
+	public GameObject FBPicture;
 
 	// Text objects for changing text on the fly
 	public GameObject facebookLoggedInText;
@@ -23,7 +24,7 @@ public class MenuController : MonoBehaviour
 	public GameObject highScoreTextShadow;
 	public Texture FBLoginButton;
 	public GUIStyle FBbuttonStyle;
-	public GameObject FacebookPicture;
+
 	//sounds
 	public GameObject ClickSound;
 
@@ -39,7 +40,7 @@ public class MenuController : MonoBehaviour
 		else{
 			//If logged in then show the name and picture
 			Debug.Log("Logged in? " + FB.IsLoggedIn);
-
+			FBPicture.renderer.guiTexture.texture = globalController.GetComponent<GlobalController> ().profilePic;
 			profilePic = globalController.GetComponent<GlobalController> ().profilePic;
 			FBName = globalController.GetComponent<GlobalController> ().FBUsername;
 			if (profilePic == null || FBName == null){
@@ -87,7 +88,7 @@ public class MenuController : MonoBehaviour
 			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			if (profilePic != null)
 				//FacebookPicture.guiTexture.texture = profilePic;
-			    GUI.DrawTexture(new Rect(10,100,110,110),profilePic,ScaleMode.ScaleToFit,true,0);
+			    GUI.DrawTexture(new Rect(10,10,110,110),profilePic,ScaleMode.ScaleToFit,true,0);    
 		}  
 	}
 
@@ -158,6 +159,9 @@ public class MenuController : MonoBehaviour
 			return;
 		}
 		profilePic = texture;
+		FBPicture.guiTexture.texture = texture;
+		//FBPicture.renderer.enabled = true;
+
 		globalController.GetComponent<GlobalController> ().SetProfilePic (profilePic);
 
 	}

@@ -9,7 +9,7 @@ public class FlipCupController : MonoBehaviour {
 	Vector3 finalPos;
 	Vector3 Pos;
 	Vector3 FlickPos = new Vector3(0,0,0);
-	Vector3 FlickAmount = new Vector3(0,-57,0);
+	Vector3 FlickAmount = new Vector3(0,-150,0);
 	//Vector3 startPosition = new Vector3(0,1,-2);
 
 	public GameObject countdown;
@@ -53,6 +53,8 @@ public class FlipCupController : MonoBehaviour {
 		colorStart = instructionText.renderer.material.color;
 		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
 		fadeValue = 0.0f;
+
+
 	}
 	
 	// Update is called once per frame
@@ -64,7 +66,7 @@ public class FlipCupController : MonoBehaviour {
 			{
 				//initPos = Input.mousePosition*10;
 				initPos = Input.mousePosition;
-				initPos.y *= 10;
+				//initPos.y *= 10;
 				//initPos.x *= 2;
 
 			}
@@ -74,9 +76,10 @@ public class FlipCupController : MonoBehaviour {
 					//finalPos = Input.mousePosition*10;
 				finalPos = Input.mousePosition;
 				CupSFX.GetComponent<AudioSource>().Play();
-				finalPos.y *= 8;
+				//finalPos.y *= 10;
 				Pos = finalPos - initPos;
-				Pos.x *= 1.3f;
+				Pos.y *=2.5f;
+			    Pos.x *= 1.3f;
 
 				//Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
 				if( Pos.y > 1200.0f )
@@ -87,9 +90,10 @@ public class FlipCupController : MonoBehaviour {
 					Pos.x = -450.0f;
 				Debug.Log( "Flick vector: " + Pos );
 				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
-				Cup_placeholder.rigidbody.AddForce(0,0,190);	//pushes cup from edge onto table
+				Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
 				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
 				isFlicked = true; //the cup has been flicked
+
 			}
 		}
 		//if the balls y pos is in the landed area and is not changing, then success!

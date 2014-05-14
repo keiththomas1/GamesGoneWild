@@ -20,7 +20,7 @@ public class MinigameWinController : MonoBehaviour
 		{ // If in flippy cup, we need to rotate the points box to face the screen.
 			Debug.Log( "Special case points box." );
 			pointsBox.transform.Rotate( new Vector3( 35.0f, 0.0f, 0.0f ) );
-			pointsBox.transform.Translate( new Vector3( 0.0f, 5.2f, 0.0f ) );
+			pointsBox.transform.Translate( new Vector3( 0.0f, 2.38f, 0.0f ) );
 		}
 
 		points = globalController.GetComponent<GlobalController>().partyPoints;
