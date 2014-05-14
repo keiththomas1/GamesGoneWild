@@ -36,10 +36,16 @@ public class GlobalController : MonoBehaviour
 	// Which minigame are we playing? In numerics
 	public int currentLevel;
 
-	public GameObject pointsBox;
-	public GameObject scoreText;
+	// Variables to handle pause menu
+	public GameObject pauseButton;
+	public GameObject pauseMenu;
+	public GameObject resumeButton;
+	public GameObject soundToggleButton;
+	public GameObject quitButton;
+	public bool isPaused;
+	public RaycastHit hit;	// To track press of the pause button
+	public Ray ray;
 
-	public bool pause;
 	// Use this for initialization
 	void Start () 
 	{
@@ -56,9 +62,14 @@ public class GlobalController : MonoBehaviour
 		Object.DontDestroyOnLoad( this );
 
 		// No mode to start
+		pauseMenu.renderer.enabled = false;
+		pauseMenu.collider.enabled = false;
+
 		previousMode = "";
 
-		pause = false;
+		isPaused = false;
+		hit = new RaycastHit();
+
 		// Set all the children of the global controller to invisible for now.
 		Component[] children = GetComponentsInChildren(typeof(Renderer));
 		foreach( Component c in children )
@@ -76,23 +87,37 @@ public class GlobalController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-
-		// pause for ingame
-		if (Input.GetKeyDown(KeyCode.Escape)) 
-		{ 
-			if(pause == false)
-			{	
-				pause = true;
-				Time.timeScale = 0;
-
+		if( Input.GetMouseButtonDown( 0 ) )
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if( !isPaused )	// If game is not paused
+			{
+				// Check if player click is on the pause button
+				if( Physics.Raycast(ray,out hit) && hit.collider.name == "PauseButton" )
+				{
+					Debug.Log( hit.collider.name );
+					Pause();
+				}
 			}
 			else
 			{
-				pause = false;
-				Time.timeScale = 1;
-
+				if( Physics.Raycast(ray,out hit) )
+				{
+					switch( hit.collider.name )
+					{
+					case "ResumeButton":
+						UnPause();
+						break;
+					case "QuitButton":
+						ResetVariables();
+						if( gameMode == "Selection" )
+							Application.LoadLevel( "SelectionScene" );
+						else
+							Application.LoadLevel( "MenuScene" );
+						break;
+					}
+				}
 			}
-			//Application.Quit(); 
 		}
 	}
 
@@ -119,6 +144,11 @@ public class GlobalController : MonoBehaviour
 	{
 		if( beersDrank < beerLives )	// If we haven't lost yet
 		{
+			if( !pauseButton.renderer.enabled )
+			{
+				pauseButton.renderer.enabled = true;
+			}
+
 			if( gameMode == "Normal Mode" )
 			{
 				if( currentMinigames.Count > 0 )
@@ -148,6 +178,11 @@ public class GlobalController : MonoBehaviour
 		}
 		else 	// If we've lost..
 		{
+			if( pauseButton.renderer.enabled )
+			{
+				pauseButton.renderer.enabled = false;
+			}
+
 			if( gameMode == "Normal Mode" )
 			{
 				Application.LoadLevel( "HighScore" );
@@ -185,32 +220,6 @@ public class GlobalController : MonoBehaviour
 		// Reset all variables.
 		ResetVariables();
 		Application.LoadLevel( "MenuScene" );
-	}
-
-	void ResetVariables()
-	{
-		currentMinigames = new List<string>();
-		currentMinigames.Add("BeerPong");
-		currentMinigames.Add("FlippyCup");
-		currentMinigames.Add("Darts");
-
-		partyPoints = 0;	
-		beersDrank = 0;	// Lives lost
-		beerLives = 4;	// Total lives
-		turnUpLevel = 1;
-
-		// Beer Pong
-		CupsPlaced = new bool[10];
-		for(int i=0; i<10; i++)
-		{
-			CupsPlaced[i] = true;
-		}
-
-		// Mini-game "levels"
-		beerPongLevel = 1;
-		armEnemyLevel = 1;
-		dartLevel = 1;
-		pukeLevel = 4;
 	}
 
 	// This is called when the game is started
@@ -313,5 +322,56 @@ public class GlobalController : MonoBehaviour
 		return newHighscores;
 	}
 
+	public void Pause()
+	{
+		if( !isPaused )
+		{
+			isPaused = true;
+			pauseMenu.renderer.enabled = true;
+			pauseMenu.collider.enabled = true;
+
+			Time.timeScale = 0;
+		}
+	}
+
+	public void UnPause()
+	{
+		if( isPaused )
+		{
+			isPaused = false;
+			pauseMenu.renderer.enabled = false;
+			pauseMenu.collider.enabled = false;
+			
+			Time.timeScale = 1;
+		}
+	}
+	
+	void ResetVariables()
+	{
+		currentMinigames = new List<string>();
+		currentMinigames.Add("BeerPong");
+		currentMinigames.Add("FlippyCup");
+		currentMinigames.Add("Darts");
+		
+		partyPoints = 0;	
+		beersDrank = 0;	// Lives lost
+		beerLives = 4;	// Total lives
+		turnUpLevel = 1;
+		
+		// Beer Pong
+		CupsPlaced = new bool[10];
+		for(int i=0; i<10; i++)
+		{
+			CupsPlaced[i] = true;
+		}
+		
+		// Mini-game "levels"
+		beerPongLevel = 1;
+		armEnemyLevel = 1;
+		dartLevel = 1;
+		pukeLevel = 4;
+
+		pauseButton.renderer.enabled = false;
+	}
 
 }

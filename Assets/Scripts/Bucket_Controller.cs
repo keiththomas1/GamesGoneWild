@@ -36,27 +36,24 @@ public class Bucket_Controller : MonoBehaviour {
 	/// <summary>
 	/// Raises the mouse over event.
 	/// </summary>
-	void OnMobileOver(){
-			
-		//
+	void OnMobileOver()
+	{
 		MobileScreenPoint = Camera.main.WorldToScreenPoint(Bucket.transform.position);
 	}
 
 	/// <summary>
 	/// Raises the mouse drag event.
 	/// </summary>
-	void OnMouseDrag(){
-		Debug.Log( Camera.main.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x, 0f, 0f ) ));
+	void OnMouseDrag()
+	{
 		// Determines screen point position in desktop mode
 		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, MobileScreenPoint.y, MobileScreenPoint.z);
 
 		// 
 		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint);
 
-		//
+		// Move the bucket to the mouse position.
 		transform.position = currentPosition;
-
-		//transform.camera.WorldToScreenPoint;
 	}
 
 	/// <summary>
@@ -65,12 +62,8 @@ public class Bucket_Controller : MonoBehaviour {
 	void touchBucketNavigation(){
 
 		// If player is touching screen, lets move the object
-		/*if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
-			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
-			transform.Translate ( touchDeltaPosition.x * speed, 0, 0);
-		}*/
-
-		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) 
+		{
 			Vector3 currentScreenPoint = new Vector3 (Input.GetTouch (0).position.x, MobileScreenPoint.y, MobileScreenPoint.z);
 			Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint);
 			transform.position = currentPosition;

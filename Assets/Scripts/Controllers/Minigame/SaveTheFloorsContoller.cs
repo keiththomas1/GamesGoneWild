@@ -243,10 +243,8 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	}
 
 	// Destroy this instance puke gameobject.
-	public void DestroyPuke(){
-
-		// Debugging purposes
-		Debug.Log ("In DestroyPuke() from controller");
+	public void DestroyPuke()
+	{
 
 		// Destroy puke gameobject at curreent element in list
 		BucketSound.GetComponent<AudioSource>().Play();

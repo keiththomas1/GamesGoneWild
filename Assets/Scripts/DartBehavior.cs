@@ -207,8 +207,8 @@ public class DartBehavior : MonoBehaviour
 	{
 		gameStarted = true;
 		if( globalController )
-			rigidbody2D.gravityScale = 0.9f + (globalController.GetComponent<GlobalController>().dartLevel * .05f);
+			rigidbody2D.gravityScale = 1.2f + (globalController.GetComponent<GlobalController>().dartLevel * .05f);
 		else
-			rigidbody2D.gravityScale = .95f;
+			rigidbody2D.gravityScale = 1.25f;
 	}
 }

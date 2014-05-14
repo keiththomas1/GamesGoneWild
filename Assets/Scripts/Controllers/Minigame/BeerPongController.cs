@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BeerPongController : MonoBehaviour 
@@ -66,7 +66,7 @@ public class BeerPongController : MonoBehaviour
 	void Start () 
 	{
 		globalController = GameObject.Find( "Global Controller" );
-		
+
 		isShootingHorizontal = true;
 		isShootingVertical = false;
 		isFinished = false;
@@ -143,7 +143,7 @@ public class BeerPongController : MonoBehaviour
 	{
 		// HACK - implement pause functionality here.
 		if (Input.GetKeyDown(KeyCode.Escape)) { Application.Quit(); }
-
+		
 		if( !gameOver && gameStarted )
 		{
 			if( isShootingHorizontal )
@@ -202,31 +202,31 @@ public class BeerPongController : MonoBehaviour
 				{
 					thrownSFX.GetComponent<AudioSource>().Play();
 					isShootingVertical = false;
-
+					
 					Vector3 tempPosition = new Vector3( sliderHorizontal.transform.position.x,
 					                                   sliderVertical.transform.position.y, 0.0f );
 					ballCursor.transform.position = tempPosition;
 					ballCursor.renderer.enabled = true;
 				}
 			}
-
+			
 			if( fadeValue < 1.0f )
 			{
 				fadeTimer -= Time.deltaTime;
 				fadeValue += Time.deltaTime;
 				instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
-
+				
 				if( fadeValue >= 1.0f )
 				{
 					Destroy( instructionText );
 				}
 			}
-
+			
 			// Handles the "explosion" animation of the description text
 			if( descriptionTextGrowing )
 			{
 				textGrowthTimer -= Time.deltaTime;
-
+				
 				if( textGrowthTimer <= 0.0f )
 				{
 					descriptionText.GetComponent<TextMesh>().fontSize = descriptionText.GetComponent<TextMesh>().fontSize + 3;
@@ -243,7 +243,7 @@ public class BeerPongController : MonoBehaviour
 			BallMovement();
 			TickTimers();
 		}
-
+		
 		if( !gameStarted )
 		{
 			gameStartTimer -= Time.deltaTime;
