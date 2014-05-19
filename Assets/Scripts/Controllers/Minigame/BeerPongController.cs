@@ -61,6 +61,10 @@ public class BeerPongController : MonoBehaviour
 	Color colorStart;
 	Color colorEnd;
 	float fadeValue;
+
+	// Variables for heating up and fire
+	public GameObject heatingUpText;
+	public GameObject fireText;
 	
 	// Use this for initialization
 	void Start () 
@@ -110,6 +114,9 @@ public class BeerPongController : MonoBehaviour
 		countdown.GetComponent<Animator>().speed = 1.4f;
 		gameStartTimer = 2.7f;
 		gameStarted = false;
+
+		heatingUpText.GetComponent<Animator>().enabled = false;
+		fireText.GetComponent<Animator>().enabled = false;
 
 		gameOver = false;
 
@@ -174,7 +181,6 @@ public class BeerPongController : MonoBehaviour
 					isShootingHorizontal = false;
 					isShootingVertical = true;
 					sliderDirection = "up";
-					//ball.GetComponent<Animator>().enabled = true;
 				}
 			}
 			else if( isShootingVertical )
@@ -344,7 +350,10 @@ public class BeerPongController : MonoBehaviour
 					// Kill off the ball
 					Destroy( ball );
 					if( globalController )
+					{
+						globalController.GetComponent<GlobalController>().beerPongStreak = 0;
 						globalController.GetComponent<GlobalController>().LostMinigame();
+					}
 				}
 			}
 		}
@@ -422,6 +431,13 @@ public class BeerPongController : MonoBehaviour
 				if( globalController )
 				{
 					globalController.GetComponent<GlobalController>().beerPongLevel++;
+					globalController.GetComponent<GlobalController>().beerPongStreak++;
+
+					if( globalController.GetComponent<GlobalController>().beerPongStreak == 2 )
+					   heatingUpText.GetComponent<Animator>().enabled = true;
+					else if( globalController.GetComponent<GlobalController>().beerPongStreak >= 3 )
+						fireText.GetComponent<Animator>().enabled = true;
+
 					globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
 				}
 				gameOver = true;

@@ -30,7 +30,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 9
@@ -44,6 +44,15 @@ TextureImporter:
     textureFormat: -2
     compressionQuality: 50
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: dart 1_0
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 43
+        width: 313
+        height: 104
+      alignment: 5
+      pivot: {x: 0, y: 0}
   spritePackingTag: 
   userData: 

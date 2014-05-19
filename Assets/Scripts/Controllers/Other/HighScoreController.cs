@@ -33,11 +33,8 @@ public class HighScoreController : MonoBehaviour {
 		globalController = GameObject.Find ("Global Controller");
 
 		CallPublishActions();
-
-
-
+		
 		if( globalController )
-
 			points = globalController.GetComponent<GlobalController> ().partyPoints;
 		else
 			points = 4300; // Arbitrary - for testing
@@ -46,9 +43,6 @@ public class HighScoreController : MonoBehaviour {
 		
 		HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 		DisplayHighScores();
-
-
-
 	}
 
 	public void CallPublishActions(){

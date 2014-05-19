@@ -160,12 +160,12 @@ public class DartBehavior : MonoBehaviour
 				float dartBoardY = coll.transform.position.y;
 				float dartPosition = transform.position.y - dartBoardY;
 
-				if( dartPosition <= .45 && dartPosition >= -.3 )
+				if( dartPosition <= .25 && dartPosition >= -.4 )
 				{
 					partyPoints = 110;
 					descriptionText.GetComponent<TextMesh>().text = "Bullseye!";
 				}
-				else if( dartPosition <= 1.75 && dartPosition >= -1.7 )
+				else if( dartPosition <= 1.55 && dartPosition >= -1.8 )
 				{
 					partyPoints = 80;
 					descriptionText.GetComponent<TextMesh>().text = "Great Throw!";

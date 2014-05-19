@@ -27,6 +27,7 @@ public class GlobalController : MonoBehaviour
 	// Variables kept for progress in mini-games
 	public bool[] CupsPlaced;	// For beer pong.
 	public int beerPongLevel;
+	public int beerPongStreak;
 	public int armEnemyLevel;	// For arm wrestle.
 	public int dartLevel;
 	public int pukeLevel;
@@ -109,6 +110,7 @@ public class GlobalController : MonoBehaviour
 						UnPause();
 						break;
 					case "QuitButton":
+						UnPause();
 						ResetVariables();
 						if( gameMode == "Selection" )
 							Application.LoadLevel( "SelectionScene" );
@@ -151,7 +153,12 @@ public class GlobalController : MonoBehaviour
 
 			if( gameMode == "Normal Mode" )
 			{
-				if( currentMinigames.Count > 0 )
+				if( previousMode=="BeerPong" && beerPongStreak>=3 )
+				{
+					Debug.Log( "fire" );
+					Application.LoadLevel( previousMode );
+				}
+				else if( currentMinigames.Count > 0 )
 				{
 					int random = Random.Range( 0, currentMinigames.Count);
 					previousMode = currentMinigames[random];
@@ -199,6 +206,7 @@ public class GlobalController : MonoBehaviour
 	public void BeatMinigame( int score )	
 	{
 		partyPoints += score;
+		pauseButton.renderer.enabled = false;
 
 		Application.LoadLevelAdditive( "MinigameWin");
 	}
@@ -214,9 +222,6 @@ public class GlobalController : MonoBehaviour
 	// When you drink all of your beers
 	public void LostGame()
 	{
-		// HACK: This will eventually route to a "losing" screen where the player is passed out
-		// or something. Then a high score type thing and THEN back to the menu screen.
-
 		// Reset all variables.
 		ResetVariables();
 		Application.LoadLevel( "MenuScene" );
@@ -350,8 +355,8 @@ public class GlobalController : MonoBehaviour
 	{
 		currentMinigames = new List<string>();
 		currentMinigames.Add("BeerPong");
-		currentMinigames.Add("FlippyCup");
-		currentMinigames.Add("Darts");
+		//currentMinigames.Add("FlippyCup");
+		//currentMinigames.Add("Darts");
 		
 		partyPoints = 0;	
 		beersDrank = 0;	// Lives lost
@@ -367,6 +372,7 @@ public class GlobalController : MonoBehaviour
 		
 		// Mini-game "levels"
 		beerPongLevel = 1;
+		beerPongStreak = 0;
 		armEnemyLevel = 1;
 		dartLevel = 1;
 		pukeLevel = 4;
