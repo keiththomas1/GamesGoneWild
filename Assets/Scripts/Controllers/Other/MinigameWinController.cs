@@ -9,7 +9,12 @@ public class MinigameWinController : MonoBehaviour
 
 	int points;
 
+	// Timer till the scene ends
 	float timer;
+
+	// Timer/bool for "tapping" through this screen
+	float clickThroughTimer;
+	bool canClickThrough;
 	
 	// Use this for initialization
 	void Start () 
@@ -28,6 +33,9 @@ public class MinigameWinController : MonoBehaviour
 		pointsText.GetComponent<TextMesh>().text = points.ToString();
 
 		timer = 2.0f;
+
+		clickThroughTimer = 0.5f;
+		canClickThrough = false;
 	}
 	
 	// Update is called once per frame
@@ -36,6 +44,11 @@ public class MinigameWinController : MonoBehaviour
 		timer -= Time.deltaTime;
 		
 		if( timer <= 0.0f )
+		{
+			globalController.GetComponent<GlobalController>().NextMinigame();
+		}
+
+		if( canClickThrough && Input.GetMouseButtonDown(0) )
 		{
 			globalController.GetComponent<GlobalController>().NextMinigame();
 		}

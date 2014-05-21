@@ -24,6 +24,13 @@ public class HighScoreController : MonoBehaviour {
 	List<int> HighScores;
 	List<object> FBScores;
 
+	// Bars
+	public GameObject BarOne;
+	public GameObject BarTwo;
+	public GameObject BarThree;
+	public GameObject BarFour;
+	public GameObject BarFive;
+	public GameObject BarSix;
 
 	public GameObject ClickSound;
 
@@ -40,6 +47,24 @@ public class HighScoreController : MonoBehaviour {
 			points = 4300; // Arbitrary - for testing
 
 		pointsText.GetComponent<TextMesh>().text = "Points: " + points.ToString();
+
+		// Height one - .6f
+		// Height two - 1.2f
+		// Height three - 1.8f
+		// Height four - 2.44f (Untouched, default)
+		Vector3 tempScale = BarOne.transform.localScale;
+		tempScale.y = globalController.GetComponent<GlobalController>().beerPongLevel * .6f;
+		BarOne.transform.localScale = tempScale;
+		tempScale.y = .6f;
+		BarTwo.transform.localScale = tempScale;
+		tempScale.y = .6f; // falllevel globalController.GetComponent<GlobalController>() * .6f;
+		BarThree.transform.localScale = tempScale;
+		tempScale.y = globalController.GetComponent<GlobalController>().pukeLevel * .6f;
+		BarFour.transform.localScale = tempScale;
+		tempScale.y = globalController.GetComponent<GlobalController>().dartLevel * .6f;
+		BarFive.transform.localScale = tempScale;
+		tempScale.y = globalController.GetComponent<GlobalController>().armEnemyLevel * .6f;
+		BarSix.transform.localScale = tempScale;
 		
 		HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 		DisplayHighScores();

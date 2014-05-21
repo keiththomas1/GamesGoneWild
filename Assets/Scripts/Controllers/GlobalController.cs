@@ -65,6 +65,9 @@ public class GlobalController : MonoBehaviour
 		// No mode to start
 		pauseMenu.renderer.enabled = false;
 		pauseMenu.collider.enabled = false;
+		resumeButton.collider.enabled = false;
+		soundToggleButton.collider.enabled = false;
+		quitButton.collider.enabled = false;
 
 		previousMode = "";
 
@@ -146,11 +149,6 @@ public class GlobalController : MonoBehaviour
 	{
 		if( beersDrank < beerLives )	// If we haven't lost yet
 		{
-			if( !pauseButton.renderer.enabled )
-			{
-				pauseButton.renderer.enabled = true;
-			}
-
 			if( gameMode == "Normal Mode" )
 			{
 				if( previousMode=="BeerPong" && beerPongStreak>=3 )
@@ -185,11 +183,6 @@ public class GlobalController : MonoBehaviour
 		}
 		else 	// If we've lost..
 		{
-			if( pauseButton.renderer.enabled )
-			{
-				pauseButton.renderer.enabled = false;
-			}
-
 			if( gameMode == "Normal Mode" )
 			{
 				Application.LoadLevel( "HighScore" );
@@ -199,14 +192,43 @@ public class GlobalController : MonoBehaviour
 				LostGame();
 			}
 		}
-	}
 
+		if( !pauseButton.renderer.enabled )
+		{
+			pauseButton.renderer.enabled = true;
+
+			if( previousMode == "FlippyCup" )
+			{
+				Vector3 tempPos = new Vector3(4.3f, 5.7f, -2.0f);
+				pauseButton.transform.position = tempPos;
+				tempPos = new Vector3(-.5f, 4.4f, 0.0f);
+				pauseMenu.transform.Translate( tempPos );
+				resumeButton.transform.Translate( tempPos );
+				soundToggleButton.transform.Translate( tempPos );
+				quitButton.transform.Translate( tempPos );
+			}
+		}
+	}
+	
 	// Call this if the player won a minigame and make sure to increment
 	// any global variables located in this associated with that minigame.
 	public void BeatMinigame( int score )	
 	{
 		partyPoints += score;
 		pauseButton.renderer.enabled = false;
+
+		// Change location of pause screen stuff for flippy cup
+		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
+		pauseButton.transform.position = tempPos;
+
+		if( previousMode == "FlippyCup" )
+		{
+			tempPos = new Vector3(.5f, -4.4f, 0.0f);
+			pauseMenu.transform.Translate( tempPos );
+			resumeButton.transform.Translate( tempPos );
+			soundToggleButton.transform.Translate( tempPos );
+			quitButton.transform.Translate( tempPos );
+		}
 
 		Application.LoadLevelAdditive( "MinigameWin");
 	}
@@ -215,6 +237,19 @@ public class GlobalController : MonoBehaviour
 	public void LostMinigame()
 	{
 		beersDrank++;
+		
+		// Change location of pause screen stuff for flippy cup
+		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
+		pauseButton.transform.position = tempPos;
+		
+		if( previousMode == "FlippyCup" )
+		{
+			tempPos = new Vector3(.5f, -4.4f, 0.0f);
+			pauseMenu.transform.Translate( tempPos );
+			resumeButton.transform.Translate( tempPos );
+			soundToggleButton.transform.Translate( tempPos );
+			quitButton.transform.Translate( tempPos );
+		}
 
 		Application.LoadLevel( "MinigameFail");
 	}
@@ -258,7 +293,6 @@ public class GlobalController : MonoBehaviour
 		menuMusic.GetComponent<AudioSource>().Play();
 	}
 
-
 	public void SetUserName(string name)
 	{
 		FBUsername = name;
@@ -267,8 +301,7 @@ public class GlobalController : MonoBehaviour
 	{
 		profilePic = picture;
 	}
-
-
+	
 	// Adds new score and returns the list.
 	// HACK - Only shows four high scores right now, will need to change in the future.
 	public List<int> SaveHighScore(int score)
@@ -334,6 +367,9 @@ public class GlobalController : MonoBehaviour
 			isPaused = true;
 			pauseMenu.renderer.enabled = true;
 			pauseMenu.collider.enabled = true;
+			resumeButton.collider.enabled = true;
+			soundToggleButton.collider.enabled = true;
+			quitButton.collider.enabled = true;
 
 			Time.timeScale = 0;
 		}
@@ -346,6 +382,9 @@ public class GlobalController : MonoBehaviour
 			isPaused = false;
 			pauseMenu.renderer.enabled = false;
 			pauseMenu.collider.enabled = false;
+			resumeButton.collider.enabled = false;
+			soundToggleButton.collider.enabled = false;
+			quitButton.collider.enabled = false;
 			
 			Time.timeScale = 1;
 		}
@@ -355,8 +394,8 @@ public class GlobalController : MonoBehaviour
 	{
 		currentMinigames = new List<string>();
 		currentMinigames.Add("BeerPong");
-		//currentMinigames.Add("FlippyCup");
-		//currentMinigames.Add("Darts");
+		currentMinigames.Add("FlippyCup");
+		currentMinigames.Add("Darts");
 		
 		partyPoints = 0;	
 		beersDrank = 0;	// Lives lost
