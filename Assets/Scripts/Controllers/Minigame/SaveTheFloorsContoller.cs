@@ -265,7 +265,10 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			if( globalController )
 			{
 				gameOver = true;
-				globalController.GetComponent<GlobalController>().pukeLevel++;
+				if( globalController.GetComponent<GlobalController>().pukeLevel <= 7 )
+				{
+					globalController.GetComponent<GlobalController>().pukeLevel++;
+				}
 				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			}
 			else

@@ -430,7 +430,12 @@ public class BeerPongController : MonoBehaviour
 				Destroy( cups[cupIndex] );
 				if( globalController )
 				{
-					globalController.GetComponent<GlobalController>().beerPongLevel++;
+					// If not at max level yet, and not on fire, increase the level.
+					if( globalController.GetComponent<GlobalController>().beerPongLevel < 4 
+					   && globalController.GetComponent<GlobalController>().beerPongStreak < 3)
+					{
+						globalController.GetComponent<GlobalController>().beerPongLevel++;
+					}
 					globalController.GetComponent<GlobalController>().beerPongStreak++;
 
 					if( globalController.GetComponent<GlobalController>().beerPongStreak == 2 )

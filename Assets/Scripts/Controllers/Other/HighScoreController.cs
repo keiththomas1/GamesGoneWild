@@ -38,6 +38,7 @@ public class HighScoreController : MonoBehaviour {
 	void Start () 
 	{
 		globalController = GameObject.Find ("Global Controller");
+		globalController.GetComponent<GlobalController>().pauseButton.renderer.enabled = false;
 
 		CallPublishActions();
 		
@@ -59,7 +60,7 @@ public class HighScoreController : MonoBehaviour {
 		BarTwo.transform.localScale = tempScale;
 		tempScale.y = .6f; // falllevel globalController.GetComponent<GlobalController>() * .6f;
 		BarThree.transform.localScale = tempScale;
-		tempScale.y = globalController.GetComponent<GlobalController>().pukeLevel * .6f;
+		tempScale.y = (globalController.GetComponent<GlobalController>().pukeLevel - 3) * .6f;
 		BarFour.transform.localScale = tempScale;
 		tempScale.y = globalController.GetComponent<GlobalController>().dartLevel * .6f;
 		BarFive.transform.localScale = tempScale;

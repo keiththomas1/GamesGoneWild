@@ -47,7 +47,7 @@ public class DartsController : MonoBehaviour
 		dartMoving = false;
 
 		if( globalController )
-			roomSpeed = .08f + (globalController.GetComponent<GlobalController>().dartLevel * .01f);
+			roomSpeed = .05f + (globalController.GetComponent<GlobalController>().dartLevel * .04f);
 		else
 			roomSpeed = .09f;
 
@@ -57,7 +57,7 @@ public class DartsController : MonoBehaviour
 
 		currentPillar = 0;
 		if( globalController )
-			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 3;
+			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 2;
 		else
 			pillarCount = 5;
 		
@@ -126,14 +126,14 @@ public class DartsController : MonoBehaviour
 			if( currentPillar == (pillarCount-2) )	// If dartboard is coming next
 			{ 
 				if( globalController )
-					pillarTimer = 4.0f - (globalController.GetComponent<GlobalController>().dartLevel*.2f);
+					pillarTimer = 4.0f - (globalController.GetComponent<GlobalController>().dartLevel*.3f);
 				else
 					pillarTimer = 2.8f;
 			}
 			else
 			{
 				if( globalController )
-					pillarTimer = 3.0f - (globalController.GetComponent<GlobalController>().dartLevel*.1f);
+					pillarTimer = 3.0f - (globalController.GetComponent<GlobalController>().dartLevel*.3f);
 				else
 					pillarTimer = 2.9f;
 			}

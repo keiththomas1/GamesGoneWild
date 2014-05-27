@@ -412,9 +412,9 @@ public class GlobalController : MonoBehaviour
 		// Mini-game "levels"
 		beerPongLevel = 1;
 		beerPongStreak = 0;
-		armEnemyLevel = 1;
 		dartLevel = 1;
 		pukeLevel = 4;
+		armEnemyLevel = 1;
 
 		pauseButton.renderer.enabled = false;
 	}

@@ -8,8 +8,8 @@ public class FlipCupController : MonoBehaviour {
 	Vector3 initPos;
 	Vector3 finalPos;
 	Vector3 Pos;
-	Vector3 FlickPos = new Vector3(0,0,0);
-	Vector3 FlickAmount = new Vector3(0,-150,0);
+	Vector3 FlickPos;
+	Vector3 FlickAmount;
 	//Vector3 startPosition = new Vector3(0,1,-2);
 
 	public GameObject countdown;
@@ -53,26 +53,22 @@ public class FlipCupController : MonoBehaviour {
 		colorStart = instructionText.renderer.material.color;
 		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
 		fadeValue = 0.0f;
-
-
+		
+		FlickPos = new Vector3(0,0,0);
+		FlickAmount = new Vector3(0,-150,0);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//mouse down
 		if (!isFlicked && canStart)
 		{
-			if (Input.GetMouseButtonDown (0)) 
+			if ( Input.GetMouseButtonDown(0) ) 
 			{
-				//initPos = Input.mousePosition*10;
 				initPos = Input.mousePosition;
-				//initPos.y *= 10;
-				//initPos.x *= 2;
-
 			}
 			//swipes to mouse up and find the distance moved and apply force
-			if (Input.GetMouseButtonUp (0)) 
-				{
+			if ( Input.GetMouseButtonUp(0) ) 
+			{
 					//finalPos = Input.mousePosition*10;
 				finalPos = Input.mousePosition;
 				CupSFX.GetComponent<AudioSource>().Play();
@@ -88,46 +84,51 @@ public class FlipCupController : MonoBehaviour {
 					Pos.x = 450.0f;
 				if( Pos.x < -450.0f )
 					Pos.x = -450.0f;
-				Debug.Log( "Flick vector: " + Pos );
-				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
-				Cup_placeholder.rigidbody.AddForce(0,0,200);	//pushes cup from edge onto table
-				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
-				isFlicked = true; //the cup has been flicked
 
+				// Forces to add to cup
+				Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
+				Cup_placeholder.rigidbody.AddForce(0,0,300);	//pushes cup from edge onto table
+				Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
+
+				isFlicked = true; //the cup has been flicked
 			}
 		}
 		//if the balls y pos is in the landed area and is not changing, then success!
-		if(isFlicked){
-			Debug.Log ( transform.position.y );
-			//hardcoded....only way i found that worked..
-			if (transform.position.y <= 2.78 && transform.position.y >= 2.7)
+		if(isFlicked)
+		{
+			// HACK - hard-coded values
+			if (transform.position.y <= 1.4f && transform.position.y >= 1.0f
+			    && transform.rotation.eulerAngles.y > 170 && transform.rotation.eulerAngles.y < 200
+			    && transform.rotation.eulerAngles.z > 170 && transform.rotation.eulerAngles.z < 200)
+			{
 				count += 60.0f * Time.deltaTime;
+			}
 			totalCount += 60.0f * Time.deltaTime;
 		}
 
-		if (count >= 50.0f){
-			Debug.Log ("landed!!!!! Reloading level");
+		if (count >= 50.0f)
+		{
 			isFlicked = false;
 			count = 0;
 			if( globalController )
 				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			else
 				Debug.Log( "Winner!" );
-			//DestroyObject(Cup_placeholder);
-			//Instantiate(Cup_placeholder,startPosition,transform.rotation);
-			//Debug.Log (transform.position);
-			//**********Once ball is instantiated.. it won't let me flick it again.
 		}
-		//Debug.Log(totalCount);
+
+		// If the counter is "up" and cup has not landed, lose minigame
 		if (totalCount >= 200.0f)
 		{
-			globalController.GetComponent<GlobalController>().LostMinigame();
-			Debug.Log("Failed");
+			if( globalController )
+				globalController.GetComponent<GlobalController>().LostMinigame();
+			else
+				Debug.Log("Failed");
 		}
-		if (transform.position.y <0){
+		// If cup falls off table, lose game
+		if (transform.position.y < -2.0f)
+		{
 			globalController.GetComponent<GlobalController>().LostMinigame();
 			DestroyObject(Cup_placeholder);
-			//Instantiate(Cup_placeholder,startPosition,transform.rotation);
 		}
 
 		if( countdown )
@@ -156,18 +157,21 @@ public class FlipCupController : MonoBehaviour {
 	}
 
 	// Check to see if Flippy Cup is hitting Flippy Table
-	void OnCollisionStay( Collision coll){
-		Debug.Log ("Coll");
+	void OnCollisionStay( Collision coll)
+	{
 		makeSound = true;
 		if (coll.gameObject.name == "FlippyTable")
-			if (isFlicked) {
-				if (makeSound && makeSoundFlag < 2) {
-					Debug.Log ("Cup is hitting table");
+		{
+			if (isFlicked) 
+			{
+				if (makeSound && makeSoundFlag < 2) 
+				{
 					makeSoundFlag++;
 					if( !CupSFX.GetComponent<AudioSource>().isPlaying)
 						CupSFX.GetComponent<AudioSource> ().Play ();
 				}
 			}
+		}
 		makeSound = false;
 	}
 }	
