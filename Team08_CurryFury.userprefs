@@ -1,12 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Other\MenuController.cs">
-    <Files>
-      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="165" Column="1" />
-      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="29" Column="11" />
-      <File FileName="c:\Users\Colin Blaise\Documents\Team08_CurryFury\Assets\Facebook\Scripts\AndroidFacebook.cs" Line="88" Column="25" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

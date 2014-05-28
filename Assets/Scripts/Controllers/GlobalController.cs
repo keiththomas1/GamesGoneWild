@@ -50,7 +50,13 @@ public class GlobalController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		
+		AdColony.Configure(
+			"1.0",               // Arbitrary app version
+			"app96b45d51f0844b008a",  // ADC App ID from adcolony.com
+			"vzf5c3966785eb4f32a2",    // A zone ID from adcolony.com
+			"vz7a22d0afa02045aa80"     // Any number of additional Zone IDS
+			);  
+
 		allMinigames = new List<string>();
 		allMinigames.Add("BeerPong");
 		allMinigames.Add("FlippyCup");

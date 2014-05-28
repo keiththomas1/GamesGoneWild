@@ -42,8 +42,11 @@ public class HighScoreController : MonoBehaviour {
 
 		CallPublishActions();
 		
-		if( globalController )
+		if (globalController) 
+		{
+			AdColony.ShowVideoAd();
 			points = globalController.GetComponent<GlobalController> ().partyPoints;
+		}
 		else
 			points = 4300; // Arbitrary - for testing
 
