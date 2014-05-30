@@ -12,7 +12,7 @@ public class BeerPongController : MonoBehaviour
 
 	// Concerning bouncing when cup missed.
 	bool isBouncing;
-	Vector3 bounceStartPosition;
+	//Vector3 bounceStartPosition;
 	
 	public GameObject ballParent;
 	public GameObject ball;
@@ -322,7 +322,7 @@ public class BeerPongController : MonoBehaviour
 						isFinished = false;
 						isBouncing = true;
 						rimJobSFX.GetComponent<AudioSource>().Play();
-						bounceStartPosition = ball.transform.position;
+						//bounceStartPosition = ball.transform.position;
 					}
 				}
 			}

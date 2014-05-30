@@ -31,6 +31,7 @@ public class GlobalController : MonoBehaviour
 	public int armEnemyLevel;	// For arm wrestle.
 	public int dartLevel;
 	public int pukeLevel;
+	public int flippyCupLevel;
 
 	// If in selection mode, this is filled with the current game being played
 	public string currentSelectionLevel;
@@ -421,6 +422,7 @@ public class GlobalController : MonoBehaviour
 		dartLevel = 1;
 		pukeLevel = 4;
 		armEnemyLevel = 1;
+		flippyCupLevel = 1;
 
 		pauseButton.renderer.enabled = false;
 	}
