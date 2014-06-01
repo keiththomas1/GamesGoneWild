@@ -25,7 +25,7 @@ public class FlippyCupController : MonoBehaviour
 		if( globalController )
 			cupsToLand = globalController.GetComponent<GlobalController>().flippyCupLevel;
 		else
-			cupsToLand = 3;
+			cupsToLand = 4;
 
 		// Cup logic
 		switch( cupsToLand )

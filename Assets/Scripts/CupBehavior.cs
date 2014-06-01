@@ -51,6 +51,8 @@ public class CupBehavior : MonoBehaviour
 		globalController = GameObject.Find( "Global Controller" );
 		isFlicked= false;
 		makeSound = false;
+
+		rigidbody.centerOfMass = new Vector3( 0.0f, 1.3f, 0.0f );
 		
 		countdown.GetComponent<Animator>().speed = 1.4f;
 		countdownTimer = 2.7f;
@@ -97,16 +99,16 @@ public class CupBehavior : MonoBehaviour
 					CupSFX.GetComponent<AudioSource>().Play();
 					//finalPos.y *= 10;
 					Pos = finalPos - initPos;
-					Pos.y *=2.5f;
+					Pos.y *= 4.0f;
 					Pos.x = 0.0f;
 					
 					//Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
-					if( Pos.y > 1200.0f )
-						Pos.y = 1200.0f;
+					if( Pos.y > 650.0f )
+						Pos.y = 650.0f;
 					
 					// Forces to add to cup
 					Cup_placeholder.rigidbody.AddForce(Pos);		//drag distance of the mouse as a force
-					Cup_placeholder.rigidbody.AddForce(0,0,300);	//pushes cup from edge onto table
+					Cup_placeholder.rigidbody.AddForce(0,0,370);	//pushes cup from edge onto table
 					Cup_placeholder.rigidbody.AddForceAtPosition(FlickAmount, FlickPos);// simulates the rotation of the cup
 					
 					isFlicked = true; //the cup has been flicked

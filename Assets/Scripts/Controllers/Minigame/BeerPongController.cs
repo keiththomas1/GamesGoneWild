@@ -7,6 +7,8 @@ public class BeerPongController : MonoBehaviour
 	bool gameOver;
 	
 	bool isShootingHorizontal;
+	float shootVerticalTimer;	// Gives a brief pause between shooting to avoid double taps
+	bool canShootVertical;
 	bool isShootingVertical;
 	bool isFinished;
 
@@ -72,6 +74,8 @@ public class BeerPongController : MonoBehaviour
 		globalController = GameObject.Find( "Global Controller" );
 
 		isShootingHorizontal = true;
+		shootVerticalTimer = .2f;
+		canShootVertical = false;
 		isShootingVertical = false;
 		isFinished = false;
 
@@ -203,16 +207,26 @@ public class BeerPongController : MonoBehaviour
 						sliderDirection = "up";
 					}
 				}
-				
-				if( Input.GetMouseButtonDown( 0 ) )
+
+				if( canShootVertical )
 				{
-					thrownSFX.GetComponent<AudioSource>().Play();
-					isShootingVertical = false;
-					
-					Vector3 tempPosition = new Vector3( sliderHorizontal.transform.position.x,
-					                                   sliderVertical.transform.position.y, 0.0f );
-					ballCursor.transform.position = tempPosition;
-					ballCursor.renderer.enabled = true;
+					if( Input.GetMouseButtonDown( 0 ) )
+					{
+						thrownSFX.GetComponent<AudioSource>().Play();
+						isShootingVertical = false;
+						
+						Vector3 tempPosition = new Vector3( sliderHorizontal.transform.position.x,
+						                                   sliderVertical.transform.position.y, 0.0f );
+						ballCursor.transform.position = tempPosition;
+						ballCursor.renderer.enabled = true;
+					}
+				}
+				else
+				{
+					shootVerticalTimer -= Time.deltaTime;
+
+					if( shootVerticalTimer <= 0.0f )
+						canShootVertical = true;
 				}
 			}
 			

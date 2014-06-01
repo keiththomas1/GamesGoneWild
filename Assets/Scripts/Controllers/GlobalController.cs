@@ -203,6 +203,7 @@ public class GlobalController : MonoBehaviour
 		if( !pauseButton.renderer.enabled )
 		{
 			pauseButton.renderer.enabled = true;
+			pauseButton.collider.enabled = true;
 
 			if( previousMode == "FlippyCup" )
 			{
@@ -223,6 +224,7 @@ public class GlobalController : MonoBehaviour
 	{
 		partyPoints += score;
 		pauseButton.renderer.enabled = false;
+		pauseButton.collider.enabled = false;
 
 		// Change location of pause screen stuff for flippy cup
 		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
@@ -425,6 +427,7 @@ public class GlobalController : MonoBehaviour
 		flippyCupLevel = 1;
 
 		pauseButton.renderer.enabled = false;
+		pauseButton.collider.enabled = false;
 	}
 
 }

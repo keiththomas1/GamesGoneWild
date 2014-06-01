@@ -34,7 +34,7 @@ public class MinigameWinController : MonoBehaviour
 
 		timer = 2.0f;
 
-		clickThroughTimer = 0.5f;
+		clickThroughTimer = 0.7f;
 		canClickThrough = false;
 	}
 	
@@ -42,10 +42,16 @@ public class MinigameWinController : MonoBehaviour
 	void Update () 
 	{
 		timer -= Time.deltaTime;
+		clickThroughTimer -= Time.deltaTime;
 		
 		if( timer <= 0.0f )
 		{
 			globalController.GetComponent<GlobalController>().NextMinigame();
+		}
+
+		if( clickThroughTimer <= 0.0f )
+		{
+			canClickThrough = true;
 		}
 
 		if( canClickThrough && Input.GetMouseButtonDown(0) )

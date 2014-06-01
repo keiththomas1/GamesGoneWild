@@ -49,8 +49,7 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	Color colorStart;
 	Color colorEnd;
 	float fadeValue;
-	// Difficulty level
-	float scale = 2.0f;
+
 	// Puke SFX
 	public GameObject PukeSound;
 	public GameObject BucketSound;

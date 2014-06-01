@@ -9,7 +9,10 @@ public class MinigameFailController : MonoBehaviour
 
 	bool stayOnScreen;
 	float switchScreenTimer;
+	bool canClickThrough;
+	float clickThroughTimer;
 
+	// Beer drip
 	bool beerDrip;
 	float beerDripTimer;
 	public GameObject beerDripBack;
@@ -65,11 +68,36 @@ public class MinigameFailController : MonoBehaviour
 		beerDripBack.GetComponent<Animator>().enabled = false;
 		beerDrip = false;
 		beerDripTimer = 3.6f;
+		
+		canClickThrough = false;
+		if( beersDrank < 4 )
+		{
+			clickThroughTimer = .7f;
+		}
+		else
+		{
+			clickThroughTimer = 3.0f;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		// Allow user to click through only if game isn't over, x seconds in OR
+		// x seconds into the beer drip.
+		if( beersDrank < 4 || beerDrip )
+		{
+			clickThroughTimer -= Time.deltaTime;
+
+			if( clickThroughTimer <= 0.0f )
+				canClickThrough = true;
+			
+			if( canClickThrough && Input.GetMouseButtonDown( 0 ) )
+			{
+				if( globalController )
+					globalController.GetComponent<GlobalController>().NextMinigame();
+			}
+		}
 
 		if( stayOnScreen )
 		{
