@@ -7,6 +7,7 @@ public class MinigameWinController : MonoBehaviour
 	public GameObject pointsBox;
 	public GameObject pointsText;
 
+	int oldPoints;
 	int points;
 
 	// Timer till the scene ends
@@ -15,6 +16,10 @@ public class MinigameWinController : MonoBehaviour
 	// Timer/bool for "tapping" through this screen
 	float clickThroughTimer;
 	bool canClickThrough;
+
+	// Timer for "counting" up the points
+	float countingTimer;
+	bool isCountingUp;
 	
 	// Use this for initialization
 	void Start () 
@@ -28,14 +33,18 @@ public class MinigameWinController : MonoBehaviour
 			pointsBox.transform.Translate( new Vector3( 0.0f, 2.38f, 0.0f ) );
 		}
 
+		oldPoints = globalController.GetComponent<GlobalController>().oldPartyPoints;
 		points = globalController.GetComponent<GlobalController>().partyPoints;
 
-		pointsText.GetComponent<TextMesh>().text = points.ToString();
+		pointsText.GetComponent<TextMesh>().text = oldPoints.ToString();
 
 		timer = 2.0f;
 
 		clickThroughTimer = 0.7f;
 		canClickThrough = false;
+
+		// HACK - do this after points get "dragged"
+		StartCounting();
 	}
 	
 	// Update is called once per frame
@@ -58,5 +67,24 @@ public class MinigameWinController : MonoBehaviour
 		{
 			globalController.GetComponent<GlobalController>().NextMinigame();
 		}
+
+		if( isCountingUp && oldPoints<points)
+		{
+			countingTimer -= Time.deltaTime;
+
+			if( countingTimer <= 0.0f )
+			{
+				countingTimer = .01f;
+
+				oldPoints++;
+				pointsText.GetComponent<TextMesh>().text = oldPoints.ToString();
+			}
+		}
+	}
+
+	void StartCounting()
+	{
+		countingTimer = .01f;
+		isCountingUp = true;
 	}
 }

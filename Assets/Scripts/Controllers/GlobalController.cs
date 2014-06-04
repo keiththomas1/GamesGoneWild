@@ -19,6 +19,7 @@ public class GlobalController : MonoBehaviour
 	public GameObject playGameMusic;
 
 	// Variables kept for overall progress between mini-games
+	public int oldPartyPoints;
 	public int partyPoints;
 	public int beersDrank;
 	public int beerLives;
@@ -48,6 +49,10 @@ public class GlobalController : MonoBehaviour
 	public RaycastHit hit;	// To track press of the pause button
 	public Ray ray;
 
+	// Game timer stuff
+	public GameObject timerFront;
+	public GameObject timerBack;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -75,6 +80,9 @@ public class GlobalController : MonoBehaviour
 		resumeButton.collider.enabled = false;
 		soundToggleButton.collider.enabled = false;
 		quitButton.collider.enabled = false;
+
+		timerFront.renderer.enabled = false;
+		timerBack.renderer.enabled = false;
 
 		previousMode = "";
 
@@ -222,6 +230,7 @@ public class GlobalController : MonoBehaviour
 	// any global variables located in this associated with that minigame.
 	public void BeatMinigame( int score )	
 	{
+		oldPartyPoints = partyPoints;
 		partyPoints += score;
 		pauseButton.renderer.enabled = false;
 		pauseButton.collider.enabled = false;
@@ -405,7 +414,8 @@ public class GlobalController : MonoBehaviour
 		currentMinigames.Add("BeerPong");
 		currentMinigames.Add("FlippyCup");
 		currentMinigames.Add("Darts");
-		
+
+		oldPartyPoints = 0;
 		partyPoints = 0;	
 		beersDrank = 0;	// Lives lost
 		beerLives = 4;	// Total lives

@@ -1,7 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\BeerPongController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GlobalTimer.cs">
     <Files>
+      <File FileName="Assets\Scripts\GlobalTimer.cs" Line="21" Column="71" />
       <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="206" Column="39" />
       <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="73" Column="3" />
     </Files>
