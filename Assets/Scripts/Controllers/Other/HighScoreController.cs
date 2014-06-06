@@ -10,17 +10,23 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject globalController;
 	public Texture FBShareButton;
 	public GUIStyle FBShareStyle;
+	public Sprite unclicked;
+	public Sprite clicked;
 
 	private const int LeaderBoardLength = 10;
 
 	public GameObject pointsText;
 	public int points;
+
+	public GameObject FacebookButton;
+	public GameObject LocalButton;
 	
 	public RaycastHit hit;
 	public Ray ray;
 
 	public GameObject[] highScoreTexts;
-	public static List<object> scores = null;
+	public GameObject[] highScoreNames;
+
 	List<int> HighScores;
 	List<object> FBScores;
 
@@ -31,6 +37,12 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject BarFour;
 	public GameObject BarFive;
 	public GameObject BarSix;
+
+	public string[,] fbData = new string[20,2];
+	public string[] fbNameList = new string[5];
+	public string[] fbScoreList = new string[5];
+
+
 
 	public GameObject ClickSound;
 
@@ -71,7 +83,7 @@ public class HighScoreController : MonoBehaviour {
 		BarSix.transform.localScale = tempScale;
 		
 		HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
-		DisplayHighScores();
+
 	}
 
 	public void CallPublishActions(){
@@ -121,7 +133,20 @@ public class HighScoreController : MonoBehaviour {
 					ClickSound.GetComponent<AudioSource>().Play();
 					CallFBFeed();
 					break;
+
+				case "FacebookButton":
+					ClickSound.GetComponent<AudioSource>().Play();
+					FacebookButton.GetComponent<SpriteRenderer>().sprite = clicked;
+					LocalButton.GetComponent<SpriteRenderer>().sprite = unclicked;
+					DisplayFaceBookHighScores();
+					break;
+				case "LocalButton":
+					ClickSound.GetComponent<AudioSource>().Play();
+					FacebookButton.GetComponent<SpriteRenderer>().sprite = unclicked;
+					LocalButton.GetComponent<SpriteRenderer>().sprite = clicked;
+					break;
 				}
+
 
 			}
 		}
@@ -141,7 +166,7 @@ public class HighScoreController : MonoBehaviour {
 		else
 			Debug.Log (result.Error);
 
-		scores = new List<object>();
+
 		int playerHighScore;
 
 		//deserialize the scores from facebook
@@ -199,8 +224,10 @@ public class HighScoreController : MonoBehaviour {
 		*/
 		FBScores = Util.DeserializeScores (result.Text);
 
+		int entryCount = 0;
 		//for each object that contains a persons data store the info
 		foreach(object score in FBScores){
+
 			//entry is the player object that contains keys "user", "score", 
 			//and "application"(we don't need this one)
 			var entry = (Dictionary<string,object>) score;
@@ -211,10 +238,12 @@ public class HighScoreController : MonoBehaviour {
 			//id and name are keys inside the user object
 			string userId = (string)user["id"];
 			string name = (string)user["name"];
+			fbNameList[entryCount] = name;
 
 			//score is a key inside the entry object,
 			playerHighScore = getScoreFromEntry(entry);
-			entry["score"] = playerHighScore.ToString();             
+			entry["score"] = playerHighScore.ToString(); 
+			fbScoreList[entryCount] = playerHighScore.ToString ();
 
 			//Check if this entry is the current local user and 
 			//if the user's score is higher than his saved facebook score, update it.
@@ -231,25 +260,38 @@ public class HighScoreController : MonoBehaviour {
 			}
 			Debug.Log ("userID: " + userId + " name: " + name + " score: " + entry["score"]);
 
-			//list<object> of all entry objects containing player info.
-			scores.Add (entry);
+			entryCount++;
 		}
+
 	}
 
 
-	public void DisplayHighScores()
+	public void DisplayFaceBookHighScores()
 	{
-		int count = HighScores.Count;
-
+		//int count = HighScores.Count;
+		int count = 0;
 		foreach( GameObject scoreText in highScoreTexts )
 		{
-			if( count == 0 )
+			if( count == 6 )
 			{
 				break;
 			}
-			scoreText.GetComponent<TextMesh>().text = HighScores[count-1].ToString();
-			count--;
+
+			scoreText.GetComponent<TextMesh>().text = fbScoreList[count];
+			count++;
 		}
+		count = 0;
+		foreach( GameObject scoreName in highScoreNames )
+		{
+			if (count == 6)
+			{
+				break;
+			}
+
+			scoreName.GetComponent<TextMesh>().text = fbNameList[count];
+			count++;
+		}
+
 	}
 
 	void OnApplicationQuit(){

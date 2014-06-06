@@ -87,8 +87,8 @@ public class MenuController : MonoBehaviour
 			facebookLoggedInText.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
 			if (profilePic != null)
-				//FacebookPicture.guiTexture.texture = profilePic;
-			    GUI.DrawTexture(new Rect(10,10,110,110),profilePic,ScaleMode.ScaleToFit,true,0);    
+				//FBPicture.GetComponent<GUITexture>().texture = profilePic;
+			    GUI.DrawTexture(new Rect(1040,725,110,110),profilePic,ScaleMode.ScaleToFit,true,0);    
 		}  
 	}
 
