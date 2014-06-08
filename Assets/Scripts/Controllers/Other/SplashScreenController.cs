@@ -4,6 +4,8 @@ using System.Collections;
 public class SplashScreenController : MonoBehaviour 
 {
 	public GameObject logo;
+	public GameObject redGear;
+	public GameObject blueGear;
 
 	float timer;
 	Color colorStart;
@@ -11,6 +13,9 @@ public class SplashScreenController : MonoBehaviour
 
 	bool fadeIn;
 	float fadeValue;
+
+	Vector3 redRotate;
+	Vector3 blueRotate;
 
 	// Use this for initialization
 	void Start () 
@@ -22,6 +27,9 @@ public class SplashScreenController : MonoBehaviour
 
 		fadeIn = true;
 		fadeValue = 1.0f;
+
+		redRotate = new Vector3( 0.0f, 0.0f, -.5f );
+		blueRotate = new Vector3( 0.0f, 0.0f, .5f );
 	}
 	
 	// Update is called once per frame
@@ -44,7 +52,10 @@ public class SplashScreenController : MonoBehaviour
 		{
 			fadeValue += Time.deltaTime;
 		}
-		logo.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+		//logo.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+
+		redGear.transform.Rotate( redRotate );
+		blueGear.transform.Rotate( blueRotate );
 	}
 
 }

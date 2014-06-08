@@ -18,10 +18,8 @@ public class MenuController : MonoBehaviour
 	public GameObject FBPicture;
 
 	// Text objects for changing text on the fly
-	public GameObject facebookLoggedInText;
-	public GameObject facebookLoggedInTextShadow;
+	public GameObject facebookButton;
 	public GameObject highScoreText;
-	public GameObject highScoreTextShadow;
 	public Texture FBLoginButton;
 	public GUIStyle FBbuttonStyle;
 
@@ -61,31 +59,44 @@ public class MenuController : MonoBehaviour
 			partyPoints = 0;
 		}
 		highScoreText.GetComponent<TextMesh>().text = "High Score: " + partyPoints.ToString();
-		highScoreTextShadow.GetComponent<TextMesh>().text = "High Score: " + partyPoints.ToString();
-		
-		facebookLoggedInText.GetComponent<TextMesh>().text = "";
-		facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "";
 
 		hit = new RaycastHit();
 	}
 	
-	void OnGUI()
+	// Update is called once per frame
+	void Update () 
 	{
-		//If not logged in, display the login button
-		if (!FB.IsLoggedIn)
-		{   
-
-			if (GUI.Button(new Rect(200, 20, 260, 60),"", FBbuttonStyle))
+		if( Input.GetMouseButtonDown( 0 ) )
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if( Physics.Raycast(ray,out hit) )
 			{
-				Debug.Log ("Calling FBLogin()");
-				CallFBLogin();
+				Debug.Log( hit.collider.name );
+				switch( hit.collider.name )
+				{
+				case "PlayText":
+					ClickSound.GetComponent<AudioSource>().Play();
+					globalController.GetComponent<GlobalController>().StartMode("Normal Mode", "");
+					break;
+				case "PracticeText":
+					ClickSound.GetComponent<AudioSource>().Play();
+					Application.LoadLevel( "SelectionScene" );
+					break;
+				case "FacebookButton":
+					CallFBLogin();
+					break;
+				}
 			}
 		}
+	}
+	
+	void OnGUI()
+	{
 		//If logged in, display the user name and picture
 		if (FB.IsLoggedIn)
 		{ 
-			facebookLoggedInText.GetComponent<TextMesh>().text = "Logged In - " + FBName;
-			facebookLoggedInTextShadow.GetComponent<TextMesh>().text = "Logged In - " + FBName;
+			facebookButton.renderer.enabled = false;
+			facebookButton.collider.enabled = false;
 			if (profilePic != null)
 				//FBPicture.GetComponent<GUITexture>().texture = profilePic;
 			    GUI.DrawTexture(new Rect(1040,725,110,110),profilePic,ScaleMode.ScaleToFit,true,0);    
@@ -204,31 +215,5 @@ public class MenuController : MonoBehaviour
 	}
 	void LogCallback(FBResult response) {
 		Debug.Log(response.Text);
-	}
-
-
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		if( Input.GetMouseButtonDown( 0 ) )
-		{
-			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if( Physics.Raycast(ray,out hit) )
-			{
-				Debug.Log( hit.collider.name );
-				switch( hit.collider.name )
-				{
-				case "PlayText":
-					ClickSound.GetComponent<AudioSource>().Play();
-					globalController.GetComponent<GlobalController>().StartMode("Normal Mode", "");
-					break;
-				case "PracticeText":
-					ClickSound.GetComponent<AudioSource>().Play();
-					Application.LoadLevel( "SelectionScene" );
-					break;
-				}
-			}
-		}
 	}
 }
