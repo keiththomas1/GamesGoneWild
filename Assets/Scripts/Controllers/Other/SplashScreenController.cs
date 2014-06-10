@@ -4,6 +4,7 @@ using System.Collections;
 public class SplashScreenController : MonoBehaviour 
 {
 	public GameObject logo;
+	public GameObject logoText;
 	public GameObject redGear;
 	public GameObject blueGear;
 
@@ -47,12 +48,17 @@ public class SplashScreenController : MonoBehaviour
 
 			if( fadeValue <= 0.0f )
 				fadeIn = false;
+			
+			//logo.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 		}
 		else
 		{
 			fadeValue += Time.deltaTime;
+			logo.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+			logoText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+			redGear.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+			blueGear.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 		}
-		//logo.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 
 		redGear.transform.Rotate( redRotate );
 		blueGear.transform.Rotate( blueRotate );

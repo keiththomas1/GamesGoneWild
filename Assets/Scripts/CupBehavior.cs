@@ -123,11 +123,15 @@ public class CupBehavior : MonoBehaviour
 				    && transform.rotation.eulerAngles.z > 170 && transform.rotation.eulerAngles.z < 200)
 				{
 					count += 60.0f * Time.deltaTime;
+					Debug.Log( count );
 				}
-				totalCount += 60.0f * Time.deltaTime;
+				else
+				{
+					totalCount += 60.0f * Time.deltaTime;
+				}
 			}
 			
-			if (count >= 50.0f)
+			if (count >= 70.0f)
 			{
 				isFlicked = false;
 				count = 0;
@@ -136,7 +140,7 @@ public class CupBehavior : MonoBehaviour
 			}
 			
 			// If the counter is "up" and cup has not landed, lose minigame
-			if (totalCount >= 200.0f)
+			if (totalCount >= 150.0f)
 			{
 				gameOver = true;
 				flippyController.GetComponent<FlippyCupController>().CupFellOver();

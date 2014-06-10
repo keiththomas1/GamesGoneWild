@@ -24,6 +24,7 @@ public class GlobalController : MonoBehaviour
 	public int beersDrank;
 	public int beerLives;
 	public int turnUpLevel;
+	public int musicSpeed;
 
 	// Variables kept for progress in mini-games
 	public bool[] CupsPlaced;	// For beer pong.
@@ -311,6 +312,16 @@ public class GlobalController : MonoBehaviour
 		menuMusic.GetComponent<AudioSource>().Play();
 	}
 
+	public void SpeedUpMusic()
+	{
+		if( musicSpeed < 5 )
+		{
+			musicSpeed++;
+			playGameMusic.GetComponent<AudioSource>().pitch += .05f;
+			Debug.Log( playGameMusic.GetComponent<AudioSource>().pitch );
+		}
+	}
+
 	public void SetUserName(string name)
 	{
 		FBUsername = name;
@@ -420,6 +431,7 @@ public class GlobalController : MonoBehaviour
 		beersDrank = 0;	// Lives lost
 		beerLives = 4;	// Total lives
 		turnUpLevel = 1;
+		musicSpeed = 1;
 		
 		// Beer Pong
 		CupsPlaced = new bool[10];

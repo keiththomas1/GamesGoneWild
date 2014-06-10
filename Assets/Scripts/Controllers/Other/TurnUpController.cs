@@ -29,6 +29,8 @@ public class TurnUpController : MonoBehaviour
 			timerSpeed = .9f - (.2f * globalController.GetComponent<GlobalController>().turnUpLevel);
 			// This makes the transition end the first time after the first rotation, second after the second, etc.
 			transitionTimer = timerSpeed * 3 * globalController.GetComponent<GlobalController>().turnUpLevel;
+
+			globalController.GetComponent<GlobalController>().SpeedUpMusic();
 		}
 		else
 		{
