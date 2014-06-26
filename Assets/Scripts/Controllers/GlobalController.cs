@@ -145,7 +145,6 @@ public class GlobalController : MonoBehaviour
 	public void StartMode( string mode, string game )
 	{
 		gameMode = mode;
-		StartModeMusic();
 		currentSelectionLevel = game;
 
 		// If playing in practice mode, and not playing flippy cup, then don't set a
@@ -211,18 +210,16 @@ public class GlobalController : MonoBehaviour
 
 		if( !pauseButton.renderer.enabled )
 		{
+			Debug.Log( "Yoooo " + previousMode );
+
 			pauseButton.renderer.enabled = true;
 			pauseButton.collider.enabled = true;
 
 			if( previousMode == "FlippyCup" )
 			{
+				Debug.Log( previousMode );
 				Vector3 tempPos = new Vector3(4.3f, 5.7f, -2.0f);
 				pauseButton.transform.position = tempPos;
-				tempPos = new Vector3(-.5f, 4.4f, 0.0f);
-				pauseMenu.transform.Translate( tempPos );
-				resumeButton.transform.Translate( tempPos );
-				soundToggleButton.transform.Translate( tempPos );
-				quitButton.transform.Translate( tempPos );
 			}
 		}
 	}
@@ -240,15 +237,6 @@ public class GlobalController : MonoBehaviour
 		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
 		pauseButton.transform.position = tempPos;
 
-		if( previousMode == "FlippyCup" )
-		{
-			tempPos = new Vector3(.5f, -4.4f, 0.0f);
-			pauseMenu.transform.Translate( tempPos );
-			resumeButton.transform.Translate( tempPos );
-			soundToggleButton.transform.Translate( tempPos );
-			quitButton.transform.Translate( tempPos );
-		}
-
 		Application.LoadLevelAdditive( "MinigameWin");
 	}
 
@@ -260,15 +248,6 @@ public class GlobalController : MonoBehaviour
 		// Change location of pause screen stuff for flippy cup
 		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
 		pauseButton.transform.position = tempPos;
-		
-		if( previousMode == "FlippyCup" )
-		{
-			tempPos = new Vector3(.5f, -4.4f, 0.0f);
-			pauseMenu.transform.Translate( tempPos );
-			resumeButton.transform.Translate( tempPos );
-			soundToggleButton.transform.Translate( tempPos );
-			quitButton.transform.Translate( tempPos );
-		}
 
 		Application.LoadLevel( "MinigameFail");
 	}
@@ -282,9 +261,8 @@ public class GlobalController : MonoBehaviour
 	}
 
 	// This is called when the game is started
-	void StartModeMusic()
+	public void StartModeMusic()
 	{
-		Debug.Log("Play");
 		if( menuMusic.GetComponent<AudioSource>().isPlaying )
 		{
 			menuMusic.GetComponent<AudioSource>().Stop();
@@ -391,6 +369,22 @@ public class GlobalController : MonoBehaviour
 
 	public void Pause()
 	{
+		if( previousMode == "FlippyCup" )
+		{
+			pauseMenu.transform.Translate( new Vector3( 0.0f, 6.0f, 0.0f ) );
+			resumeButton.transform.Translate( new Vector3( 0.0f, 6.0f ) );
+			soundToggleButton.transform.Translate( new Vector3( 0.0f, 6.0f ) );
+			quitButton.transform.Translate( new Vector3( 0.0f, 6.0f ) );
+
+			pauseMenu.transform.localScale = new Vector3( 1.2f, 1.2f );
+			pauseMenu.transform.Rotate( new Vector3( 40.0f, 0.0f ) );
+			resumeButton.transform.localScale = new Vector3( .6f, .6f );
+			resumeButton.transform.Rotate( new Vector3( 40.0f, 0.0f ) );
+			soundToggleButton.transform.localScale = new Vector3( .6f, .6f );
+			soundToggleButton.transform.Rotate( new Vector3( 40.0f, 0.0f ) );
+			quitButton.transform.localScale = new Vector3( .6f, .6f );
+			quitButton.transform.Rotate( new Vector3( 40.0f, 0.0f ) );
+		}
 		if( !isPaused )
 		{
 			isPaused = true;
@@ -406,6 +400,20 @@ public class GlobalController : MonoBehaviour
 
 	public void UnPause()
 	{
+		if( previousMode == "FlippyCup" )
+		{
+			pauseMenu.transform.Rotate( new Vector3( -40.0f, 0.0f ) );
+
+			pauseMenu.transform.Translate( new Vector3( 0.0f, -6.0f, 0.0f ) );
+			resumeButton.transform.Translate( new Vector3( 0.0f, -6.0f ) );
+			soundToggleButton.transform.Translate( new Vector3( 0.0f, -6.0f ) );
+			quitButton.transform.Translate( new Vector3( 0.0f, -6.0f ) );
+			
+			pauseMenu.transform.localScale = new Vector3( 1.84f, 1.84f );
+			resumeButton.transform.localScale = new Vector3( 1.0f, 1.0f );
+			soundToggleButton.transform.localScale = new Vector3( 1.0f, 1.0f );
+			quitButton.transform.localScale = new Vector3( 1.0f, 1.0f );
+		}
 		if( isPaused )
 		{
 			isPaused = false;
@@ -439,6 +447,9 @@ public class GlobalController : MonoBehaviour
 		{
 			CupsPlaced[i] = true;
 		}
+
+		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
+		pauseButton.transform.position = tempPos;
 		
 		// Mini-game "levels"
 		beerPongLevel = 1;

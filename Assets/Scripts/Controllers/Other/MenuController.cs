@@ -31,6 +31,8 @@ public class MenuController : MonoBehaviour
 	{
 		globalController = GameObject.Find("Global Controller");
 
+		globalController.GetComponent<GlobalController>().StartModeMusic();
+
 		//Initial check to see if user is logged into Facebook
 		if (!FB.IsLoggedIn) {
 			CallFBInit ();

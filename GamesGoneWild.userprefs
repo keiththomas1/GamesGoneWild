@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\GlobalController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="88" Column="21" />
-      <File FileName="Assets\Scripts\CupBehavior.cs" Line="133" Column="4" />
+      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="374" Column="68" />
+      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="10" Column="38" />
+      <File FileName="Assets\Scripts\Controllers\Other\MinigameFailController.cs" Line="103" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

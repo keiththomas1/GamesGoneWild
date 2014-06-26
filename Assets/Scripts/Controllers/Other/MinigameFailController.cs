@@ -16,6 +16,9 @@ public class MinigameFailController : MonoBehaviour
 	bool beerDrip;
 	float beerDripTimer;
 	public GameObject beerDripBack;
+	
+	public RaycastHit hit;
+	public Ray ray;
 
 	// All of the objects and sprites that need to be changed on the fly.
 	public GameObject background;
@@ -78,6 +81,8 @@ public class MinigameFailController : MonoBehaviour
 		{
 			clickThroughTimer = 3.0f;
 		}
+		
+		hit = new RaycastHit();
 	}
 	
 	// Update is called once per frame
@@ -94,7 +99,13 @@ public class MinigameFailController : MonoBehaviour
 			
 			if( canClickThrough && Input.GetMouseButtonDown( 0 ) )
 			{
-				if( globalController )
+				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				Physics.Raycast(ray,out hit);
+				Debug.Log( hit.collider.name );
+				// HACK - This only works because the global controller gets the input first
+				// and loads up the pause menu, so the collider on this is now the pause menu
+				// instead of the button.
+				if( hit.collider.name != "PauseScreen" && globalController )
 					globalController.GetComponent<GlobalController>().NextMinigame();
 			}
 		}

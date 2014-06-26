@@ -6,6 +6,9 @@ public class MinigameWinController : MonoBehaviour
 	GameObject globalController;
 	public GameObject pointsBox;
 	public GameObject pointsText;
+	
+	public RaycastHit hit;
+	public Ray ray;
 
 	int oldPoints;
 	int points;
@@ -42,6 +45,8 @@ public class MinigameWinController : MonoBehaviour
 
 		clickThroughTimer = 0.7f;
 		canClickThrough = false;
+		
+		hit = new RaycastHit();
 
 		// HACK - do this after points get "dragged"
 		StartCounting();
@@ -65,7 +70,12 @@ public class MinigameWinController : MonoBehaviour
 
 		if( canClickThrough && Input.GetMouseButtonDown(0) )
 		{
-			globalController.GetComponent<GlobalController>().NextMinigame();
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if( Physics.Raycast(ray,out hit) )
+			{
+				if( hit.collider.name != "PauseButton" )
+					globalController.GetComponent<GlobalController>().NextMinigame();
+			}
 		}
 
 		if( isCountingUp && oldPoints<points)

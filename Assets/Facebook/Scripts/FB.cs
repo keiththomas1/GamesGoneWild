@@ -389,7 +389,8 @@ public sealed class FB : ScriptableObject
             }
             var assembly = Security.LoadAndVerifyAssembly(www.bytes, authTokenWww.text);
 #else
-            var assembly = Security.LoadAndVerifyAssembly(www.bytes);
+            //var assembly = Security.LoadAndVerifyAssembly(www.bytes);
+			var assembly = Security.LoadAndVerifyAssembly(www.bytes, "o+uJXoVE53pt2yC+6MNtM+S1eQ12KoaJUWOveWIZ9Q3BWQTqhcWA9mllY6HjVXSLY5E0uWEgAWGalwS‌​f4z8c3XIfIInxSjh33N8IYCyMsrkctcj4LhPIl+EcKDgY4L2xKFqqiEi5k7z6LU3M4+RY+7LsgGL7m7Io‌​+8F/LxoOhnoWVGCQ1uXgQ+8G4emvplGRQy7usgruhbHvMsWtd9GXhJV29gFQa3h88R5obXgxNKGXQea0E‌​x8dQdRS41TS7+fywh6RFsoq9sFxi+dePoW8bGBP+NxKpCxzEIk8UVRD8fZsE/Zl2FzGyIGjn5QXJuPrS+‌​rYhLLbqfLz07Inf7LNCg==");
 #endif
             if (assembly == null)
             {
