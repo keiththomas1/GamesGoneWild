@@ -374,7 +374,7 @@ public class GlobalController : MonoBehaviour
 			pauseMenu.transform.Translate( new Vector3( 0.0f, 6.0f, 0.0f ) );
 			resumeButton.transform.Translate( new Vector3( 0.0f, 6.0f ) );
 			soundToggleButton.transform.Translate( new Vector3( 0.0f, 6.0f ) );
-			quitButton.transform.Translate( new Vector3( 0.0f, 6.0f ) );
+			quitButton.transform.Translate( new Vector3( 0.0f, 7.5f, -.68f ) );
 
 			pauseMenu.transform.localScale = new Vector3( 1.2f, 1.2f );
 			pauseMenu.transform.Rotate( new Vector3( 40.0f, 0.0f ) );
@@ -402,17 +402,19 @@ public class GlobalController : MonoBehaviour
 	{
 		if( previousMode == "FlippyCup" )
 		{
+			pauseMenu.transform.localScale = new Vector3( 1.84f, 1.84f );
 			pauseMenu.transform.Rotate( new Vector3( -40.0f, 0.0f ) );
-
+			resumeButton.transform.localScale = new Vector3( 1.0f, 1.0f );
+			resumeButton.transform.Rotate( new Vector3( -40.0f, 0.0f ) );
+			soundToggleButton.transform.localScale = new Vector3( 1.0f, 1.0f );
+			soundToggleButton.transform.Rotate( new Vector3( -40.0f, 0.0f ) );
+			quitButton.transform.localScale = new Vector3( 1.0f, 1.0f );
+			quitButton.transform.Rotate( new Vector3( -40.0f, 0.0f ) );
+			
 			pauseMenu.transform.Translate( new Vector3( 0.0f, -6.0f, 0.0f ) );
 			resumeButton.transform.Translate( new Vector3( 0.0f, -6.0f ) );
 			soundToggleButton.transform.Translate( new Vector3( 0.0f, -6.0f ) );
-			quitButton.transform.Translate( new Vector3( 0.0f, -6.0f ) );
-			
-			pauseMenu.transform.localScale = new Vector3( 1.84f, 1.84f );
-			resumeButton.transform.localScale = new Vector3( 1.0f, 1.0f );
-			soundToggleButton.transform.localScale = new Vector3( 1.0f, 1.0f );
-			quitButton.transform.localScale = new Vector3( 1.0f, 1.0f );
+			quitButton.transform.Translate( new Vector3( 0.0f, -7.5f, .68f ) );
 		}
 		if( isPaused )
 		{
