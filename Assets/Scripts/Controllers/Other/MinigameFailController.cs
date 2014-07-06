@@ -101,7 +101,6 @@ public class MinigameFailController : MonoBehaviour
 			{
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				Physics.Raycast(ray,out hit);
-				Debug.Log( hit.collider.name );
 				// HACK - This only works because the global controller gets the input first
 				// and loads up the pause menu, so the collider on this is now the pause menu
 				// instead of the button.

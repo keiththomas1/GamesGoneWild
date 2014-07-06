@@ -17,43 +17,55 @@ public class Bucket_Controller : MonoBehaviour {
 
 	// Used for mobile mode
 	Vector3 MobileScreenPoint;
+	
+	public RaycastHit hit;
+	public Ray ray;
+	
+	bool startDragging;
 
 	// Use this for initialization
-	void Start (){
-
+	void Start ()
+	{
 		// Controlling our bucket gameobject
 		Bucket = GameObject.FindGameObjectWithTag ("Bucket");
 
+		hit = new RaycastHit();
+
+		startDragging = false;
 	}
 	
 	// Update is called once per frame
-	void Update (){
-
-		// Movement in mobile platform mode
-		OnMobileOver ();
-	}
-
-	/// <summary>
-	/// Raises the mouse over event.
-	/// </summary>
-	void OnMobileOver()
+	void Update ()
 	{
-		MobileScreenPoint = Camera.main.WorldToScreenPoint(Bucket.transform.position);
-	}
+		if( Input.GetMouseButtonDown( 0 ) )
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if( Physics.Raycast(ray,out hit) )
+			{
+				Debug.Log( hit.collider.name );
+				if( hit.collider.name == this.name )
+				{
+					startDragging = true;
+				}
+			}
+		}
+		if( Input.GetMouseButtonUp( 0 ) )
+		{
+			startDragging = false;
+		}
 
-	/// <summary>
-	/// Raises the mouse drag event.
-	/// </summary>
-	void OnMouseDrag()
-	{
-		// Determines screen point position in desktop mode
-		Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, MobileScreenPoint.y, MobileScreenPoint.z);
+		if( startDragging )
+		{
+			// Determines screen point position in desktop mode
+			Vector3 currentScreenPoint = new Vector3 (Input.mousePosition.x, MobileScreenPoint.y, MobileScreenPoint.z);
 
-		// 
-		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint);
+			Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenPoint);
+			currentPosition.y = -4.0f;
+			currentPosition.z = -1.0f;
 
-		// Move the bucket to the mouse position.
-		transform.position = currentPosition;
+			// Move the bucket to the mouse position.
+			transform.position = currentPosition;
+		}
 	}
 
 	/// <summary>

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using Facebook;
 using Facebook.MiniJSON;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class MenuController : MonoBehaviour 
 {
@@ -25,6 +27,9 @@ public class MenuController : MonoBehaviour
 
 	//sounds
 	public GameObject ClickSound;
+
+	// TEMP HACK
+	public GameObject debugText;
 
 	// Use this for initialization
 	void Start () 
@@ -63,6 +68,17 @@ public class MenuController : MonoBehaviour
 		highScoreText.GetComponent<TextMesh>().text = "High Score: " + partyPoints.ToString();
 
 		hit = new RaycastHit();
+		
+		PlayGamesPlatform.DebugLogEnabled = true;
+		PlayGamesPlatform.Activate();
+
+		Social.localUser.Authenticate (success => {
+			if (success) {
+				debugText.GetComponent<TextMesh>().text = "Play logged in";
+			}
+			else
+				debugText.GetComponent<TextMesh>().text = "Play not logged in";
+		});
 	}
 	
 	// Update is called once per frame
@@ -217,5 +233,14 @@ public class MenuController : MonoBehaviour
 	}
 	void LogCallback(FBResult response) {
 		Debug.Log(response.Text);
+	}
+
+	void ReportScore (long score, string leaderboardID) 
+	{
+		debugText.GetComponent<TextMesh>().text = "Reporting score ";
+		Social.ReportScore (score, leaderboardID, success => {
+			Social.ShowLeaderboardUI();
+			if( success ) debugText.GetComponent<TextMesh>().text = "Leaderboard!";
+		});
 	}
 }

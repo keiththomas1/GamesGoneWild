@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\VectorDefense\Assets\Scripts\EnemyBehavior.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Bucket_Controller.cs">
     <Files>
-      <File FileName="..\VectorDefense\Assets\Scripts\EnemyBehavior.cs" Line="52" Column="30" />
-      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="80" Column="80" />
+      <File FileName="Assets\Scripts\Controllers\Other\HighScoreController.cs" Line="268" Column="2" />
+      <File FileName="Assets\Scripts\Bucket_Controller.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
