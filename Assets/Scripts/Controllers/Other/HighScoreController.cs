@@ -27,7 +27,7 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject[] highScoreTexts;
 	public GameObject[] highScoreNames;
 
-	List<int> HighScores;
+//	List<int> HighScores;
 	List<object> FBScores;
 
 	// Bars
@@ -82,7 +82,7 @@ public class HighScoreController : MonoBehaviour {
 		tempScale.y = globalController.GetComponent<GlobalController>().armEnemyLevel * .6f;
 		BarSix.transform.localScale = tempScale;
 		
-		HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
+		//HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 
 	}
 

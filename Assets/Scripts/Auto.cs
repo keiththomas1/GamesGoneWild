@@ -15,6 +15,7 @@ public class Auto : MonoBehaviour
 	//float Fallspeed_2 = 2.0f;
 
 	float curSpeed;
+	float armSpeed;
 	Vector3 localAngle;
 	//string stroutput1;
 
@@ -34,6 +35,9 @@ public class Auto : MonoBehaviour
 	
 	public GameObject backArm;
 	public GameObject frontArm;
+
+	// TEST HACK
+	public GameObject debugAccText;
 
 	// Use this for initialization
 	void Start () 
@@ -96,17 +100,24 @@ public class Auto : MonoBehaviour
 				}
 				
 				// Create a max limit for the curSpeed
-				if( curSpeed > 3.0f )
-					curSpeed = 3.0f;
-				if( curSpeed < -3.0f )
-					curSpeed = -3.0f;
+				if( curSpeed > 2.0f )
+					curSpeed = 2.0f;
+				if( curSpeed < -2.0f )
+					curSpeed = -2.0f;
+
+				if( Input.acceleration.x > 0.0f )
+					armSpeed = Time.deltaTime * speed * Input.acceleration.x;
+				else
+					armSpeed = 0.0f;
+
+				debugAccText.GetComponent<TextMesh>().text = armSpeed.ToString();
 				
 				// Perform the rotation and increase the speed.
 				transform.Rotate (0.0f, 0.0f, curSpeed);
 				if( frontArm.transform.rotation.eulerAngles.z < 35 || frontArm.transform.rotation.eulerAngles.z > 325 )
 				{
-					frontArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
-					backArm.transform.Rotate( 0.0f, 0.0f, curSpeed );
+					frontArm.transform.Rotate( 0.0f, 0.0f, armSpeed );
+					backArm.transform.Rotate( 0.0f, 0.0f, armSpeed );
 				}
 				speed += .007f;
 				

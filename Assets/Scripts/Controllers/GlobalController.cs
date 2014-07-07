@@ -245,6 +245,9 @@ public class GlobalController : MonoBehaviour
 	{
 		beersDrank++;
 		
+		pauseButton.renderer.enabled = false;
+		pauseButton.collider.enabled = false;
+		
 		// Change location of pause screen stuff for flippy cup
 		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
 		pauseButton.transform.position = tempPos;

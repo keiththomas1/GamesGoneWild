@@ -14,6 +14,9 @@ public class SplashScreenController : MonoBehaviour
 
 	bool fadeIn;
 	float fadeValue;
+	
+	bool canClickThrough;
+	float clickThroughTimer;
 
 	Vector3 redRotate;
 	Vector3 blueRotate;
@@ -28,6 +31,9 @@ public class SplashScreenController : MonoBehaviour
 
 		fadeIn = true;
 		fadeValue = 1.0f;
+		
+		canClickThrough = false;
+		clickThroughTimer = .5f;
 
 		redRotate = new Vector3( 0.0f, 0.0f, -.5f );
 		blueRotate = new Vector3( 0.0f, 0.0f, .5f );
@@ -58,6 +64,17 @@ public class SplashScreenController : MonoBehaviour
 			logoText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 			redGear.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 			blueGear.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+		}
+
+		// For clicking through the screen
+		clickThroughTimer -= Time.deltaTime;
+		
+		if( clickThroughTimer <= 0.0f )
+			canClickThrough = true;
+		
+		if( canClickThrough && Input.GetMouseButtonDown( 0 ) )
+		{
+			Application.LoadLevel("MenuScene");
 		}
 
 		redGear.transform.Rotate( redRotate );

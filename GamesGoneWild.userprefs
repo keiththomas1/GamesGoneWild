@@ -1,9 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\VectorDefense\Assets\Scripts\EnemyBehavior.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\GlobalController.cs">
     <Files>
-      <File FileName="..\VectorDefense\Assets\Scripts\EnemyBehavior.cs" Line="52" Column="30" />
-      <File FileName="Assets\Scripts\Controllers\Other\MenuController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\GlobalController.cs" Line="211" Column="38" />
+      <File FileName="Assets\Scripts\Controllers\Other\MinigameFailController.cs" Line="107" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\Other\SplashScreenController.cs" Line="72" Column="34" />
+      <File FileName="Assets\Scripts\Controllers\Other\TurnUpController.cs" Line="8" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
