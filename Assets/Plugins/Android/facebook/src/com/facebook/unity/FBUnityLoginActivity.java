@@ -3,14 +3,15 @@ package com.facebook.unity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 
 public class FBUnityLoginActivity extends Activity{
 	public static final String LOGIN_PARAMS = "login_params";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.d("AndroidNative", "FBUnityLoginActivity create");
         super.onCreate(savedInstanceState);
         // FB login has to be done in portrait orientation, so if unity is running in landscape,
         // we set theme to non-translucent

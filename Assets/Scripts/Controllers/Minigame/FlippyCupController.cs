@@ -75,7 +75,7 @@ public class FlippyCupController : MonoBehaviour
 	public void CupLanded()
 	{
 		cupsToLand--;
-
+		Debug.Log ("CUPS Not LANDED: " + cupsToLand);
 		if( cupsToLand <= 0 )
 		{
 			if( globalController )

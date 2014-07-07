@@ -1002,19 +1002,26 @@ public class Session implements Serializable {
 
         if (newPermissionsRequest != null) {
             synchronized (this.lock) {
+            	
                 if (pendingAuthorizationRequest != null) {
-                    throw new UnsupportedOperationException(
-                            "Session: an attempt was made to request new permissions for a session that has a pending request.");
+                	Log.d("AndroidNative", "Session: an attempt was made to request new permissions for a session that has a pending request. ");
+                   // throw new UnsupportedOperationException(
+                       //     "Session: an attempt was made to request new permissions for a session that has a pending request.");
                 }
                 if (state.isOpened()) {
                     pendingAuthorizationRequest = newPermissionsRequest;
                 } else if (state.isClosed()) {
-                    throw new UnsupportedOperationException(
-                            "Session: an attempt was made to request new permissions for a session that has been closed.");
+                	Log.d("AndroidNative", "Session: an attempt was made to request new permissions for a session that has been closed. ");
+                    
+                    //throw new UnsupportedOperationException(
+                       //     "Session: an attempt was made to request new permissions for a session that has been closed.");
                 } else {
-                    throw new UnsupportedOperationException(
-                            "Session: an attempt was made to request new permissions for a session that is not currently open.");
+                	Log.d("AndroidNative", "Session: an attempt was made to request new permissions for a session that is not currently open. ");
+                    
+                 //   throw new UnsupportedOperationException(
+                        //    "Session: an attempt was made to request new permissions for a session that is not currently open.");
                 }
+                
             }
 
             newPermissionsRequest.setValidateSameFbidAsToken(getAccessToken());
@@ -1157,6 +1164,7 @@ public class Session implements Serializable {
     }
 
     private boolean tryLoginActivity(AuthorizationRequest request) {
+    	Log.d("AndroidNative", "tryLoginActivity");
         Intent intent = getLoginActivityIntent(request);
 
         if (!resolveIntent(intent)) {

@@ -180,9 +180,9 @@ namespace UnityEditor.FacebookEditor
             //</activity>
             XmlElement activityElement = doc.CreateElement("activity");
             activityElement.SetAttribute("name", ns, LoginActivityName);
-			activityElement.SetAttribute("screenOrientation", ns, "landscape");
+            activityElement.SetAttribute("screenOrientation", ns, "portrait");
             activityElement.SetAttribute("configChanges", ns, "keyboardHidden|orientation");
-          //  activityElement.SetAttribute("theme", ns, "@android:style/Theme.Translucent.NoTitleBar.Fullscreen");
+            activityElement.SetAttribute("theme", ns, "@android:style/Theme.Translucent.NoTitleBar.Fullscreen");
             activityElement.InnerText = "\n    ";  //be extremely anal to make diff tools happy
             return activityElement;
         }

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright 2010-present Facebook.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,14 +56,23 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.com_facebook_login_activity_layout);
 
+    	Log.d("AndroidNative", "LoginActivity create");
         if (savedInstanceState != null) {
+        	
+            
             callingPackage = savedInstanceState.getString(SAVED_CALLING_PKG_KEY);
             authorizationClient = (AuthorizationClient) savedInstanceState.getSerializable(SAVED_AUTH_CLIENT);
+            
+            Log.d("AndroidNative", "1. " + callingPackage);
         } else {
-           callingPackage = getCallingPackage();
+        	
+            callingPackage = getCallingPackage();
             authorizationClient = new AuthorizationClient();
             request = (AuthorizationClient.AuthorizationRequest) getIntent().getSerializableExtra(EXTRA_REQUEST);
+            
+            Log.d("AndroidNative", "2. " + callingPackage);
         }
+
         authorizationClient.setContext(this);
         authorizationClient.setOnCompletedListener(new AuthorizationClient.OnCompletedListener() {
             @Override
@@ -82,19 +91,6 @@ public class LoginActivity extends Activity {
                 findViewById(R.id.com_facebook_login_activity_progress_bar).setVisibility(View.GONE);
             }
         });
-
-try {
-    PackageInfo info = getPackageManager().getPackageInfo(
-          "com.CurryFury.GamesGoneWild", PackageManager.GET_SIGNATURES);
-    for (Signature signature : info.signatures){
-           MessageDigest md = MessageDigest.getInstance("SHA");
-           md.update(signature.toByteArray());
-           Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-    }
-} catch (NameNotFoundException e) {
-} catch (NoSuchAlgorithmException e) {
-}
-
     }
 
     private void onAuthClientCompleted(AuthorizationClient.Result outcome) {
@@ -106,7 +102,7 @@ try {
         Bundle bundle = new Bundle();
         bundle.putSerializable(RESULT_KEY, outcome);
 
-       Intent resultIntent = new Intent();
+        Intent resultIntent = new Intent();
         resultIntent.putExtras(bundle);
         setResult(resultCode, resultIntent);
 

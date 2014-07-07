@@ -12,6 +12,7 @@ public class CupBehavior : MonoBehaviour
 	Vector3 Pos;
 	Vector3 FlickPos;
 	Vector3 FlickAmount;
+	public int flippyLevel;
 	//Vector3 startPosition = new Vector3(0,1,-2);
 
 	public GameObject countdown;
@@ -22,6 +23,8 @@ public class CupBehavior : MonoBehaviour
 	bool canStart;
 	bool startedSwipe;
 	bool gameOver;
+	int countTimer;
+	int countLevel;
 
 	float totalCount = 0;
 	float count = 0;
@@ -40,6 +43,7 @@ public class CupBehavior : MonoBehaviour
 	public GameObject FlippyTable;
 	public GameObject FlippyCup;
 
+
 	// For tracking if you should flip or not. (In border?)
 	public GameObject Border;
 	RaycastHit hit;
@@ -49,6 +53,7 @@ public class CupBehavior : MonoBehaviour
 	void Start () {
 
 		globalController = GameObject.Find( "Global Controller" );
+		flippyLevel = globalController.GetComponent<GlobalController> ().flippyCupLevel;
 		isFlicked= false;
 		makeSound = false;
 
@@ -117,30 +122,44 @@ public class CupBehavior : MonoBehaviour
 			//if the balls y pos is in the landed area and is not changing, then success!
 			if(isFlicked)
 			{
+				totalCount += 60.0f * Time.deltaTime;
+				Debug.Log ("TotalTime: " + totalCount);
 				// HACK - hard-coded values
 				if (transform.position.y <= 1.4f && transform.position.y >= 1.0f
-				    && transform.rotation.eulerAngles.y > 170 && transform.rotation.eulerAngles.y < 200
-				    && transform.rotation.eulerAngles.z > 170 && transform.rotation.eulerAngles.z < 200)
+				    )
 				{
 					count += 60.0f * Time.deltaTime;
-					Debug.Log( count );
-				}
-				else
-				{
-					totalCount += 60.0f * Time.deltaTime;
+					Debug.Log( "InLandedArea: " + count );
 				}
 			}
+
+
+			if (flippyLevel == 1)
+				countTimer = 180;
+				//countLevel = 60;}
+			else if (flippyLevel == 2)
+				countTimer = 200;
+			//	countLevel = 40;}
+			else if (flippyLevel ==3)
+				countTimer = 200;
+				//countLevel = 40;}	
+			else 
+				countTimer = 200;
+				//countLevel = 40;}
+
+
 			
-			if (count >= 70.0f)
+			if (count >= 65.0f)
 			{
 				isFlicked = false;
 				count = 0;
 				gameOver = true;
 				flippyController.GetComponent<FlippyCupController>().CupLanded();
+				Debug.Log ("CUP DOWN");
 			}
 			
 			// If the counter is "up" and cup has not landed, lose minigame
-			if (totalCount >= 150.0f)
+			if (totalCount >= countTimer)
 			{
 				gameOver = true;
 				flippyController.GetComponent<FlippyCupController>().CupFellOver();

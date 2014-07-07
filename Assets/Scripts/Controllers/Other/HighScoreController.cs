@@ -255,6 +255,7 @@ public class HighScoreController : MonoBehaviour {
 					entry["score"] = points.ToString();
 					var scoreData = new Dictionary<string,string>() {{"score", points.ToString()}};
 					FB.API("/me/scores",Facebook.HttpMethod.POST,LogCallback,scoreData);
+					fbScoreList[entryCount] = points.ToString ();
 				}
 
 			}

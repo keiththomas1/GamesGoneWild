@@ -280,6 +280,7 @@ public class FB {
 
 	@UnityCallable
 	public static void Login(String params) {
+		Log.d("AndroidNative", "FB Login");
 		Intent intent = new Intent(getUnityActivity(), FBUnityLoginActivity.class);
 	    intent.putExtra(FBUnityLoginActivity.LOGIN_PARAMS, params);
 	    getUnityActivity().startActivity(intent);
