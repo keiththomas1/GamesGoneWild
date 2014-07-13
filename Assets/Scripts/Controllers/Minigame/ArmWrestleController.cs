@@ -29,6 +29,10 @@ public class ArmWrestleController : MonoBehaviour
 	Color colorStart;
 	Color colorEnd;
 	float fadeValue;
+	
+	public GameObject scoreText;
+	public GameObject scoreTextFront;
+	public GameObject scoreTextBack;
 
 	// Use this for initialization
 	void Start () 
@@ -66,6 +70,10 @@ public class ArmWrestleController : MonoBehaviour
 		colorStart = instructionText.renderer.material.color;
 		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
 		fadeValue = 0.0f;
+		
+		scoreText.GetComponent<Animator>().enabled = false;
+		scoreTextFront.renderer.enabled = false;
+		scoreTextBack.renderer.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -123,6 +131,13 @@ public class ArmWrestleController : MonoBehaviour
 			{
 				gameOver = true;
 				globalController.GetComponent<GlobalController>().armEnemyLevel++;
+
+				scoreTextFront.GetComponent<TextMesh>().text = "+ 100";
+				scoreTextBack.GetComponent<TextMesh>().text = "+ 100";
+				scoreTextFront.renderer.enabled = true;
+				scoreTextBack.renderer.enabled = true;
+				scoreText.GetComponent<Animator>().enabled = true;
+
 				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			}
 			if( arms.transform.rotation.eulerAngles.y < 280.0f && arms.transform.rotation.eulerAngles.y > 180.0f )

@@ -53,7 +53,10 @@ public class CupBehavior : MonoBehaviour
 	void Start () {
 
 		globalController = GameObject.Find( "Global Controller" );
-		flippyLevel = globalController.GetComponent<GlobalController> ().flippyCupLevel;
+		if( globalController )
+		{
+			flippyLevel = globalController.GetComponent<GlobalController> ().flippyCupLevel;
+		}
 		isFlicked= false;
 		makeSound = false;
 

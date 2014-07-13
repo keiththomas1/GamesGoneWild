@@ -50,6 +50,10 @@ public class BeerPongController : MonoBehaviour
 
 	public GameObject instructionText;
 	int partyPoints;
+
+	public GameObject scoreText;
+	public GameObject scoreTextFront;
+	public GameObject scoreTextBack;
 	
 	// Sound Effects
 	public GameObject inCupSFX, thrownSFX, rimJobSFX, bounceSFX;
@@ -121,6 +125,10 @@ public class BeerPongController : MonoBehaviour
 
 		heatingUpText.GetComponent<Animator>().enabled = false;
 		fireText.GetComponent<Animator>().enabled = false;
+
+		scoreText.GetComponent<Animator>().enabled = false;
+		scoreTextFront.renderer.enabled = false;
+		scoreTextBack.renderer.enabled = false;
 
 		gameOver = false;
 
@@ -324,6 +332,12 @@ public class BeerPongController : MonoBehaviour
 							partyPoints = 100;
 							break;
 						}
+						
+						scoreTextFront.GetComponent<TextMesh>().text = "+" + partyPoints.ToString();
+						scoreTextBack.GetComponent<TextMesh>().text = "+" + partyPoints.ToString();
+						scoreTextFront.renderer.enabled = true;
+						scoreTextBack.renderer.enabled = true;
+						scoreText.GetComponent<Animator>().enabled = true;
 						
 						descriptionText.renderer.enabled = true;
 						descriptionTextShadow.renderer.enabled = true;

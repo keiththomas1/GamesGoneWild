@@ -17,6 +17,10 @@ public class FlippyCupController : MonoBehaviour
 
 	int cupsToLand;
 
+	public GameObject scoreText;
+	public GameObject scoreTextFront;
+	public GameObject scoreTextBack;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -26,6 +30,10 @@ public class FlippyCupController : MonoBehaviour
 			cupsToLand = globalController.GetComponent<GlobalController>().flippyCupLevel;
 		else
 			cupsToLand = 4;
+		
+		scoreText.GetComponent<Animator>().enabled = false;
+		scoreTextFront.renderer.enabled = false;
+		scoreTextBack.renderer.enabled = false;
 
 		// Cup logic
 		switch( cupsToLand )
@@ -80,11 +88,20 @@ public class FlippyCupController : MonoBehaviour
 		{
 			if( globalController )
 			{
+				int partyPoints = 30 * globalController.GetComponent<GlobalController>().flippyCupLevel;
+
 				if( globalController.GetComponent<GlobalController>().flippyCupLevel < 4 )
 				{
 					globalController.GetComponent<GlobalController>().flippyCupLevel++;
 				}
-				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
+				
+				scoreTextFront.GetComponent<TextMesh>().text = "+" + partyPoints.ToString();
+				scoreTextBack.GetComponent<TextMesh>().text = "+" + partyPoints.ToString();
+				scoreTextFront.renderer.enabled = true;
+				scoreTextBack.renderer.enabled = true;
+				scoreText.GetComponent<Animator>().enabled = true;
+
+				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
 			}
 			else
 				Debug.Log( "Winner!" );

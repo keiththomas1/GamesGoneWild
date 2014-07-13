@@ -53,6 +53,10 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 	// Puke SFX
 	public GameObject PukeSound;
 	public GameObject BucketSound;
+	
+	public GameObject scoreText;
+	public GameObject scoreTextFront;
+	public GameObject scoreTextBack;
 
 	// Use this for initialization
 	void Start () 
@@ -105,6 +109,10 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 		colorStart = instructionText.renderer.material.color;
 		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
 		fadeValue = 0.0f;
+		
+		scoreText.GetComponent<Animator>().enabled = false;
+		scoreTextFront.renderer.enabled = false;
+		scoreTextBack.renderer.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -268,6 +276,13 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 				{
 					globalController.GetComponent<GlobalController>().pukeLevel++;
 				}
+
+				scoreTextFront.GetComponent<TextMesh>().text = "+ 100";
+				scoreTextBack.GetComponent<TextMesh>().text = "+ 100";
+				scoreTextFront.renderer.enabled = true;
+				scoreTextBack.renderer.enabled = true;
+				scoreText.GetComponent<Animator>().enabled = true;
+
 				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 			}
 			else

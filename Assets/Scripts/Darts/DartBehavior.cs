@@ -34,6 +34,9 @@ public class DartBehavior : MonoBehaviour
 	public GameObject DartBreakSFX;
 	public GameObject TapDartSFX;
 	public GameObject DartBoardHitSFX;
+	
+	public GameObject scoreText;
+	public GameObject scoreTextBack;
 
 	// Use this for initialization
 	void Start () 
@@ -56,6 +59,9 @@ public class DartBehavior : MonoBehaviour
 		descriptionText.renderer.enabled = false;
 		descriptionTextGrowing = false;
 		growthTimerRate = .06f;
+		
+		scoreText.GetComponent<Animator>().enabled = false;
+		scoreTextBack.renderer.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -134,6 +140,7 @@ public class DartBehavior : MonoBehaviour
 				{
 					globalController.GetComponent<GlobalController>().dartLevel++;
 				}
+
 				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
 			}
 		}
@@ -181,6 +188,11 @@ public class DartBehavior : MonoBehaviour
 				descriptionText.renderer.enabled = true;
 				descriptionText.GetComponent<TextMesh>().fontSize = 1;
 				descriptionTextGrowing = true;
+
+				//scoreText.transform.Translate( 1.2f, transform.transform.position.y+1.0f, 0.0f );
+				scoreTextBack.GetComponent<TextMesh>().text = "+" + partyPoints.ToString();
+				scoreTextBack.renderer.enabled = true;
+				scoreText.GetComponent<Animator>().enabled = true;
 			}
 			else
 			{

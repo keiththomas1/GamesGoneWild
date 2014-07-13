@@ -20,6 +20,10 @@ public class AutoRotate : MonoBehaviour {
 	
 	float countdownTimer;
 	bool gameStarted;
+	
+	public GameObject scoreText;
+	public GameObject scoreTextFront;
+	public GameObject scoreTextBack;
 
 	void Start () 
 	{
@@ -33,6 +37,10 @@ public class AutoRotate : MonoBehaviour {
 		
 		countdownTimer = 3.5f;
 		gameStarted = false;
+		
+		scoreText.GetComponent<Animator>().enabled = false;
+		scoreTextFront.renderer.enabled = false;
+		scoreTextBack.renderer.enabled = false;
 	}	
 	
 	
@@ -50,6 +58,13 @@ public class AutoRotate : MonoBehaviour {
 					{
 						gameOver = true;
 						this.GetComponent<Auto>().gameOver = true;
+						
+						scoreTextFront.GetComponent<TextMesh>().text = "+ 100";
+						scoreTextBack.GetComponent<TextMesh>().text = "+ 100";
+						scoreTextFront.renderer.enabled = true;
+						scoreTextBack.renderer.enabled = true;
+						scoreText.GetComponent<Animator>().enabled = true;
+
 						globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 					}
 					else
