@@ -14,6 +14,6 @@
 -->
 <!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-gcore-kenafa-release/vendor/unbundled_google/packages/OneUp/client/AndroidManifest.xml -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="4452000" android:versionName="4.4.52-000" package="com.google.android.gms">
-    <uses-sdk android:minSdkVersion="6"/>
+    <uses-sdk android:minSdkVersion="9"/>
     <application/>
 </manifest>

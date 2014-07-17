@@ -7,7 +7,7 @@ using System.Collections;
 public class Bucket_Controller : MonoBehaviour {
 
 	// Identifier to locate our bucket gameobject
-	GameObject Bucket;
+	//GameObject Bucket;
 
 	// Bucket speed
 	//float speed = 0.1F;
@@ -27,7 +27,7 @@ public class Bucket_Controller : MonoBehaviour {
 	void Start ()
 	{
 		// Controlling our bucket gameobject
-		Bucket = GameObject.FindGameObjectWithTag ("Bucket");
+		//Bucket = GameObject.FindGameObjectWithTag ("Bucket");
 
 		hit = new RaycastHit();
 
