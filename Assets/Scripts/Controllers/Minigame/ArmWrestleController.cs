@@ -33,6 +33,11 @@ public class ArmWrestleController : MonoBehaviour
 	public GameObject scoreText;
 	public GameObject scoreTextFront;
 	public GameObject scoreTextBack;
+	
+	public GameObject timerFront;
+	public GameObject timerBack;
+	bool timerStarted;
+	Vector3 timerSpeed;
 
 	// Use this for initialization
 	void Start () 
@@ -74,6 +79,17 @@ public class ArmWrestleController : MonoBehaviour
 		scoreText.GetComponent<Animator>().enabled = false;
 		scoreTextFront.renderer.enabled = false;
 		scoreTextBack.renderer.enabled = false;
+		
+		if( globalController )
+		{
+			timerFront = globalController.GetComponent<GlobalController>().timerFront;
+			timerBack = globalController.GetComponent<GlobalController>().timerBack;
+			
+			timerFront.renderer.enabled = true;
+			timerBack.renderer.enabled = true;
+		}
+		timerStarted = false;
+		timerSpeed = new Vector3( -.03f, 0.0f, 0.0f );
 	}
 	
 	// Update is called once per frame
@@ -114,6 +130,16 @@ public class ArmWrestleController : MonoBehaviour
 						Destroy( instructionText );
 					}
 				}
+				
+				if( timerStarted )
+				{
+					timerFront.transform.Translate( timerSpeed * Time.deltaTime * 60.0f);
+					
+					if( timerFront.transform.position.x < -20.0f )
+					{
+						globalController.GetComponent<GlobalController>().LostMinigame();
+					}
+				}
 			}
 			else
 			{
@@ -122,6 +148,7 @@ public class ArmWrestleController : MonoBehaviour
 				if( startTimer <= 0.0f )
 				{
 					startedGame = true;
+					timerStarted = true;
 					Destroy( countdownTimer );
 				}
 			}

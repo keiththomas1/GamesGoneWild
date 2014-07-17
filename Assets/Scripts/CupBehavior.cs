@@ -15,12 +15,7 @@ public class CupBehavior : MonoBehaviour
 	public int flippyLevel;
 	//Vector3 startPosition = new Vector3(0,1,-2);
 
-	public GameObject countdown;
-	// How long until countdown is done
-	float countdownTimer;
-
-	// Whether the countdown has finished
-	bool canStart;
+	public bool canStart;
 	bool startedSwipe;
 	bool gameOver;
 	int countTimer;
@@ -61,10 +56,7 @@ public class CupBehavior : MonoBehaviour
 		makeSound = false;
 
 		rigidbody.centerOfMass = new Vector3( 0.0f, 1.3f, 0.0f );
-		
-		countdown.GetComponent<Animator>().speed = 1.4f;
-		countdownTimer = 2.7f;
-	
+
 		canStart = false;
 		startedSwipe = false;
 		gameOver = false;
@@ -109,6 +101,8 @@ public class CupBehavior : MonoBehaviour
 					Pos = finalPos - initPos;
 					Pos.y *= 4.0f;
 					Pos.x = 0.0f;
+					
+					flippyController.GetComponent<FlippyCupController>().CupFlicked();
 					
 					//Reducing the max amount a cup can be flicked. Reduces frustration if flicked too hard.
 					if( Pos.y > 650.0f )
@@ -173,23 +167,15 @@ public class CupBehavior : MonoBehaviour
 				globalController.GetComponent<GlobalController>().LostMinigame();
 				DestroyObject(Cup_placeholder);
 			}
-			
-			if( countdown )
-			{
-				countdownTimer -= Time.deltaTime;
-				if( countdownTimer <= 0.0f )
-				{
-					Destroy( countdown );
-					canStart = true;
-				}
-			}
-			else
+
+			if( canStart )
 			{
 				if( fadeValue < 1.0f )
 				{
 					fadeTimer -= Time.deltaTime;
 					fadeValue += Time.deltaTime;
-					instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
+					if( instructionText )
+						instructionText.renderer.material.color = Color.Lerp( colorStart, colorEnd, fadeValue/1.0f );
 					
 					if( fadeValue >= 1.0f )
 					{

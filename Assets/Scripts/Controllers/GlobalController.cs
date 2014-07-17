@@ -53,6 +53,7 @@ public class GlobalController : MonoBehaviour
 	// Game timer stuff
 	public GameObject timerFront;
 	public GameObject timerBack;
+	Vector3 defaultTimerPos;
 
 	// Use this for initialization
 	void Start () 
@@ -82,14 +83,15 @@ public class GlobalController : MonoBehaviour
 		soundToggleButton.collider.enabled = false;
 		quitButton.collider.enabled = false;
 
-		timerFront.renderer.enabled = false;
-		timerBack.renderer.enabled = false;
-
 		previousMode = "";
 
 		isPaused = false;
 		hit = new RaycastHit();
 
+		defaultTimerPos = new Vector3( -2.0f, 
+		                                      timerFront.transform.position.y,
+		                                      timerFront.transform.position.z );
+		
 		// Set all the children of the global controller to invisible for now.
 		Component[] children = GetComponentsInChildren(typeof(Renderer));
 		foreach( Component c in children )
@@ -162,6 +164,26 @@ public class GlobalController : MonoBehaviour
 
 	public void NextMinigame()
 	{
+		if( !pauseButton.renderer.enabled )
+		{
+			pauseButton.renderer.enabled = true;
+			pauseButton.collider.enabled = true;
+			
+			if( previousMode == "FlippyCup" )
+			{
+				Debug.Log( previousMode );
+				Vector3 tempVect = new Vector3(4.3f, 5.3f, -2.0f);
+				pauseButton.transform.position = tempVect;
+				tempVect = pauseButton.transform.localScale;
+				tempVect *= .9f;
+				pauseButton.transform.localScale = tempVect;
+			}
+		}
+		
+		timerFront.renderer.enabled = false;
+		timerBack.renderer.enabled = false;
+		timerFront.transform.position = defaultTimerPos;
+
 		if( beersDrank < beerLives )	// If we haven't lost yet
 		{
 			if( gameMode == "Normal Mode" )
@@ -207,21 +229,6 @@ public class GlobalController : MonoBehaviour
 				LostGame();
 			}
 		}
-
-		if( !pauseButton.renderer.enabled )
-		{
-			Debug.Log( "Yoooo " + previousMode );
-
-			pauseButton.renderer.enabled = true;
-			pauseButton.collider.enabled = true;
-
-			if( previousMode == "FlippyCup" )
-			{
-				Debug.Log( previousMode );
-				Vector3 tempPos = new Vector3(4.3f, 5.7f, -2.0f);
-				pauseButton.transform.position = tempPos;
-			}
-		}
 	}
 	
 	// Call this if the player won a minigame and make sure to increment
@@ -234,7 +241,7 @@ public class GlobalController : MonoBehaviour
 		pauseButton.collider.enabled = false;
 
 		// Change location of pause screen stuff for flippy cup
-		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
+		Vector3 tempPos = new Vector3(7.7f, 3.9f, -5.0f);
 		pauseButton.transform.position = tempPos;
 
 		Application.LoadLevelAdditive( "MinigameWin");
@@ -247,9 +254,11 @@ public class GlobalController : MonoBehaviour
 		
 		pauseButton.renderer.enabled = false;
 		pauseButton.collider.enabled = false;
+		timerFront.renderer.enabled = false;
+		timerBack.renderer.enabled = false;
 		
 		// Change location of pause screen stuff for flippy cup
-		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
+		Vector3 tempPos = new Vector3(7.7f, 3.9f, -5.0f);
 		pauseButton.transform.position = tempPos;
 
 		Application.LoadLevel( "MinigameFail");
@@ -453,7 +462,7 @@ public class GlobalController : MonoBehaviour
 			CupsPlaced[i] = true;
 		}
 
-		Vector3 tempPos = new Vector3(7.4f, 4.3f, -5.0f);
+		Vector3 tempPos = new Vector3(7.7f, 3.9f, -5.0f);
 		pauseButton.transform.position = tempPos;
 		
 		// Mini-game "levels"
@@ -466,6 +475,10 @@ public class GlobalController : MonoBehaviour
 
 		pauseButton.renderer.enabled = false;
 		pauseButton.collider.enabled = false;
+
+		timerFront.renderer.enabled = false;
+		timerBack.renderer.enabled = false;
+		timerFront.transform.position = defaultTimerPos;
 	}
 
 }

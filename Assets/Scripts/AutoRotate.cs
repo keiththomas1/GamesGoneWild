@@ -14,7 +14,6 @@ public class AutoRotate : MonoBehaviour {
 	string output;
 	//string output1;
 	string straccx;
-	float time = 6.0f;
 
 	float randomSpeed = 13.0f;
 	
@@ -24,6 +23,11 @@ public class AutoRotate : MonoBehaviour {
 	public GameObject scoreText;
 	public GameObject scoreTextFront;
 	public GameObject scoreTextBack;
+	
+	public GameObject timerFront;
+	public GameObject timerBack;
+	bool timerStarted;
+	Vector3 timerSpeed;
 
 	void Start () 
 	{
@@ -41,6 +45,17 @@ public class AutoRotate : MonoBehaviour {
 		scoreText.GetComponent<Animator>().enabled = false;
 		scoreTextFront.renderer.enabled = false;
 		scoreTextBack.renderer.enabled = false;
+		
+		if( globalController )
+		{
+			timerFront = globalController.GetComponent<GlobalController>().timerFront;
+			timerBack = globalController.GetComponent<GlobalController>().timerBack;
+			
+			timerFront.renderer.enabled = true;
+			timerBack.renderer.enabled = true;
+		}
+		timerStarted = false;
+		timerSpeed = new Vector3( -.05f, 0.0f, 0.0f );
 	}	
 	
 	
@@ -51,10 +66,25 @@ public class AutoRotate : MonoBehaviour {
 		{
 			if( gameStarted )
 			{
-				time -= Time.deltaTime;
-				if (time < 0)
+				float curSpeed = Time.deltaTime * speed;
+				if ((Input.acceleration.x - acc_x) != 0) // If player is tilting the phone
 				{
-					if( globalController )
+					accx = (Input.acceleration.x * randomSpeed) * curSpeed;
+					transform.Rotate (0, 0, accx);
+				}
+				
+				// This is a random modifer added to the user control so that it's slightly unpredicable.
+				randomSpeed += (Random.value * 4) - 2;
+				if( randomSpeed < 10.0f )
+					randomSpeed = 10.0f;
+				if( randomSpeed > 15.0f )
+					randomSpeed = 15.0f;
+				
+				if( timerStarted )
+				{
+					timerFront.transform.Translate( timerSpeed * Time.deltaTime * 60.0f);
+					
+					if( timerFront.transform.position.x < -20.0f )
 					{
 						gameOver = true;
 						this.GetComponent<Auto>().gameOver = true;
@@ -64,28 +94,10 @@ public class AutoRotate : MonoBehaviour {
 						scoreTextFront.renderer.enabled = true;
 						scoreTextBack.renderer.enabled = true;
 						scoreText.GetComponent<Animator>().enabled = true;
-
+						
 						globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
 					}
-					else
-						Debug.Log("You won");
 				}
-				else
-				{
-					float curSpeed = Time.deltaTime * speed;
-					if ((Input.acceleration.x - acc_x) != 0) // If player is tilting the phone
-					{
-						accx = (Input.acceleration.x * randomSpeed) * curSpeed;
-						transform.Rotate (0, 0, accx);
-					}
-				}
-				
-				// This is a random modifer added to the user control so that it's slightly unpredicable.
-				randomSpeed += (Random.value * 4) - 2;
-				if( randomSpeed < 10.0f )
-					randomSpeed = 10.0f;
-				if( randomSpeed > 15.0f )
-					randomSpeed = 15.0f;
 			}
 			else
 			{
@@ -93,6 +105,7 @@ public class AutoRotate : MonoBehaviour {
 				if( countdownTimer <= 0.0f )
 				{
 					gameStarted = true;
+					timerStarted = true;
 				}
 			}
 		}

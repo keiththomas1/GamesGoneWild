@@ -71,6 +71,11 @@ public class BeerPongController : MonoBehaviour
 	// Variables for heating up and fire
 	public GameObject heatingUpText;
 	public GameObject fireText;
+
+	public GameObject timerFront;
+	public GameObject timerBack;
+	bool timerStarted;
+	Vector3 timerSpeed;
 	
 	// Use this for initialization
 	void Start () 
@@ -139,6 +144,17 @@ public class BeerPongController : MonoBehaviour
 		colorStart = instructionText.renderer.material.color;
 		colorEnd = new Color( colorStart.r, colorStart.g, colorStart.b, 0.0f );
 		fadeValue = 0.0f;
+
+		if( globalController )
+		{
+			timerFront = globalController.GetComponent<GlobalController>().timerFront;
+			timerBack = globalController.GetComponent<GlobalController>().timerBack;
+
+			timerFront.renderer.enabled = true;
+			timerBack.renderer.enabled = true;
+		}
+		timerStarted = false;
+		timerSpeed = new Vector3( -.03f, 0.0f, 0.0f );
 		
 		RandomizeSliderStartPosition();
 	}
@@ -221,10 +237,11 @@ public class BeerPongController : MonoBehaviour
 					if( Input.GetMouseButtonDown( 0 ) )
 					{
 						thrownSFX.GetComponent<AudioSource>().Play();
+						timerStarted = false;
 						isShootingVertical = false;
 						
 						Vector3 tempPosition = new Vector3( sliderHorizontal.transform.position.x,
-						                                   sliderVertical.transform.position.y, 0.0f );
+						                                   sliderVertical.transform.position.y, -3.0f );
 						ballCursor.transform.position = tempPosition;
 						ballCursor.renderer.enabled = true;
 					}
@@ -267,6 +284,16 @@ public class BeerPongController : MonoBehaviour
 					descriptionTextGrowing = false;
 				}
 			}
+
+			if( timerStarted )
+			{
+				timerFront.transform.Translate( timerSpeed * Time.deltaTime * 60.0f);
+
+				if( timerFront.transform.position.x < -20.0f )
+				{
+					globalController.GetComponent<GlobalController>().LostMinigame();
+				}
+			}
 			
 			BallMovement();
 			TickTimers();
@@ -279,6 +306,11 @@ public class BeerPongController : MonoBehaviour
 			{
 				Destroy( countdown );
 				gameStarted = true;
+
+				if( globalController ) 
+				{
+					timerStarted = true;
+				}
 			}
 		}
 	}
