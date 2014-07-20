@@ -119,7 +119,7 @@ public class FlippyCupController : MonoBehaviour
 			timerFront.transform.localScale = tempTimerVector;
 		}
 		timerStarted = false;
-		timerSpeed = new Vector3( -.03f, 0.0f, 0.0f );
+		timerSpeed = new Vector3( -.08f, 0.0f, 0.0f );
 	}
 
 	// Update is called once per frame

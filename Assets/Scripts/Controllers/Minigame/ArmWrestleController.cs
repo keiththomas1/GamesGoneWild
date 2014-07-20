@@ -89,7 +89,7 @@ public class ArmWrestleController : MonoBehaviour
 			timerBack.renderer.enabled = true;
 		}
 		timerStarted = false;
-		timerSpeed = new Vector3( -.03f, 0.0f, 0.0f );
+		timerSpeed = new Vector3( -.05f, 0.0f, 0.0f );
 	}
 	
 	// Update is called once per frame

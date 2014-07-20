@@ -154,7 +154,7 @@ public class BeerPongController : MonoBehaviour
 			timerBack.renderer.enabled = true;
 		}
 		timerStarted = false;
-		timerSpeed = new Vector3( -.03f, 0.0f, 0.0f );
+		timerSpeed = new Vector3( -.06f, 0.0f, 0.0f );
 		
 		RandomizeSliderStartPosition();
 	}

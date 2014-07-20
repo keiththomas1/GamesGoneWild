@@ -53,7 +53,8 @@ public class GlobalController : MonoBehaviour
 	// Game timer stuff
 	public GameObject timerFront;
 	public GameObject timerBack;
-	Vector3 defaultTimerPos;
+	Vector3 defaultTimerFrontPos;
+	Vector3 defaultTimerBackPos;
 
 	// Use this for initialization
 	void Start () 
@@ -88,9 +89,12 @@ public class GlobalController : MonoBehaviour
 		isPaused = false;
 		hit = new RaycastHit();
 
-		defaultTimerPos = new Vector3( -2.0f, 
+		defaultTimerFrontPos = new Vector3( -2.0f, 
 		                                      timerFront.transform.position.y,
-		                                      timerFront.transform.position.z );
+		                                   timerFront.transform.position.z );
+		defaultTimerBackPos = new Vector3( .4f, 
+		                                   timerBack.transform.position.y,
+		                                  timerBack.transform.position.z );
 		
 		// Set all the children of the global controller to invisible for now.
 		Component[] children = GetComponentsInChildren(typeof(Renderer));
@@ -166,23 +170,15 @@ public class GlobalController : MonoBehaviour
 	{
 		if( !pauseButton.renderer.enabled )
 		{
-			pauseButton.renderer.enabled = true;
-			pauseButton.collider.enabled = true;
-			
-			if( previousMode == "FlippyCup" )
-			{
-				Debug.Log( previousMode );
-				Vector3 tempVect = new Vector3(4.3f, 5.3f, -2.0f);
-				pauseButton.transform.position = tempVect;
-				tempVect = pauseButton.transform.localScale;
-				tempVect *= .9f;
-				pauseButton.transform.localScale = tempVect;
-			}
+
 		}
 		
+		pauseButton.renderer.enabled = true;
+		pauseButton.collider.enabled = true;
 		timerFront.renderer.enabled = false;
 		timerBack.renderer.enabled = false;
-		timerFront.transform.position = defaultTimerPos;
+		timerFront.transform.position = defaultTimerFrontPos;
+		timerBack.transform.position = defaultTimerBackPos;
 
 		if( beersDrank < beerLives )	// If we haven't lost yet
 		{
@@ -199,6 +195,17 @@ public class GlobalController : MonoBehaviour
 					previousMode = currentMinigames[random];
 					currentMinigames.Remove( previousMode );
 					currentLevel = random;
+
+					if( previousMode == "FlippyCup" )
+					{
+						Debug.Log( previousMode );
+						Vector3 tempVect = new Vector3(4.3f, 5.3f, -2.0f);
+						pauseButton.transform.position = tempVect;
+						tempVect = pauseButton.transform.localScale;
+						tempVect *= .9f;
+						pauseButton.transform.localScale = tempVect;
+					}
+
 					Application.LoadLevel( previousMode );
 				}
 				else // it's time to turn up
@@ -478,7 +485,8 @@ public class GlobalController : MonoBehaviour
 
 		timerFront.renderer.enabled = false;
 		timerBack.renderer.enabled = false;
-		timerFront.transform.position = defaultTimerPos;
+		timerFront.transform.position = defaultTimerFrontPos;
+		timerBack.transform.position = defaultTimerBackPos;
 	}
 
 }

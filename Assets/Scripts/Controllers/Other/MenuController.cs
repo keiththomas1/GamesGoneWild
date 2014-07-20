@@ -31,6 +31,13 @@ public class MenuController : MonoBehaviour
 	// TEMP HACK
 	public GameObject debugText;
 
+	// Bios
+	public GameObject keithBio;
+	public GameObject kellieBio;
+	public GameObject colinBio;
+	public GameObject hardikBio;
+	public GameObject juniorBio;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -86,6 +93,12 @@ public class MenuController : MonoBehaviour
 	{
 		if( Input.GetMouseButtonDown( 0 ) )
 		{
+			keithBio.renderer.enabled = false;
+			kellieBio.renderer.enabled = false;
+			colinBio.renderer.enabled = false;
+			hardikBio.renderer.enabled = false;
+			juniorBio.renderer.enabled = false;
+
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if( Physics.Raycast(ray,out hit) )
 			{
@@ -102,6 +115,21 @@ public class MenuController : MonoBehaviour
 					break;
 				case "FacebookButton":
 					CallFBLogin();
+					break;
+				case "Keith":
+					keithBio.renderer.enabled = true;
+					break;
+				case "Kellie":
+					kellieBio.renderer.enabled = true;
+					break;
+				case "Colin":
+					colinBio.renderer.enabled = true;
+					break;
+				case "Hardik":
+					hardikBio.renderer.enabled = true;
+					break;
+				case "Junior":
+					juniorBio.renderer.enabled = true;
 					break;
 				}
 			}
