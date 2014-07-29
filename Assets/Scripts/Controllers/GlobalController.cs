@@ -25,6 +25,7 @@ public class GlobalController : MonoBehaviour
 	public int beerLives;
 	public int turnUpLevel;
 	public int musicSpeed;
+	bool musicPlaying;
 
 	// Variables kept for progress in mini-games
 	public bool[] CupsPlaced;	// For beer pong.
@@ -84,6 +85,8 @@ public class GlobalController : MonoBehaviour
 		soundToggleButton.collider.enabled = false;
 		quitButton.collider.enabled = false;
 
+		musicPlaying = true;
+
 		previousMode = "";
 
 		isPaused = false;
@@ -141,6 +144,9 @@ public class GlobalController : MonoBehaviour
 							Application.LoadLevel( "SelectionScene" );
 						else
 							Application.LoadLevel( "MenuScene" );
+						break;
+					case "SoundToggleButton":
+						MusicToggle();
 						break;
 					}
 				}
@@ -291,7 +297,8 @@ public class GlobalController : MonoBehaviour
 			playGameMusic.GetComponent<AudioSource>().Stop();
 		}
 		// Disabled till we get real music.
-		playGameMusic.GetComponent<AudioSource>().Play();
+		if( musicPlaying )
+			playGameMusic.GetComponent<AudioSource>().Play();
 	}
 
 	// This is called when the menu is started
@@ -306,7 +313,22 @@ public class GlobalController : MonoBehaviour
 			playGameMusic.GetComponent<AudioSource>().Stop();
 		}
 		// Disabled till we get real music.
-		menuMusic.GetComponent<AudioSource>().Play();
+		if( musicPlaying )
+			menuMusic.GetComponent<AudioSource>().Play();
+	}
+
+	void MusicToggle()
+	{
+		if( musicPlaying )
+		{
+			playGameMusic.audio.Pause();
+			musicPlaying = false;
+		}
+		else
+		{
+			playGameMusic.audio.Play();
+			musicPlaying = true;
+		}
 	}
 
 	public void SpeedUpMusic()
