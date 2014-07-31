@@ -14,7 +14,7 @@ public class SplashScreenController : MonoBehaviour
 
 	bool fadeIn;
 	float fadeValue;
-	
+
 	bool canClickThrough;
 	float clickThroughTimer;
 

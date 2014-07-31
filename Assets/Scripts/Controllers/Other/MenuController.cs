@@ -10,6 +10,7 @@ using UnityEngine.SocialPlatforms;
 public class MenuController : MonoBehaviour 
 {
 	public GameObject globalController; 
+	public GameObject twitterController;
 	public RaycastHit hit;
 	public Ray ray;
 
@@ -18,6 +19,9 @@ public class MenuController : MonoBehaviour
 	public Texture profilePic;
 	public int score;
 	public GameObject FBPicture;
+
+	//twitter and instagram
+	public Texture2D InstaExample;
 
 	// Text objects for changing text on the fly
 	public GameObject facebookButton;
@@ -42,9 +46,9 @@ public class MenuController : MonoBehaviour
 	void Start () 
 	{
 		globalController = GameObject.Find("Global Controller");
-
 		globalController.GetComponent<GlobalController>().StartModeMusic();
 
+		
 		//Initial check to see if user is logged into Facebook
 		if (!FB.IsLoggedIn) {
 			CallFBInit ();

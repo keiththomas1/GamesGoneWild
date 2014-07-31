@@ -8,7 +8,9 @@ using System;
 public class HighScoreController : MonoBehaviour {
 
 	public GameObject globalController;
+	public GameObject twitterController;
 	public Texture FBShareButton;
+	public Texture TwitterShareButton;
 	public GUIStyle FBShareStyle;
 	public Sprite unclicked;
 	public Sprite clicked;
@@ -20,6 +22,8 @@ public class HighScoreController : MonoBehaviour {
 
 	public GameObject FacebookButton;
 	public GameObject LocalButton;
+	public GameObject TwitterButton;
+
 	
 	public RaycastHit hit;
 	public Ray ray;
@@ -49,6 +53,7 @@ public class HighScoreController : MonoBehaviour {
 
 	void Start () 
 	{
+		twitterController = GameObject.Find ("Twitter Controller");
 		globalController = GameObject.Find ("Global Controller");
 		globalController.GetComponent<GlobalController>().pauseButton.renderer.enabled = false;
 
@@ -134,12 +139,18 @@ public class HighScoreController : MonoBehaviour {
 					CallFBFeed();
 					break;
 
+				case "TwitterButton":
+					ClickSound.GetComponent<AudioSource>().Play();
+					twitterController.GetComponent<TwitterController>().twitterPost();
+					break;
+
 				case "FacebookButton":
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = clicked;
 					LocalButton.GetComponent<SpriteRenderer>().sprite = unclicked;
 					DisplayFaceBookHighScores();
 					break;
+
 				case "LocalButton":
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = unclicked;
