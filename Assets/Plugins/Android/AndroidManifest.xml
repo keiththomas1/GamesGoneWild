@@ -8,6 +8,22 @@
 	
 	<!-- NOTE: Adjust minSDKVersion and targetSdkVersion as desired. -->
 	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="19" />
+    <!-- Twitter Block Start -->
+
+    <intent-filter>
+	
+    <action android:name="android.intent.action.VIEW" />
+    
+<category android:name="android.intent.category.DEFAULT" />
+			
+    <category android:name="android.intent.category.BROWSABLE" />
+
+    <data android:scheme="oauth" android:host="androidnative" />
+
+    </intent-filter>
+    
+<!-- Block End -->
+
 	
 	<!-- NOTE: You must have at least these four permissions for AdColony. -->
     <uses-permission android:name="android.permission.INTERNET" />
