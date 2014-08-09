@@ -34,6 +34,7 @@ public class HighScoreController : MonoBehaviour {
 //	List<int> HighScores;
 	List<object> FBScores;
 
+
 	// Bars
 	public GameObject BarOne;
 	public GameObject BarTwo;
@@ -45,6 +46,7 @@ public class HighScoreController : MonoBehaviour {
 	public string[,] fbData = new string[20,2];
 	public string[] fbNameList = new string[5];
 	public string[] fbScoreList = new string[5];
+	public int[] localScoreList = new int[7];
 
 
 
@@ -89,6 +91,8 @@ public class HighScoreController : MonoBehaviour {
 		
 		//HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 
+		ManageLocalHighScores (points);
+		DisplayLocalScores ();
 	}
 
 	public void CallPublishActions(){
@@ -155,6 +159,7 @@ public class HighScoreController : MonoBehaviour {
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = unclicked;
 					LocalButton.GetComponent<SpriteRenderer>().sprite = clicked;
+					DisplayLocalScores();
 					break;
 				}
 
@@ -306,7 +311,106 @@ public class HighScoreController : MonoBehaviour {
 
 	}
 
-	void OnApplicationQuit(){
-		PlayerPrefs.Save();
+	public void ManageLocalHighScores(int points)
+	{
+		int[] hs = new int[7];
+		hs [1] = -1; hs [2] = -1; hs [3] = -1; hs [4] = -1; hs [5] = -1;
+		int temp = 0;
+
+		hs[1] = PlayerPrefs.GetInt ("HS1");
+		hs[2] = PlayerPrefs.GetInt ("HS2");
+		hs[3] = PlayerPrefs.GetInt ("HS3");
+		hs[4] = PlayerPrefs.GetInt ("HS4");
+		hs[5] = PlayerPrefs.GetInt ("HS5");
+
+		localScoreList = hs;
+
+		if (points > hs[1])
+		{
+			temp = points;
+			PlayerPrefs.SetInt("HS1",hs[1]);
+			PushLocalScores (4, temp, hs, 1);
+		}
+		else if (points < hs[1] && points > hs[2])
+		{
+			temp = points;
+			PlayerPrefs.SetInt("HS2", hs[2]);
+			PushLocalScores(3, temp, hs, 2);
+		}
+		else if (points < hs[2] && points > hs[3])
+		{
+			temp = points;
+			PushLocalScores(2, temp, hs, 3);
+		}
+		else if (points < hs[3] && points > hs[4])
+		{
+			temp = points;
+			PushLocalScores(1, temp, hs, 4);
+		}
+		else if (points < hs[4] && points > hs[5])
+		{
+			localScoreList[5] = points;
+			PlayerPrefs.SetInt ("HS5", points);
+			PlayerPrefs.Save ();
+		}
+		else 
+		{
+			Debug.Log("Not a high score");
+		}
 	}
+
+	private void PushLocalScores (int numPushes, int newScore, int[] hs, int pos)
+	{
+		int originalPos = pos;
+		int temp; 
+
+		while (numPushes != 0)
+		{
+			temp = hs[pos+1];
+			hs[pos+1] = hs[pos];
+			hs[pos+2] = temp;
+			numPushes--;
+			if (hs[pos+1] == 0)
+				break;
+			pos++;
+
+		}
+
+		hs [originalPos] = newScore;
+		localScoreList = hs;
+
+		for (int i = 1; i < 6; i++)
+		{
+			PlayerPrefs.SetInt("HS"+ i, hs[i]);
+			PlayerPrefs.Save();
+		}
+	}
+
+	private void DisplayLocalScores()
+	{
+		int count = 1;
+		foreach( GameObject scoreText in highScoreTexts )
+		{
+			if( count == 6 )
+			{
+				break;
+			}
+			
+			scoreText.GetComponent<TextMesh>().text = localScoreList[count].ToString ();
+			count++;
+		}
+		foreach( GameObject scoreName in highScoreNames )
+		{
+			if (count == 6)
+			{
+				break;
+			}
+			
+			scoreName.GetComponent<TextMesh>().text = " ";
+			count++;
+		}
+
+	
+	}
+
 }
