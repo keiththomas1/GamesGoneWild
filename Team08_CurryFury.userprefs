@@ -1,0 +1,13 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="c:\Users\Colin Blaise\Documents\Team08_CurryFury\Assets\Extensions\GooglePlayCommon\Social\Facebook\Manage\SPFacebook.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Controllers\Other\HighScoreController.cs" Line="409" Column="49" />
+      <File FileName="c:\Users\Colin Blaise\Documents\Team08_CurryFury\Assets\Extensions\GooglePlayCommon\Social\Facebook\Manage\SPFacebook.cs" Line="109" Column="15" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

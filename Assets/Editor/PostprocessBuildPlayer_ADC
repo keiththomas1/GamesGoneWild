@@ -1,0 +1,42 @@
+#!/usr/bin/python
+
+from mod_pbxproj import *
+from os import path, listdir
+from shutil import copytree
+import sys
+
+frameworks = [
+  # 'AdColony.framework',
+  'CoreTelephony.framework',
+  'EventKit.framework',
+  'MessageUI.framework'
+]
+
+weak_frameworks = [
+  'AdSupport.framework',
+  'StoreKit.framework',
+  'Social.framework'
+]
+
+
+
+adc_framework_dir = path.join(sys.argv[0],'..','..','Plugins','iOS')
+adc_framework = path.join(adc_framework_dir, 'AdColony.framework')
+
+
+pbx_file_path = sys.argv[1] + '/Unity-iPhone.xcodeproj/project.pbxproj'
+pbx_object = XcodeProject.Load(pbx_file_path)
+
+pbx_object.add_framework_search_paths([path.abspath(adc_framework_dir)])
+pbx_object.add_header_search_paths([path.abspath(adc_framework)])
+pbx_object.add_file(path.abspath(adc_framework), tree='SOURCE_ROOT')
+
+for framework in frameworks:
+  pbx_object.add_file('System/Library/' + framework, tree='SDKROOT')
+
+for framework in weak_frameworks:
+  pbx_object.add_file('System/Library/' + framework, tree='SDKROOT', weak=True)
+
+
+pbx_object.save()
+

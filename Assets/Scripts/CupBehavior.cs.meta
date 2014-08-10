@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 72d70252c09989845929f6d15f11603d
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - Cup_placeholder: {fileID: 100000, guid: 05985547aea57454c876edbde360b6bc, type: 2}
+  - Table_placeholder: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

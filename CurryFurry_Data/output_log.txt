@@ -1,0 +1,27 @@
+Initialize engine version: 4.3.3f1 (c8ca9b6b9936)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [nvd3dum.dll 9.18.13.2660]
+    Renderer: NVIDIA GeForce GTX 285
+    Vendor:   NVIDIA
+    VRAM:     995 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=0 INTZ=1 RAWZ=0 NULL=1 RESZ=0 SlowINTZ=0
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\IFacebook.dll (this message is harmless)
+Loading C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\IFacebook.dll into Unity Child Domain
+Platform assembly: C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\HOTween.dll (this message is harmless)
+Loading C:\Users\Colin Blaise\Documents\Team08_CurryFury\CurryFurry_Data\Managed\HOTween.dll into Unity Child Domain
+- Completed reload, in  0.069 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.

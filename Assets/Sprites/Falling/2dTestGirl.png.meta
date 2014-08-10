@@ -1,0 +1,184 @@
+fileFormatVersion: 2
+guid: a9f7d7e7e64a8d243bf96945e4bab749
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: -2
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: 2dTestGirl_0
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 54
+        width: 78
+        height: 462
+      alignment: 7
+      pivot: {x: .5, y: 0}
+    - name: 2dTestGirl_2
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 670
+        width: 50
+        height: 21
+      alignment: 9
+      pivot: {x: .850000024, y: .689999998}
+    - name: 2dTestGirl_3
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 675
+        width: 67
+        height: 26
+      alignment: 9
+      pivot: {x: .879999995, y: .479999989}
+    - name: 2dTestGirl_4
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 669
+        width: 74
+        height: 32
+      alignment: 9
+      pivot: {x: .839999974, y: .360000014}
+    - name: 2dTestGirl_5
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 639
+        width: 57
+        height: 119
+      alignment: 9
+      pivot: {x: .636274934, y: .0900000036}
+    - name: 2dTestGirl_6
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 603
+        width: 74
+        height: 32
+      alignment: 9
+      pivot: {x: .850000024, y: .49000001}
+    - name: 2dTestGirl_7
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 603
+        width: 67
+        height: 27
+      alignment: 9
+      pivot: {x: .850000024, y: .50999999}
+    - name: 2dTestGirl_9
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 593
+        width: 49
+        height: 21
+      alignment: 9
+      pivot: {x: .839999974, y: .600000024}
+    - name: 2dTestGirl_9
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 441
+        width: 71
+        height: 164
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: 2dTestGirl_9
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 271
+        width: 45
+        height: 132
+      alignment: 9
+      pivot: {x: .712483704, y: .851838291}
+    - name: 2dTestGirl_10
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 270
+        width: 46
+        height: 133
+      alignment: 9
+      pivot: {x: .737558126, y: .828652263}
+    - name: 2dTestGirl_11
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 110
+        width: 36
+        height: 118
+      alignment: 9
+      pivot: {x: .389999986, y: .870000005}
+    - name: 2dTestGirl_12
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 110
+        width: 36
+        height: 118
+      alignment: 9
+      pivot: {x: .360000014, y: .870000005}
+    - name: 2dTestGirl_13
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 5
+        width: 67
+        height: 50
+      alignment: 9
+      pivot: {x: .75999999, y: .743881404}
+    - name: 2dTestGirl_14
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 0
+        width: 68
+        height: 51
+      alignment: 9
+      pivot: {x: .759024203, y: .792232513}
+  spritePackingTag: 
+  userData: 

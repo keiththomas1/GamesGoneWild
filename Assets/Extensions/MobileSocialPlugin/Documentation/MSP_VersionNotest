@@ -1,0 +1,48 @@
+2.9:
+Fixes:
+SPShareUtility.ShareMedia - crash on Android fixed
+
+
+Moved:
+Assets/Plugins/Android - > Assets/StansAssets/Plugins/Android
+
+2.8:
+Code Refactor:
+Removed: 
+Assets/Extensions/MobileSocialPlugin/Scripts/Android/Twitter
+Assets/Plugins/IOS/Unity3d.m
+Assets/Plugins/IOS/Unity3d.h
+Assets/Plugins/IOS/SPDataUtility.m
+Assets/Plugins/IOS/SPDataUtility.h
+
+
+
+Added:
+Assets/Extensions/GooglePlayCommon/Social/Twitter/Manage
+Assets/Plugins/IOS/ISNDataConvertor.m
+Assets/Plugins/IOS/ISNDataConvertor.h
+
+Fixes:
+Conflict with IOS Native Plugin Fixed
+
+
+
+2.7:
+Code Refactor:
+Singletone -> Singleton
+SPTwitter now TwitterManagerInterface
+Spelling fixes
+Updates:
+Documentation Updated
+Example Scne Updated
+MSP_Preview scene added
+
+2.6:
+Stability Improvments
+Android Native Compatibility update
+
+2.5:
+Native posting added
+GUI updated
+FB app request added
+Unity 4.5 cpmpatibility 
