@@ -148,7 +148,6 @@ public class DartBehavior : MonoBehaviour
 
 	void OnTriggerEnter2D( Collider2D coll )
 	{
-		Debug.Log( "Collision with " + coll.ToString() + " and position = " + transform.position.x.ToString() );
 		if( !gameOver )
 		{
 			if( "DartBoard" == coll.name && transform.position.x < 7.2f )

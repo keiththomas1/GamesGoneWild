@@ -31,7 +31,6 @@ public class MinigameWinController : MonoBehaviour
 
 		if( globalController.GetComponent<GlobalController>().previousMode == "FlippyCup" )
 		{ // If in flippy cup, we need to rotate the points box to face the screen.
-			Debug.Log( "Special case points box." );
 			pointsBox.transform.Rotate( new Vector3( 35.0f, 0.0f, 0.0f ) );
 			pointsBox.transform.Translate( new Vector3( -1.5f, 2.38f, 0.0f ) );
 			pointsBox.transform.localScale = pointsBox.transform.localScale * .8f;

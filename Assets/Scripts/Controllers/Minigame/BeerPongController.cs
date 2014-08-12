@@ -388,7 +388,6 @@ public class BeerPongController : MonoBehaviour
 			}
 			else 	// If in the process of bouncing away from the table. HACK - hardcoded values.
 			{
-				Debug.Log( "here" );
 				ballParent.transform.Translate( ballMovement * 30.0f * Time.deltaTime );
 				
 				// If ball is still on the "up" trajectory

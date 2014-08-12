@@ -130,7 +130,6 @@ public class HighScoreController : MonoBehaviour {
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if( Physics.Raycast(ray,out hit) )
 			{
-				Debug.Log( hit.collider.name );
 				switch( hit.collider.name )
 				{
 				case "MainMenuText":
@@ -352,10 +351,6 @@ public class HighScoreController : MonoBehaviour {
 			localScoreList[5] = points;
 			PlayerPrefs.SetInt ("HS5", points);
 			PlayerPrefs.Save ();
-		}
-		else 
-		{
-			Debug.Log("Not a high score");
 		}
 	}
 

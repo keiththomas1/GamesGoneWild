@@ -66,7 +66,6 @@ public class ArmWrestleController : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Missing a global controller.");
 			enemyMultiplier = 1;
 		}
 

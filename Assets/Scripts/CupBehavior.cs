@@ -83,7 +83,6 @@ public class CupBehavior : MonoBehaviour
 					ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 					if( Physics.Raycast(ray,out hit))
 					{
-						Debug.Log( hit.collider.name );
 						if( hit.collider.name == Border.name )
 						{
 							initPos = Input.mousePosition;
@@ -120,13 +119,11 @@ public class CupBehavior : MonoBehaviour
 			if(isFlicked)
 			{
 				totalCount += 60.0f * Time.deltaTime;
-				Debug.Log ("TotalTime: " + totalCount);
 				// HACK - hard-coded values
 				if (transform.position.y <= 1.4f && transform.position.y >= 1.0f
 				    )
 				{
 					count += 60.0f * Time.deltaTime;
-					Debug.Log( "InLandedArea: " + count );
 				}
 			}
 
@@ -152,7 +149,6 @@ public class CupBehavior : MonoBehaviour
 				count = 0;
 				gameOver = true;
 				flippyController.GetComponent<FlippyCupController>().CupLanded();
-				Debug.Log ("CUP DOWN");
 			}
 			
 			// If the counter is "up" and cup has not landed, lose minigame

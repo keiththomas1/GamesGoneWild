@@ -159,7 +159,6 @@ public class FlippyCupController : MonoBehaviour
 	public void CupLanded()
 	{
 		cupsToLand--;
-		Debug.Log ("CUPS Not LANDED: " + cupsToLand);
 		if( cupsToLand <= 0 )
 		{
 			if( globalController )
@@ -179,14 +178,11 @@ public class FlippyCupController : MonoBehaviour
 
 				globalController.GetComponent<GlobalController>().BeatMinigame( partyPoints );
 			}
-			else
-				Debug.Log( "Winner!" );
 		}
 	}
 
 	public void CupFlicked()
 	{
-		Debug.Log( cupsToFlick );
 		cupsToFlick--;
 
 		if( cupsToFlick == 0 )
@@ -199,7 +195,5 @@ public class FlippyCupController : MonoBehaviour
 	{
 		if( globalController )
 			globalController.GetComponent<GlobalController>().LostMinigame();
-		else
-			Debug.Log("Failed");
 	}
 }

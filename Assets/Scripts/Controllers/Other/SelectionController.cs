@@ -53,7 +53,6 @@ public class SelectionController : MonoBehaviour
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if( Physics.Raycast(ray,out hit) && !transitioning)
 				{
-					Debug.Log( hit.collider.name );
 					switch( hit.collider.name )
 					{
 					case "LeftArrow":

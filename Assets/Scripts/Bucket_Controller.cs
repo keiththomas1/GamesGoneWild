@@ -42,7 +42,6 @@ public class Bucket_Controller : MonoBehaviour {
 			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if( Physics.Raycast(ray,out hit) )
 			{
-				Debug.Log( hit.collider.name );
 				if( hit.collider.name == this.name )
 				{
 					startDragging = true;

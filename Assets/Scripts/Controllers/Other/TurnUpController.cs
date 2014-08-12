@@ -86,10 +86,6 @@ public class TurnUpController : MonoBehaviour
 			{
 				globalController.GetComponent<GlobalController>().NextMinigame();
 			}
-			else
-			{
-				Debug.Log( "Transition" );
-			}
 		}
 	}
 }

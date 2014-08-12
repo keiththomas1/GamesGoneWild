@@ -124,7 +124,6 @@ public class GlobalController : MonoBehaviour
 				// Check if player click is on the pause button
 				if( Physics.Raycast(ray,out hit) && hit.collider.name == "PauseButton" )
 				{
-					Debug.Log( hit.collider.name );
 					Pause();
 				}
 			}
@@ -192,7 +191,6 @@ public class GlobalController : MonoBehaviour
 			{
 				if( previousMode=="BeerPong" && beerPongStreak>=3 )
 				{
-					Debug.Log( "fire" );
 					Application.LoadLevel( previousMode );
 				}
 				else if( currentMinigames.Count > 0 )
@@ -204,7 +202,6 @@ public class GlobalController : MonoBehaviour
 
 					if( previousMode == "FlippyCup" )
 					{
-						Debug.Log( previousMode );
 						Vector3 tempVect = new Vector3(4.3f, 5.3f, -2.0f);
 						pauseButton.transform.position = tempVect;
 						tempVect = pauseButton.transform.localScale;
@@ -337,7 +334,6 @@ public class GlobalController : MonoBehaviour
 		{
 			musicSpeed++;
 			playGameMusic.GetComponent<AudioSource>().pitch += .05f;
-			Debug.Log( playGameMusic.GetComponent<AudioSource>().pitch );
 		}
 	}
 
@@ -361,7 +357,6 @@ public class GlobalController : MonoBehaviour
 			if( tempList.Count >= 5 )
 			{
 				tempList[0] = score;
-				Debug.Log( tempList[0] );
 			}
 			else
 			{
@@ -394,7 +389,6 @@ public class GlobalController : MonoBehaviour
 		for( int i=0; i < 5; i++ )
 		{
 			tempScore = PlayerPrefs.GetInt("HighScore" + i.ToString());
-			Debug.Log("High score " + i.ToString() + ": " + tempScore.ToString());
 			if( tempScore != 0 )
 			{
 				newHighscores.Add( tempScore );

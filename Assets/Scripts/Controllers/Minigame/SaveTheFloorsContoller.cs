@@ -123,11 +123,6 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			// Condition whether to send a puke gameobject or not
 			if (StartPuking && pukePrefabIndex < pukePrefabArray.Length) 
 			{
-				// Debugging purposes
-				//Debug.Log ("StartPuking is " + StartPuking + " before switch case");
-				Debug.Log ("pukePrefabIndex is " + pukePrefabIndex);
-				
-				// 
 				float pukeAngle;
 				if( head.transform.rotation.eulerAngles.z > 180.0f )
 					pukeAngle = -1.0f * (360.0f - head.transform.rotation.eulerAngles.z);
@@ -152,8 +147,6 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 			{
 				if( globalController )
 					globalController.GetComponent<GlobalController>().LostMinigame();
-				else
-					Debug.Log( "Lost game, but no global controller!" );
 			}
 			
 			// If we're still counting down
@@ -284,10 +277,6 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 				scoreText.GetComponent<Animator>().enabled = true;
 
 				globalController.GetComponent<GlobalController>().BeatMinigame( 100 );
-			}
-			else
-			{
-				Debug.Log( "Won game, but no global controller!" );
 			}
 		}
 	}
