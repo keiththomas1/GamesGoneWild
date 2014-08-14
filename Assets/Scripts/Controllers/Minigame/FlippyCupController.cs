@@ -38,6 +38,7 @@ public class FlippyCupController : MonoBehaviour
 
 		if( globalController )
 		{
+			globalController.GetComponent<GlobalController>().RenderPauseButton();
 			cupsToLand = globalController.GetComponent<GlobalController>().flippyCupLevel;
 			cupsToFlick = globalController.GetComponent<GlobalController>().flippyCupLevel;
 		}
@@ -102,7 +103,7 @@ public class FlippyCupController : MonoBehaviour
 			
 			// Change position of the front timer
 			Vector3 tempTimerVector = timerFront.transform.position;
-			tempTimerVector.x = -7.0f;
+			tempTimerVector.x = -6.0f;
 			tempTimerVector.y = 5.2f;
 			tempTimerVector.z = -.1f;
 			timerFront.transform.position = tempTimerVector;
@@ -119,7 +120,7 @@ public class FlippyCupController : MonoBehaviour
 			timerFront.transform.localScale = tempTimerVector;
 		}
 		timerStarted = false;
-		timerSpeed = new Vector3( -.08f, 0.0f, 0.0f );
+		timerSpeed = new Vector3( -.09f, 0.0f, 0.0f );
 	}
 
 	// Update is called once per frame

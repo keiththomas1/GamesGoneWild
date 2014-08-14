@@ -45,6 +45,9 @@ public class Auto : MonoBehaviour
 		globalController = GameObject.Find( "Global Controller" );
 		gameOver = false;
 
+		if( globalController )
+			globalController.GetComponent<GlobalController>().RenderPauseButton();
+
 		// random start can f
 		if (Random.value > .5) 
 		{

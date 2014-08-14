@@ -57,13 +57,13 @@ public class HighScoreController : MonoBehaviour {
 	{
 		twitterController = GameObject.Find ("Twitter Controller");
 		globalController = GameObject.Find ("Global Controller");
-		globalController.GetComponent<GlobalController>().pauseButton.renderer.enabled = false;
 
 		CallPublishActions();
 		
 		if (globalController) 
 		{
 			AdColony.ShowVideoAd();
+			globalController.GetComponent<GlobalController>().pauseButton.renderer.enabled = false;
 			points = globalController.GetComponent<GlobalController> ().partyPoints;
 		}
 		else

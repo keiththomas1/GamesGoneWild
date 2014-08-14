@@ -100,7 +100,10 @@ public class BeerPongController : MonoBehaviour
 		sliderDirection = "right";
 
 		if( globalController )
+		{
+			globalController.GetComponent<GlobalController>().RenderPauseButton();
 			sliderMultiplier = globalController.GetComponent<GlobalController>().beerPongLevel * .01f;
+		}
 		else
 			sliderMultiplier = .01f;
 		ballMovement = new Vector2( 0.0f, .1f + sliderMultiplier );
@@ -154,7 +157,7 @@ public class BeerPongController : MonoBehaviour
 			timerBack.renderer.enabled = true;
 		}
 		timerStarted = false;
-		timerSpeed = new Vector3( -.06f, 0.0f, 0.0f );
+		timerSpeed = new Vector3( -.07f, 0.0f, 0.0f );
 		
 		RandomizeSliderStartPosition();
 	}

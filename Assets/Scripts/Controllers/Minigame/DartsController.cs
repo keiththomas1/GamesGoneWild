@@ -47,19 +47,22 @@ public class DartsController : MonoBehaviour
 		dartMoving = false;
 
 		if( globalController )
+		{
+			globalController.GetComponent<GlobalController>().RenderPauseButton();
 			roomSpeed = .05f + (globalController.GetComponent<GlobalController>().dartLevel * .04f);
+			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 2;
+		}
 		else
+		{
 			roomSpeed = .09f;
+			pillarCount = 5;
+		}
 
 		floorSpeed = new Vector2( -roomSpeed + .04f, 0.0f );
 
 		pillarTimer = 2.0f;
 
 		currentPillar = 0;
-		if( globalController )
-			pillarCount = globalController.GetComponent<GlobalController>().dartLevel + 2;
-		else
-			pillarCount = 5;
 		
 		// Fading instructions variables
 		fadeTimer = 3.0f; // set duration time in seconds in the Inspector

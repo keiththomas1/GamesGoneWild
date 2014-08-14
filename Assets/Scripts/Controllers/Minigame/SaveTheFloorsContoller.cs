@@ -74,7 +74,10 @@ public class SaveTheFloorsContoller : MonoBehaviour {
 
 		// Set the number of pukes needed to win minigame
 		if( globalController )
+		{
+			globalController.GetComponent<GlobalController>().RenderPauseButton();
 			pukesToWin = globalController.GetComponent<GlobalController>().pukeLevel;	// Starts at 4
+		}
 		else  // For testing purposes, when ran not from splash screen
 			pukesToWin = 4;
 

@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using Facebook;
 using Facebook.MiniJSON;
-using GooglePlayGames;
-using UnityEngine.SocialPlatforms;
 
 public class MenuController : MonoBehaviour 
 {
@@ -32,9 +30,6 @@ public class MenuController : MonoBehaviour
 	//sounds
 	public GameObject ClickSound;
 
-	// TEMP HACK
-	public GameObject debugText;
-
 	// Bios
 	public GameObject keithBio;
 	public GameObject kellieBio;
@@ -50,16 +45,20 @@ public class MenuController : MonoBehaviour
 
 		
 		//Initial check to see if user is logged into Facebook
-		if (!FB.IsLoggedIn) {
+		if (!FB.IsLoggedIn) 
+		{
 			CallFBInit ();
 		}
-		else{
+		else
+		{
 			//If logged in then show the name and picture
 			Debug.Log("Logged in? " + FB.IsLoggedIn);
 			FBPicture.renderer.guiTexture.texture = globalController.GetComponent<GlobalController> ().profilePic;
 			profilePic = globalController.GetComponent<GlobalController> ().profilePic;
 			FBName = globalController.GetComponent<GlobalController> ().FBUsername;
-			if (profilePic == null || FBName == null){
+
+			if (profilePic == null || FBName == null)
+			{
 				OnLoggedIn();
 			}
 		
@@ -79,17 +78,6 @@ public class MenuController : MonoBehaviour
 		highScoreText.GetComponent<TextMesh>().text = "High Score: " + partyPoints.ToString();
 
 		hit = new RaycastHit();
-		
-		PlayGamesPlatform.DebugLogEnabled = true;
-		PlayGamesPlatform.Activate();
-
-		Social.localUser.Authenticate (success => {
-			if (success) {
-				debugText.GetComponent<TextMesh>().text = "Play logged in";
-			}
-			else
-				debugText.GetComponent<TextMesh>().text = "Play not logged in";
-		});
 	}
 	
 	// Update is called once per frame
@@ -265,14 +253,5 @@ public class MenuController : MonoBehaviour
 	}
 	void LogCallback(FBResult response) {
 		Debug.Log(response.Text);
-	}
-
-	void ReportScore (long score, string leaderboardID) 
-	{
-		debugText.GetComponent<TextMesh>().text = "Reporting score ";
-		Social.ReportScore (score, leaderboardID, success => {
-			Social.ShowLeaderboardUI();
-			if( success ) debugText.GetComponent<TextMesh>().text = "Leaderboard!";
-		});
 	}
 }

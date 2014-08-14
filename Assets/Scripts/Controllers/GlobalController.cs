@@ -173,13 +173,6 @@ public class GlobalController : MonoBehaviour
 
 	public void NextMinigame()
 	{
-		if( !pauseButton.renderer.enabled )
-		{
-
-		}
-		
-		pauseButton.renderer.enabled = true;
-		pauseButton.collider.enabled = true;
 		timerFront.renderer.enabled = false;
 		timerBack.renderer.enabled = false;
 		timerFront.transform.position = defaultTimerFrontPos;
@@ -239,6 +232,12 @@ public class GlobalController : MonoBehaviour
 				LostGame();
 			}
 		}
+	}
+
+	public void RenderPauseButton( )
+	{
+		pauseButton.renderer.enabled = true;
+		pauseButton.collider.enabled = true;
 	}
 	
 	// Call this if the player won a minigame and make sure to increment

@@ -62,6 +62,7 @@ public class ArmWrestleController : MonoBehaviour
 		enemyStrength = .015f;
 		if( globalController )
 		{
+			globalController.GetComponent<GlobalController>().RenderPauseButton();
 			enemyMultiplier = globalController.GetComponent<GlobalController>().armEnemyLevel;
 		}
 		else
