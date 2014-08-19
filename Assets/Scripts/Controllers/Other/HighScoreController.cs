@@ -24,8 +24,8 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject FacebookLogin;
 	public GameObject LocalButton;
 	public GameObject TwitterButton;
-	public GameObject ShowScores;
 
+	bool inFacebookTab;
 	
 	public RaycastHit hit;
 	public Ray ray;
@@ -110,10 +110,12 @@ public class HighScoreController : MonoBehaviour {
 		}
 
 		FacebookLogin.renderer.enabled = false;
+		FacebookLogin.collider.enabled = false;
 		FBShareButton.renderer.enabled = false;
+		FBShareButton.collider.enabled = false;
 		blueRect.renderer.enabled = false;
-		ShowScores.renderer.enabled = false;
 
+		inFacebookTab = false;
 		//HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 
 		ManageLocalHighScores (points);
@@ -150,6 +152,7 @@ public class HighScoreController : MonoBehaviour {
 					break;
 
 				case "FacebookButton":
+					inFacebookTab = true;
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = clicked;
 					LocalButton.GetComponent<SpriteRenderer>().sprite = unclicked;
@@ -158,21 +161,25 @@ public class HighScoreController : MonoBehaviour {
 						FBShareButton.renderer.enabled = true;
 						GetFaceBookScores();
 						DisplayFaceBookHighScores();
-
 					}
 					else
 					{
 						FacebookLogin.renderer.enabled = true;
+						FacebookLogin.collider.enabled = true;
+						DisplayEmptyHighScores();
 					}
 					blueRect.renderer.enabled = true;
 					break;
 
 				case "LocalButton":
+					inFacebookTab = false;
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = unclicked;
 					LocalButton.GetComponent<SpriteRenderer>().sprite = clicked;
 					FacebookLogin.renderer.enabled = false;
+					FacebookLogin.collider.enabled = false;
 					FBShareButton.renderer.enabled = false;
+					FBShareButton.collider.enabled = false;
 					blueRect.renderer.enabled = false;
 
 					DisplayLocalScores();
@@ -180,14 +187,7 @@ public class HighScoreController : MonoBehaviour {
 
 				case "FacebookLogin":
 					CallFBLogin();
-					ShowScores.renderer.enabled = true;
 					CallPublishActions();
-					break;
-
-				case "ShowScores":
-					if (FB.IsLoggedIn)
-						DisplayFaceBookHighScores();
-					ShowScores.renderer.enabled = false;
 					break;
 				}
 			}
@@ -306,12 +306,40 @@ public class HighScoreController : MonoBehaviour {
 			entryCount++;
 		}
 
+		DisplayFaceBookHighScores();
 	}
 
 
 	public void DisplayFaceBookHighScores()
 	{
-		//int count = HighScores.Count;
+		Debug.Log( "display fb scores" );
+		if( inFacebookTab )
+		{
+			int count = 0;
+			foreach( GameObject scoreText in highScoreTexts )
+			{
+				if( count == 6 )
+				{
+					break;
+				}
+				
+				scoreText.GetComponent<TextMesh>().text = fbScoreList[count];
+				count++;
+			}
+			count = 0;
+			foreach( GameObject scoreName in highScoreNames )
+			{
+				if (count == 6)
+				{
+					break;
+				}
+				scoreName.GetComponent<TextMesh>().text = fbNameList[count];
+				count++;
+			}
+		}
+	}
+	void DisplayEmptyHighScores()
+	{
 		int count = 0;
 		foreach( GameObject scoreText in highScoreTexts )
 		{
@@ -319,24 +347,12 @@ public class HighScoreController : MonoBehaviour {
 			{
 				break;
 			}
-
-			scoreText.GetComponent<TextMesh>().text = fbScoreList[count];
+			
+			scoreText.GetComponent<TextMesh>().text = " ";
 			count++;
 		}
-		count = 0;
-		foreach( GameObject scoreName in highScoreNames )
-		{
-			if (count == 6)
-			{
-				break;
-			}
-
-			scoreName.GetComponent<TextMesh>().text = fbNameList[count];
-			count++;
-		}
-
 	}
-
+	
 	public void ManageLocalHighScores(int points)
 	{
 		int[] hs = new int[7];
@@ -421,6 +437,7 @@ public class HighScoreController : MonoBehaviour {
 			scoreText.GetComponent<TextMesh>().text = localScoreList[count].ToString ();
 			count++;
 		}
+		count = 0;
 		foreach( GameObject scoreName in highScoreNames )
 		{
 			if (count == 6)
@@ -464,7 +481,9 @@ public class HighScoreController : MonoBehaviour {
 			//OnLoggedIn ();
 			GetFaceBookScores();
 			FacebookLogin.renderer.enabled = false;
+			FacebookLogin.collider.enabled = false;
 			FBShareButton.renderer.enabled = true;
+			FBShareButton.collider.enabled = true;
 		}
 	}
 	void OnLoggedIn()
