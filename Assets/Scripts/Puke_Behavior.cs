@@ -9,17 +9,11 @@ public class Puke_Behavior : MonoBehaviour {
 	// Identifier for SaveTheFloorsController
 	public GameObject controller;
 
-	// For storing position of pukePrefab gameobject
-	Vector3 pukePrefabPos;
-
 	// Use this for initialization
 	void Start (){
 
 		// Finding our gameobject with the puke tag
 		pukePrefab = GameObject.FindGameObjectWithTag ("Puke");
-
-		// Storing pukePrefab gameobject (float) position
-		pukePrefabPos = transform.position;
 	}
 
 	// Update is called once per frame

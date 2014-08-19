@@ -59,7 +59,7 @@ public class Auto : MonoBehaviour
 			modifier = -1.0f;
 		}
 
-		speed = 1.0f;
+		speed = 1.2f;
 		
 		countdown.GetComponent<Animator>().speed = 1.4f;
 		countdownTimer = 2.7f;
@@ -103,10 +103,10 @@ public class Auto : MonoBehaviour
 				}
 				
 				// Create a max limit for the curSpeed
-				if( curSpeed > 2.0f )
-					curSpeed = 2.0f;
-				if( curSpeed < -2.0f )
-					curSpeed = -2.0f;
+				if( curSpeed > 2.5f )
+					curSpeed = 2.5f;
+				if( curSpeed < -2.5f )
+					curSpeed = -2.5f;
 
 				if( Input.acceleration.x > 0.0f )
 					armSpeed = Time.deltaTime * speed * Input.acceleration.x;

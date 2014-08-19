@@ -9,7 +9,7 @@ public class HighScoreController : MonoBehaviour {
 
 	public GameObject globalController;
 	public GameObject twitterController;
-	public Texture FBShareButton;
+	public GameObject FBShareButton;
 	public Texture TwitterShareButton;
 	public GUIStyle FBShareStyle;
 	public Sprite unclicked;
@@ -21,6 +21,7 @@ public class HighScoreController : MonoBehaviour {
 	public int points;
 
 	public GameObject FacebookButton;
+	public GameObject FacebookLogin;
 	public GameObject LocalButton;
 	public GameObject TwitterButton;
 
@@ -31,7 +32,10 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject[] highScoreTexts;
 	public GameObject[] highScoreNames;
 
-//	List<int> HighScores;
+	//facebook data
+	public string FBName;
+	public Texture profilePic;
+	public GameObject FBPicture;
 	List<object> FBScores;
 
 
@@ -48,17 +52,32 @@ public class HighScoreController : MonoBehaviour {
 	public string[] fbScoreList = new string[5];
 	public int[] localScoreList = new int[7];
 
-
+	public GameObject blueRect;
 
 	public GameObject ClickSound;
 
 
 	void Start () 
 	{
+		if (!FB.IsLoggedIn) 
+		{
+			Debug.Log("yo");
+			CallFBInit ();
+		}
+		/*
+		else
+			FBPicture.renderer.guiTexture.texture = globalController.GetComponent<GlobalController> ().profilePic;
+			profilePic = globalController.GetComponent<GlobalController> ().profilePic;
+			FBName = globalController.GetComponent<GlobalController> ().FBUsername;
+
+			if (profilePic == null || FBName == null)
+			{
+				OnLoggedIn();
+			}
+		*/
+
 		twitterController = GameObject.Find ("Twitter Controller");
 		globalController = GameObject.Find ("Global Controller");
-
-		CallPublishActions();
 		
 		if (globalController) 
 		{
@@ -76,52 +95,31 @@ public class HighScoreController : MonoBehaviour {
 		// Height three - 1.8f
 		// Height four - 2.44f (Untouched, default)
 		Vector3 tempScale = BarOne.transform.localScale;
-		tempScale.y = globalController.GetComponent<GlobalController>().beerPongLevel * .6f;
-		BarOne.transform.localScale = tempScale;
-		tempScale.y = .6f;
-		BarTwo.transform.localScale = tempScale;
-		tempScale.y = .6f; // falllevel globalController.GetComponent<GlobalController>() * .6f;
-		BarThree.transform.localScale = tempScale;
-		tempScale.y = (globalController.GetComponent<GlobalController>().pukeLevel - 3) * .6f;
-		BarFour.transform.localScale = tempScale;
-		tempScale.y = globalController.GetComponent<GlobalController>().dartLevel * .6f;
-		BarFive.transform.localScale = tempScale;
-		tempScale.y = globalController.GetComponent<GlobalController>().armEnemyLevel * .6f;
-		BarSix.transform.localScale = tempScale;
-		
+		if( globalController )
+		{
+			tempScale.y = globalController.GetComponent<GlobalController>().beerPongLevel * .6f;
+			BarOne.transform.localScale = tempScale;
+			tempScale.y = .6f;
+			BarTwo.transform.localScale = tempScale;
+			tempScale.y = .6f; // falllevel globalController.GetComponent<GlobalController>() * .6f;
+			BarThree.transform.localScale = tempScale;
+			tempScale.y = (globalController.GetComponent<GlobalController>().pukeLevel - 3) * .6f;
+			BarFour.transform.localScale = tempScale;
+			tempScale.y = globalController.GetComponent<GlobalController>().dartLevel * .6f;
+			BarFive.transform.localScale = tempScale;
+			tempScale.y = globalController.GetComponent<GlobalController>().armEnemyLevel * .6f;
+			BarSix.transform.localScale = tempScale;
+		}
+
+		FacebookLogin.renderer.enabled = false;
+		FBShareButton.renderer.enabled = false;
+		blueRect.renderer.enabled = false;
 		//HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 
 		ManageLocalHighScores (points);
 		DisplayLocalScores ();
 	}
 
-	public void CallPublishActions(){
-		FB.Login ("publish_actions", PublishActionsCallBack);
-
-	}
-	private void PublishActionsCallBack(FBResult result){
-		if (FB.IsLoggedIn) {
-			Debug.Log(FB.UserId + " Publish Actions Called");
-			GetFaceBookScores ();
-			Debug.Log ("calling GetFacebookScoreS()");
-		}
-		else {
-			Debug.Log (result.Error);
-		}
-	}
-	private void CallFBFeed(){
-		FB.Feed(
-			linkName: "Curry Furry Games",
-			linkDescription: "Games Gone Wild!",
-			linkCaption: "I just scored " + points + " points! Can you beat it?",
-			picture: "http://gamesgonewild.files.wordpress.com/2014/03/bpscreenshot.png",
-			callback: LogCallback
-			);
-	}
-	void LogCallback(FBResult response) {
-		Debug.Log(response.Text);
-	}
-	
 	// Update is called once per frame
 	void Update () 
 	{
@@ -151,6 +149,16 @@ public class HighScoreController : MonoBehaviour {
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = clicked;
 					LocalButton.GetComponent<SpriteRenderer>().sprite = unclicked;
+					if (FB.IsLoggedIn)
+					{ 
+						FBShareButton.renderer.enabled = true;
+					}
+					else
+					{
+						FacebookLogin.renderer.enabled = true;
+					}
+					blueRect.renderer.enabled = true;
+
 					DisplayFaceBookHighScores();
 					break;
 
@@ -158,11 +166,19 @@ public class HighScoreController : MonoBehaviour {
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = unclicked;
 					LocalButton.GetComponent<SpriteRenderer>().sprite = clicked;
+					FacebookLogin.renderer.enabled = false;
+					FBShareButton.renderer.enabled = false;
+					blueRect.renderer.enabled = false;
+
 					DisplayLocalScores();
 					break;
+				case "FacebookLogin":
+					CallFBLogin();
+					break;
+				case "ShowScores":
+					CallPublishActions();
+					break;
 				}
-
-
 			}
 		}
 	}
@@ -404,8 +420,123 @@ public class HighScoreController : MonoBehaviour {
 			scoreName.GetComponent<TextMesh>().text = " ";
 			count++;
 		}
-
+	}
 	
+	public void CallFBInit(){
+		FB.Init(OnInitComplete, OnHideUnity);
+	}
+	private void OnInitComplete()	{
+		Debug.Log("FB.Init completed: Is user logged in? " + FB.IsLoggedIn);
+	}
+	private void OnHideUnity(bool isGameShown)		{
+		Debug.Log("Is game showing? " + isGameShown);
+	}
+	private void CallFBLogin(){
+		FB.Login("basic_info", LoginCallback);
+	}
+	public void CallPublishActions(){
+		FB.Login ("publish_actions", PublishActionsCallBack);
+	}
+	private void PublishActionsCallBack(FBResult result){
+		Debug.Log( "Publish returned" );
+		if (FB.IsLoggedIn) {
+			Debug.Log(FB.UserId + " Publish Actions Called");
+			CallFBFeed();
+		}
+		else {
+			Debug.Log (result.Error);
+		}
+	}
+	private void LoginCallback(FBResult result){
+		if(FB.IsLoggedIn) {
+			Debug.Log("Login callback; UserID: " + FB.UserId);
+			//OnLoggedIn ();
+			GetFaceBookScores();
+			FacebookLogin.renderer.enabled = false;
+			FBShareButton.renderer.enabled = true;
+		}
+	}
+	void OnLoggedIn()
+	{
+		//Get the users name and profile picture from facebook
+		FB.API("/me?fields=name", Facebook.HttpMethod.GET, APICallback);
+		LoadPicture (Util.GetPictureURL ("me", 128, 128), MyPictureCallback);
+	}
+	
+	void APICallback(FBResult result)                                                                                              
+	{                                                                                                                              
+		Debug.Log("APICallback");                                                                                                
+		if (result.Error != null)                                                                                                  
+		{                                                                                                                          
+			Debug.LogError(result.Error);                                                                                           
+			// Let's just try again                                                                                                
+			FB.API("/me?fields=name", Facebook.HttpMethod.GET, APICallback);     
+			return;                                                                                                                
+		}           
+		//deserialzie json object
+		var dict = Json.Deserialize(result.Text) as Dictionary<String,System.Object>;
+		Debug.Log ("deserialized: " + dict.GetType ());
+		Debug.Log ("dict['name'][0]: " + dict ["name"] as String);
+		
+		FBName = dict ["name"] as String;
+		if ( globalController )
+			globalController.GetComponent<GlobalController> ().SetUserName (FBName);
+	}          
+	
+	void MyPictureCallback(Texture texture)                                                                                        
+	{                                                                                                                              
+		Util.Log ("MyPictureCallback");
+		if (texture == null)
+		{
+			//Let's just try again
+			Util.LogError ("Error Loading user picture");
+			LoadPicture(Util.GetPictureURL("me", 128, 128), MyPictureCallback);
+			return;
+		}
+		profilePic = texture;
+		FBPicture.guiTexture.texture = texture;
+		//FBPicture.renderer.enabled = true;
+		
+		globalController.GetComponent<GlobalController> ().SetProfilePic (profilePic);
+		
+	}
+	
+	delegate void LoadPictureCallback(Texture texture);
+	
+	IEnumerator LoadPictureEnumerator(string url, LoadPictureCallback callback)
+	{
+		WWW www = new WWW (url);
+		yield return www;
+		callback (www.texture);
+	}
+	
+	void LoadPicture (string url, LoadPictureCallback callback)
+	{
+		FB.API(url,Facebook.HttpMethod.GET,result =>
+		       {
+			if (result.Error != null)
+			{
+				Util.LogError (result.Error);
+				return;
+			}
+			var imageUrl = Util.DeserializePictureURLString(result.Text);
+			StartCoroutine(LoadPictureEnumerator(imageUrl, callback));
+		});
+	}
+	private void CallFBFeed(){
+		FB.Feed(
+			linkName: "Games Gone Wild!",
+			linkDescription: "Minigames bringing the best of college life to you",
+			linkCaption: "I just scored " + points + " points! Try to beat it.",
+			picture: "http://i.imgur.com/fsOyhHF.png",
+			callback: LogCallback
+			);
+	}
+	private void CallFBLogout(){
+		FB.Logout ();
+	}
+	void LogCallback(FBResult response) {
+		Debug.Log(response.Text);
 	}
 
 }
