@@ -24,6 +24,8 @@ public class SplashScreenController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+
+
 		timer = 3.0f; // set duration time in seconds in the Inspector
 
 		colorStart = logo.renderer.material.color;
@@ -80,5 +82,7 @@ public class SplashScreenController : MonoBehaviour
 		redGear.transform.Rotate( redRotate );
 		blueGear.transform.Rotate( blueRotate );
 	}
+
+
 
 }

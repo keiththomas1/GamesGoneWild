@@ -24,6 +24,7 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject FacebookLogin;
 	public GameObject LocalButton;
 	public GameObject TwitterButton;
+	public GameObject ShowScores;
 
 	
 	public RaycastHit hit;
@@ -59,11 +60,8 @@ public class HighScoreController : MonoBehaviour {
 
 	void Start () 
 	{
-		if (!FB.IsLoggedIn) 
-		{
-			Debug.Log("yo");
-			CallFBInit ();
-		}
+		CallFBInit ();
+
 		/*
 		else
 			FBPicture.renderer.guiTexture.texture = globalController.GetComponent<GlobalController> ().profilePic;
@@ -86,7 +84,7 @@ public class HighScoreController : MonoBehaviour {
 			points = globalController.GetComponent<GlobalController> ().partyPoints;
 		}
 		else
-			points = 4300; // Arbitrary - for testing
+			points = 2300; // Arbitrary - for testing
 
 		pointsText.GetComponent<TextMesh>().text = "Points: " + points.ToString();
 
@@ -114,10 +112,15 @@ public class HighScoreController : MonoBehaviour {
 		FacebookLogin.renderer.enabled = false;
 		FBShareButton.renderer.enabled = false;
 		blueRect.renderer.enabled = false;
+		ShowScores.renderer.enabled = false;
+
 		//HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 
 		ManageLocalHighScores (points);
 		DisplayLocalScores ();
+		if (FB.IsLoggedIn) {
+			CallPublishActions();
+		}
 	}
 
 	// Update is called once per frame
@@ -137,7 +140,8 @@ public class HighScoreController : MonoBehaviour {
 
 				case "shareText":
 					ClickSound.GetComponent<AudioSource>().Play();
-					CallFBFeed();
+					CallFBFeed ();
+
 					break;
 
 				case "TwitterButton":
@@ -152,14 +156,15 @@ public class HighScoreController : MonoBehaviour {
 					if (FB.IsLoggedIn)
 					{ 
 						FBShareButton.renderer.enabled = true;
+						GetFaceBookScores();
+						DisplayFaceBookHighScores();
+
 					}
 					else
 					{
 						FacebookLogin.renderer.enabled = true;
 					}
 					blueRect.renderer.enabled = true;
-
-					DisplayFaceBookHighScores();
 					break;
 
 				case "LocalButton":
@@ -172,11 +177,17 @@ public class HighScoreController : MonoBehaviour {
 
 					DisplayLocalScores();
 					break;
+
 				case "FacebookLogin":
 					CallFBLogin();
-					break;
-				case "ShowScores":
+					ShowScores.renderer.enabled = true;
 					CallPublishActions();
+					break;
+
+				case "ShowScores":
+					if (FB.IsLoggedIn)
+						DisplayFaceBookHighScores();
+					ShowScores.renderer.enabled = false;
 					break;
 				}
 			}
@@ -441,7 +452,7 @@ public class HighScoreController : MonoBehaviour {
 		Debug.Log( "Publish returned" );
 		if (FB.IsLoggedIn) {
 			Debug.Log(FB.UserId + " Publish Actions Called");
-			CallFBFeed();
+			//CallFBFeed();
 		}
 		else {
 			Debug.Log (result.Error);
