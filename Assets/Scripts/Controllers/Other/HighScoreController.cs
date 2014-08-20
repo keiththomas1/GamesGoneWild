@@ -120,9 +120,10 @@ public class HighScoreController : MonoBehaviour {
 
 		ManageLocalHighScores (points);
 		DisplayLocalScores ();
-		if (FB.IsLoggedIn) {
+
+		if (FB.IsLoggedIn)
 			CallPublishActions();
-		}
+
 	}
 
 	// Update is called once per frame
@@ -143,7 +144,6 @@ public class HighScoreController : MonoBehaviour {
 				case "shareText":
 					ClickSound.GetComponent<AudioSource>().Play();
 					CallFBFeed ();
-
 					break;
 
 				case "TwitterButton":
@@ -159,6 +159,7 @@ public class HighScoreController : MonoBehaviour {
 					if (FB.IsLoggedIn)
 					{ 
 						FBShareButton.renderer.enabled = true;
+						FBShareButton.collider.enabled = true;
 						GetFaceBookScores();
 						DisplayFaceBookHighScores();
 					}
