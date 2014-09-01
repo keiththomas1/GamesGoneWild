@@ -15,7 +15,6 @@ public class MenuController : MonoBehaviour
 
 	// Text objects for changing text on the fly
 	public GameObject facebookButton;
-	public GameObject highScoreText;
 	public Texture FBLoginButton;
 	public GUIStyle FBbuttonStyle;
 
@@ -46,7 +45,6 @@ public class MenuController : MonoBehaviour
 		{
 			partyPoints = 0;
 		}
-		highScoreText.GetComponent<TextMesh>().text = "High Score: " + partyPoints.ToString();
 
 		hit = new RaycastHit();
 	}

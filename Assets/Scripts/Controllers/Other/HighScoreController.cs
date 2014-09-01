@@ -24,6 +24,9 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject FacebookLogin;
 	public GameObject LocalButton;
 	public GameObject TwitterButton;
+	public GameObject FacebookLoading;
+
+	bool facebookScoresRetrieved;
 
 	bool inFacebookTab;
 	
@@ -39,21 +42,10 @@ public class HighScoreController : MonoBehaviour {
 	public GameObject FBPicture;
 	List<object> FBScores;
 
-
-	// Bars
-	public GameObject BarOne;
-	public GameObject BarTwo;
-	public GameObject BarThree;
-	public GameObject BarFour;
-	public GameObject BarFive;
-	public GameObject BarSix;
-
 	public string[,] fbData = new string[20,2];
 	public string[] fbNameList = new string[5];
 	public string[] fbScoreList = new string[5];
 	public int[] localScoreList = new int[7];
-
-	public GameObject blueRect;
 
 	public GameObject ClickSound;
 
@@ -88,33 +80,13 @@ public class HighScoreController : MonoBehaviour {
 
 		pointsText.GetComponent<TextMesh>().text = "Points: " + points.ToString();
 
-		// Height one - .6f
-		// Height two - 1.2f
-		// Height three - 1.8f
-		// Height four - 2.44f (Untouched, default)
-		Vector3 tempScale = BarOne.transform.localScale;
-		if( globalController )
-		{
-			tempScale.y = globalController.GetComponent<GlobalController>().beerPongLevel * .6f;
-			BarOne.transform.localScale = tempScale;
-			tempScale.y = .6f;
-			BarTwo.transform.localScale = tempScale;
-			tempScale.y = .6f; // falllevel globalController.GetComponent<GlobalController>() * .6f;
-			BarThree.transform.localScale = tempScale;
-			tempScale.y = (globalController.GetComponent<GlobalController>().pukeLevel - 3) * .6f;
-			BarFour.transform.localScale = tempScale;
-			tempScale.y = globalController.GetComponent<GlobalController>().dartLevel * .6f;
-			BarFive.transform.localScale = tempScale;
-			tempScale.y = globalController.GetComponent<GlobalController>().armEnemyLevel * .6f;
-			BarSix.transform.localScale = tempScale;
-		}
-
 		FacebookLogin.renderer.enabled = false;
 		FacebookLogin.collider.enabled = false;
 		FBShareButton.renderer.enabled = false;
 		FBShareButton.collider.enabled = false;
-		blueRect.renderer.enabled = false;
+		FacebookLoading.renderer.enabled = false;
 
+		facebookScoresRetrieved = false;
 		inFacebookTab = false;
 		//HighScores = globalController.GetComponent<GlobalController>().SaveHighScore( points );
 
@@ -160,8 +132,10 @@ public class HighScoreController : MonoBehaviour {
 					{ 
 						FBShareButton.renderer.enabled = true;
 						FBShareButton.collider.enabled = true;
-						GetFaceBookScores();
-						DisplayFaceBookHighScores();
+						if( facebookScoresRetrieved )
+							DisplayFaceBookHighScores();
+						else
+							GetFaceBookScores();
 					}
 					else
 					{
@@ -169,11 +143,11 @@ public class HighScoreController : MonoBehaviour {
 						FacebookLogin.collider.enabled = true;
 						DisplayEmptyHighScores();
 					}
-					blueRect.renderer.enabled = true;
 					break;
 
 				case "LocalButton":
 					inFacebookTab = false;
+					FacebookLoading.renderer.enabled = false;
 					ClickSound.GetComponent<AudioSource>().Play();
 					FacebookButton.GetComponent<SpriteRenderer>().sprite = unclicked;
 					LocalButton.GetComponent<SpriteRenderer>().sprite = clicked;
@@ -181,7 +155,6 @@ public class HighScoreController : MonoBehaviour {
 					FacebookLogin.collider.enabled = false;
 					FBShareButton.renderer.enabled = false;
 					FBShareButton.collider.enabled = false;
-					blueRect.renderer.enabled = false;
 
 					DisplayLocalScores();
 					break;
@@ -195,6 +168,7 @@ public class HighScoreController : MonoBehaviour {
 		}
 	}
 	public void GetFaceBookScores(){
+		FacebookLoading.renderer.enabled = true;
 		FB.API ("/1439214366319352/scores", Facebook.HttpMethod.GET, scoreCallBack);
 	}
 	public int getScoreFromEntry(object obj)
@@ -307,6 +281,7 @@ public class HighScoreController : MonoBehaviour {
 			entryCount++;
 		}
 
+		facebookScoresRetrieved = true;
 		DisplayFaceBookHighScores();
 	}
 
@@ -314,6 +289,7 @@ public class HighScoreController : MonoBehaviour {
 	public void DisplayFaceBookHighScores()
 	{
 		Debug.Log( "display fb scores" );
+		FacebookLoading.renderer.enabled = false;
 		if( inFacebookTab )
 		{
 			int count = 0;

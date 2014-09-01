@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Other\HighScoreController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controllers\Minigame\BeerPongController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Controllers\Other\HighScoreController.cs" Line="110" Column="4" />
+      <File FileName="Assets\Scripts\Controllers\Other\HighScoreController.cs" Line="10" Column="6" />
+      <File FileName="Assets\Scripts\Controllers\Minigame\BeerPongController.cs" Line="485" Column="117" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

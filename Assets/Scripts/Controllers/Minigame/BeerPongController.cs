@@ -76,6 +76,8 @@ public class BeerPongController : MonoBehaviour
 	public GameObject timerBack;
 	bool timerStarted;
 	Vector3 timerSpeed;
+
+	int cupsRemoved;
 	
 	// Use this for initialization
 	void Start () 
@@ -111,14 +113,32 @@ public class BeerPongController : MonoBehaviour
 		leftSlide = new Vector2( -.1f - sliderMultiplier, 0.0f );
 		
 		ball.GetComponent<Animator>().enabled = false;
-		
+
+		cupsRemoved = 0;
 		if( globalController )
 		{
 			for(int i=0; i<cups.Length; i++)
 			{
 				if( !globalController.GetComponent<GlobalController>().CupsPlaced[i] )
 				{
-					Destroy( cups[i] );
+					cupsRemoved++;
+				}
+			}
+			if( cupsRemoved == 10 )
+			{
+				for(int i=0; i<cups.Length; i++)
+				{
+					globalController.GetComponent<GlobalController>().CupsPlaced[i] = true;
+				}
+			}
+			else
+			{
+				for(int i=0; i<cups.Length; i++)
+				{
+					if( !globalController.GetComponent<GlobalController>().CupsPlaced[i] )
+					{
+						Destroy( cups[i] );
+					}
 				}
 			}
 		}
@@ -432,10 +452,10 @@ public class BeerPongController : MonoBehaviour
 				if( globalController.GetComponent<GlobalController>().CupsPlaced[i] )
 				{
 
-					if( ballParent.transform.position.x >= (cups[i].transform.position.x - cups[i].renderer.bounds.size.y/2)
-					   && ballParent.transform.position.x <= (cups[i].transform.position.x + cups[i].renderer.bounds.size.y/2)
-					   && ballParent.transform.position.y >= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/6)
-					   && ballParent.transform.position.y <= (cups[i].transform.position.y + cups[i].renderer.bounds.size.y/2) )
+					if( ballParent.transform.position.x >= (cups[i].transform.position.x - (cups[i].renderer.bounds.size.x*4/10))
+					   && ballParent.transform.position.x <= (cups[i].transform.position.x + (cups[i].renderer.bounds.size.x*4/10))
+					   && ballParent.transform.position.y >= (cups[i].transform.position.y + (cups[i].renderer.bounds.size.y*1/5))
+						&& ballParent.transform.position.y <= (cups[i].transform.position.y + (cups[i].renderer.bounds.size.y*4/10)))
 					{	
 						// Play ball in cup sound
 						inCupSFX.GetComponent<AudioSource>().Play();
@@ -459,10 +479,10 @@ public class BeerPongController : MonoBehaviour
 						//   return 3
 						return 4;
 					}
-					else if( ballParent.transform.position.x >= (cups[i].transform.position.x - (cups[i].renderer.bounds.size.x*11/10))
-					        && ballParent.transform.position.x <= (cups[i].transform.position.x + (cups[i].renderer.bounds.size.x*11/10))
-					        && ballParent.transform.position.y >= (cups[i].transform.position.y - cups[i].renderer.bounds.size.y/3)
-					        && ballParent.transform.position.y <= (cups[i].transform.position.y + (cups[i].renderer.bounds.size.x*11/10)) )
+					else if( ballParent.transform.position.x >= (cups[i].transform.position.x - (cups[i].renderer.bounds.size.x*6/10))
+					        && ballParent.transform.position.x <= (cups[i].transform.position.x + (cups[i].renderer.bounds.size.x*6/10))
+					        && ballParent.transform.position.y >= (cups[i].transform.position.y - (cups[i].renderer.bounds.size.y/3))
+					        && ballParent.transform.position.y <= (cups[i].transform.position.y + (cups[i].renderer.bounds.size.y*6/10)) )
 					{	
 						rimJob = i;
 					}
