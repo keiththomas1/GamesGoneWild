@@ -71,7 +71,7 @@ public class HighScoreController : MonoBehaviour {
 		
 		if (globalController) 
 		{
-			AdColony.ShowVideoAd();
+			//AdColony.ShowVideoAd();
 			globalController.GetComponent<GlobalController>().pauseButton.renderer.enabled = false;
 			points = globalController.GetComponent<GlobalController> ().partyPoints;
 		}
